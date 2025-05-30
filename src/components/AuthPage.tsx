@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
-import { FileText, ArrowLeft } from "lucide-react";
+import { FileText, ArrowLeft, MessageCircle, Zap } from "lucide-react";
 
 interface AuthPageProps {
   onBackToHome?: () => void;
@@ -33,7 +33,7 @@ const FloatingInput = ({ id, name, type, placeholder, required = false, disabled
         type={type}
         required={required}
         disabled={disabled}
-        className="peer w-full px-0 py-3 bg-transparent border-0 border-b-2 border-gray-600 text-white placeholder-transparent focus:border-[#6366f1] focus:outline-none transition-colors"
+        className="peer w-full px-0 py-3 bg-transparent border-0 border-b-2 border-gray-600 text-white placeholder-transparent focus:border-orange-500 focus:outline-none transition-colors"
         placeholder={placeholder}
         onFocus={() => setFocused(true)}
         onBlur={(e) => {
@@ -46,7 +46,7 @@ const FloatingInput = ({ id, name, type, placeholder, required = false, disabled
         htmlFor={id}
         className={`absolute left-0 transition-all duration-200 pointer-events-none ${
           focused || hasValue
-            ? '-top-6 text-sm text-[#6366f1]'
+            ? '-top-6 text-sm text-orange-500'
             : 'top-3 text-gray-400'
         }`}
       >
@@ -133,21 +133,18 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#1a1a2e] to-[#16213e] relative overflow-hidden">
-      {/* Background decoration - matching home page */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234f46e5' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-        }}
-      ></div>
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Background effects matching the main design */}
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-black to-red-500/10"></div>
+      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-red-500/20 rounded-full blur-3xl animate-pulse"></div>
 
       {/* Back button */}
       {onBackToHome && (
         <Button
           onClick={onBackToHome}
           variant="ghost"
-          className="absolute top-6 left-6 text-gray-300 hover:text-white hover:bg-gray-800/50 z-20"
+          className="absolute top-6 left-6 text-gray-300 hover:text-white hover:bg-gray-800/50 z-20 backdrop-blur-sm"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Home
@@ -155,29 +152,35 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
       )}
 
       <div className="relative z-10 flex items-center justify-center min-h-screen p-6">
-        <Card className="w-full max-w-md bg-[#1e1e1e]/50 border-gray-700 shadow-2xl backdrop-blur-sm">
+        <Card className="w-full max-w-md bg-gray-900/50 backdrop-blur-xl border-gray-800 shadow-2xl rounded-3xl overflow-hidden">
           <div className="p-8">
             <div className="text-center mb-8">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-lg flex items-center justify-center">
-                  <FileText className="w-6 h-6 text-white" />
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/25">
+                  <MessageCircle className="w-8 h-8 text-white" />
                 </div>
-                <h1 className="text-2xl font-bold text-white">PDF Analyzer</h1>
+                <div>
+                  <h1 className="text-3xl font-bold text-white tracking-tight">PDFChat AI</h1>
+                  <div className="flex items-center gap-1 text-orange-400 text-sm">
+                    <Zap className="w-3 h-3" />
+                    <span>AI-powered analysis</span>
+                  </div>
+                </div>
               </div>
-              <p className="text-gray-300 text-sm">AI-powered document analysis</p>
+              <p className="text-gray-400 text-sm">Transform your documents with intelligent conversation</p>
             </div>
 
             <Tabs defaultValue="login" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-gray-800/50 mb-8">
+              <TabsList className="grid w-full grid-cols-2 bg-gray-800/50 backdrop-blur-sm mb-8 rounded-2xl">
                 <TabsTrigger 
                   value="login" 
-                  className="text-gray-300 data-[state=active]:bg-[#6366f1] data-[state=active]:text-white data-[state=active]:shadow-sm"
+                  className="text-gray-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-red-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl font-medium"
                 >
                   LOGIN
                 </TabsTrigger>
                 <TabsTrigger 
                   value="register" 
-                  className="text-gray-300 data-[state=active]:bg-[#6366f1] data-[state=active]:text-white data-[state=active]:shadow-sm"
+                  className="text-gray-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-red-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl font-medium"
                 >
                   SIGN UP
                 </TabsTrigger>
@@ -204,16 +207,16 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                   
                   <div className="flex items-center justify-between text-sm">
                     <label className="flex items-center text-gray-300">
-                      <input type="checkbox" className="mr-2 w-4 h-4 text-[#6366f1] rounded border-gray-500 focus:ring-[#6366f1] bg-gray-700" />
+                      <input type="checkbox" className="mr-2 w-4 h-4 text-orange-500 rounded border-gray-500 focus:ring-orange-500 bg-gray-700" />
                       Remember me
                     </label>
-                    <a href="#" className="text-[#6366f1] hover:underline">Forgot your password?</a>
+                    <a href="#" className="text-orange-400 hover:text-orange-300 transition-colors">Forgot password?</a>
                   </div>
 
                   <Button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-3 rounded-full text-base font-medium mt-8"
+                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white py-3 rounded-2xl text-base font-medium mt-8 shadow-lg shadow-orange-500/25 transition-all duration-300 hover:shadow-orange-500/40"
                   >
                     {isLoading ? "Signing in..." : "LOGIN"}
                   </Button>
@@ -250,7 +253,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                   <Button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-3 rounded-full text-base font-medium mt-8"
+                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white py-3 rounded-2xl text-base font-medium mt-8 shadow-lg shadow-orange-500/25 transition-all duration-300 hover:shadow-orange-500/40"
                   >
                     {isLoading ? "Creating account..." : "SIGN UP"}
                   </Button>
