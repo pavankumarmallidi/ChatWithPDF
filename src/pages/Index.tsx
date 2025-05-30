@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
@@ -5,30 +6,19 @@ import { uploadToWebhook } from "@/services/webhookService";
 import { insertPdfData, type PdfData } from "@/services/userTableService";
 import { Button } from "@/components/ui/button";
 import { User, Power } from "lucide-react";
-import ChatSummary from "@/components/ChatSummary";
 import AuthPage from "@/components/AuthPage";
 import HomePage from "@/components/HomePage";
 import LoadingState from "@/components/LoadingState";
 import UploadInterface from "@/components/UploadInterface";
-import PdfList from "@/components/PdfList";
-import PdfChatView from "@/components/PdfChatView";
 import ChatLayout from "@/components/ChatLayout";
 
-interface PdfAnalysisData {
-  summary: string;
-  totalPages: number;
-  totalWords: number;
-  language: string;
-}
-
-type AppView = 'home' | 'auth' | 'upload' | 'chat-layout' | 'chat' | 'pdf-chat';
+type AppView = 'home' | 'auth' | 'upload' | 'chat-layout';
 
 const Index = () => {
   const { user, loading, signOut } = useAuth();
   const [currentView, setCurrentView] = useState<AppView>('home');
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [pdfAnalysisData, setPdfAnalysisData] = useState<PdfAnalysisData | null>(null);
   const [selectedPdfId, setSelectedPdfId] = useState<number | null>(null);
   const { toast } = useToast();
 
@@ -91,13 +81,9 @@ const Index = () => {
         const pdfId = await insertPdfData(user.email, pdfData);
         console.log('PDF data stored with ID:', pdfId);
         
-        setPdfAnalysisData({
-          summary: pdfData.summary,
-          totalPages: pdfData.pages,
-          totalWords: pdfData.words,
-          language: pdfData.language
-        });
-        setCurrentView('chat');
+        // Set the PDF ID and go directly to chat layout
+        setSelectedPdfId(pdfId);
+        setCurrentView('chat-layout');
         
         toast({
           title: "PDF analyzed successfully!",
@@ -127,17 +113,11 @@ const Index = () => {
   const handleLogout = async () => {
     await signOut();
     setCurrentView('home');
-    setPdfAnalysisData(null);
     setSelectedPdfId(null);
     toast({
       title: "Logged out",
       description: "See you next time!",
     });
-  };
-
-  const handlePdfSelect = (pdf: PdfData) => {
-    setSelectedPdfId(pdf.id);
-    setCurrentView('pdf-chat');
   };
 
   if (loading) {
@@ -150,20 +130,6 @@ const Index = () => {
 
   if (currentView === 'auth') {
     return <AuthPage onBackToHome={() => setCurrentView('home')} onSuccess={() => setCurrentView('chat-layout')} />;
-  }
-
-  if (currentView === 'chat' && pdfAnalysisData) {
-    return <ChatSummary onBackToHome={() => setCurrentView('chat-layout')} pdfAnalysisData={pdfAnalysisData} />;
-  }
-
-  if (currentView === 'pdf-chat' && selectedPdfId && user?.email) {
-    return (
-      <PdfChatView
-        userEmail={user.email}
-        pdfId={selectedPdfId}
-        onBackToList={() => setCurrentView('chat-layout')}
-      />
-    );
   }
 
   if (currentView === 'chat-layout' && user?.email) {
