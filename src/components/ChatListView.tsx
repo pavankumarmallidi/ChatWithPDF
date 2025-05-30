@@ -1,10 +1,9 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Search, FileText, ArrowLeft, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { getAllPdfs, type PdfData } from "@/services/userTableService";
+import { getUserPdfs, type PdfData } from "@/services/userTableService";
 
 interface ChatListViewProps {
   userEmail: string;
@@ -23,7 +22,7 @@ const ChatListView = ({ userEmail, onPdfSelect, onBackToUpload, selectedPdfId }:
     const fetchPdfs = async () => {
       try {
         setLoading(true);
-        const userPdfs = await getAllPdfs(userEmail);
+        const userPdfs = await getUserPdfs(userEmail);
         setPdfs(userPdfs);
       } catch (error) {
         console.error('Failed to fetch PDFs:', error);
