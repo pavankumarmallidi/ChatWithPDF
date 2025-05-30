@@ -4,13 +4,13 @@
  */
 export const sendChatMessage = async (
   message: string,
-  userEmail: string
+  pdfId: number
 ): Promise<any> => {
   const webhookUrl = "https://pavankumarmallidi.app.n8n.cloud/webhook/5221a79c-7222-4245-98ec-01d6b56d20c7";
   
   const payload = {
     message: message,
-    userEmail: userEmail
+    pdfId: pdfId
   };
 
   console.log('Sending chat message:', payload);

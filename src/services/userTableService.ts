@@ -1,107 +1,58 @@
-import { supabase } from '@/integrations/supabase/client';
-import { createClient } from '@supabase/supabase-js';
 
-export interface PdfMetadata {
-  id: string;
-  pdf_name: string;
-  pdf_document?: string;
-  ocr_value?: string;
-  summary?: string;
-  num_pages?: number;
-  num_words?: number;
-  language?: string;
+import { supabase } from '@/integrations/supabase/client';
+
+export interface PdfData {
+  id: number;
   created_at: string;
-  updated_at: string;
+  "EMAIL ID": string;
+  "PDF NAME": string;
+  "PDF SUMMARY": string;
+  "PAGES": number;
+  "WORDS": number;
+  "LANGUAGE": string;
+  "OCR OF PDF": string;
 }
 
-// Environment variables for Supabase configuration
-const SUPABASE_URL = jxcvonbmosywkqtomrbl.supabase.co;
-const SUPABASE_SERVICE_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp4Y3ZvbmJtb3N5d2txdG9tcmJsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0ODQyNzY1NiwiZXhwIjoyMDY0MDAzNjU2fQ.eGq_KeaiOErsqbNV2bpAUm9FEvoDWG3e4cet_CdE_q8;
-const SUPABASE_ANON_KEY =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp4Y3ZvbmJtb3N5d2txdG9tcmJsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg0Mjc2NTYsImV4cCI6MjA2NDAwMzY1Nn0.L3oc3QtOnBBqxVIhiLimQub3LBG_GJWmw_SV-fkXGfU;
-
-// Admin client for table creation and management operations
-const adminSupabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
-
-// Regular client for data operations
-const userSupabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 /**
- * Creates a user-specific PDF table if it doesn't exist
+ * Inserts PDF data into the PDF_DATA_INFO table
  */
-export const createUserTableIfNotExists = async (userEmail: string): Promise<boolean> => {
-  try {
-    console.log('Creating user table for:', userEmail);
-    
-    const { data, error } = await adminSupabase.rpc('create_user_pdf_table', {
-      user_email: userEmail
-    });
-
-    if (error) {
-      console.error('Error creating user table:', error);
-      throw error;
-    }
-
-    console.log('User table check/creation result:', data);
-    return data;
-  } catch (error) {
-    console.error('Failed to create user table:', error);
-    throw error;
-  }
-};
-
-/**
- * Gets the table name for a specific user
- */
-export const getUserTableName = async (userEmail: string): Promise<string> => {
-  try {
-    const { data, error } = await adminSupabase.rpc('get_user_table_name', {
-      user_email: userEmail
-    });
-
-    if (error) {
-      console.error('Error getting user table name:', error);
-      throw error;
-    }
-
-    return data;
-  } catch (error) {
-    console.error('Failed to get user table name:', error);
-    throw error;
-  }
-};
-
-/**
- * Inserts PDF metadata into user's table
- */
-export const insertPdfMetadata = async (
+export const insertPdfData = async (
   userEmail: string,
   pdfData: {
-    pdf_name: string;
-    pdf_document?: string;
-    ocr_value?: string;
-    summary?: string;
-    num_pages?: number;
-    num_words?: number;
-    language?: string;
+    pdfName: string;
+    summary: string;
+    pages: number;
+    words: number;
+    language: string;
+    ocrText: string;
   }
-): Promise<string> => {
+): Promise<number> => {
   try {
-    console.log('Inserting PDF metadata for:', userEmail, pdfData);
+    console.log('Inserting PDF data for:', userEmail, pdfData);
     
-    const { data, error } = await adminSupabase.rpc('insert_pdf_metadata', {
-      user_email: userEmail,
-      ...pdfData
-    });
+    const { data, error } = await supabase
+      .from('PDF_DATA_INFO')
+      .insert({
+        "EMAIL ID": userEmail,
+        "PDF NAME": pdfData.pdfName,
+        "PDF SUMMARY": pdfData.summary,
+        "PAGES": pdfData.pages,
+        "WORDS": pdfData.words,
+        "LANGUAGE": pdfData.language,
+        "OCR OF PDF": pdfData.ocrText
+      })
+      .select('id')
+      .single();
 
     if (error) {
-      console.error('Error inserting PDF metadata:', error);
+      console.error('Error inserting PDF data:', error);
       throw error;
     }
 
-    console.log('PDF metadata inserted with ID:', data);
-    return data;
+    console.log('PDF data inserted with ID:', data.id);
+    return data.id;
   } catch (error) {
-    console.error('Failed to insert PDF metadata:', error);
+    console.error('Failed to insert PDF data:', error);
     throw error;
   }
 };
@@ -109,16 +60,14 @@ export const insertPdfMetadata = async (
 /**
  * Fetches all PDFs for a specific user
  */
-export const getUserPdfs = async (userEmail: string): Promise<PdfMetadata[]> => {
+export const getUserPdfs = async (userEmail: string): Promise<PdfData[]> => {
   try {
     console.log('Fetching PDFs for user:', userEmail);
     
-    const tableName = await getUserTableName(userEmail);
-    console.log('Using table name:', tableName);
-    
-    const { data, error } = await userSupabase
-      .from(tableName)
+    const { data, error } = await supabase
+      .from('PDF_DATA_INFO')
       .select('*')
+      .eq('EMAIL ID', userEmail)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -137,17 +86,15 @@ export const getUserPdfs = async (userEmail: string): Promise<PdfMetadata[]> => 
 /**
  * Fetches a specific PDF by ID for a user
  */
-export const getPdfById = async (userEmail: string, pdfId: string): Promise<PdfMetadata | null> => {
+export const getPdfById = async (userEmail: string, pdfId: number): Promise<PdfData | null> => {
   try {
     console.log('Fetching PDF by ID:', pdfId, 'for user:', userEmail);
     
-    const tableName = await getUserTableName(userEmail);
-    console.log('Using table name:', tableName);
-    
-    const { data, error } = await userSupabase
-      .from(tableName)
+    const { data, error } = await supabase
+      .from('PDF_DATA_INFO')
       .select('*')
       .eq('id', pdfId)
+      .eq('EMAIL ID', userEmail)
       .single();
 
     if (error) {
@@ -164,37 +111,33 @@ export const getPdfById = async (userEmail: string, pdfId: string): Promise<PdfM
 };
 
 /**
- * Updates PDF metadata for a specific user
+ * Updates PDF data for a specific user
  */
-export const updatePdfMetadata = async (
+export const updatePdfData = async (
   userEmail: string,
-  pdfId: string,
-  updateData: Partial<Omit<PdfMetadata, 'id' | 'created_at'>>
-): Promise<PdfMetadata> => {
+  pdfId: number,
+  updateData: Partial<Omit<PdfData, 'id' | 'created_at' | 'EMAIL ID'>>
+): Promise<PdfData> => {
   try {
-    console.log('Updating PDF metadata for:', userEmail, pdfId, updateData);
+    console.log('Updating PDF data for:', userEmail, pdfId, updateData);
     
-    const tableName = await getUserTableName(userEmail);
-    
-    const { data, error } = await userSupabase
-      .from(tableName)
-      .update({
-        ...updateData,
-        updated_at: new Date().toISOString()
-      })
+    const { data, error } = await supabase
+      .from('PDF_DATA_INFO')
+      .update(updateData)
       .eq('id', pdfId)
+      .eq('EMAIL ID', userEmail)
       .select()
       .single();
 
     if (error) {
-      console.error('Error updating PDF metadata:', error);
+      console.error('Error updating PDF data:', error);
       throw error;
     }
 
-    console.log('PDF metadata updated:', data);
+    console.log('PDF data updated:', data);
     return data;
   } catch (error) {
-    console.error('Failed to update PDF metadata:', error);
+    console.error('Failed to update PDF data:', error);
     throw error;
   }
 };
@@ -202,16 +145,15 @@ export const updatePdfMetadata = async (
 /**
  * Deletes a PDF record for a specific user
  */
-export const deletePdf = async (userEmail: string, pdfId: string): Promise<boolean> => {
+export const deletePdf = async (userEmail: string, pdfId: number): Promise<boolean> => {
   try {
     console.log('Deleting PDF:', pdfId, 'for user:', userEmail);
     
-    const tableName = await getUserTableName(userEmail);
-    
-    const { error } = await userSupabase
-      .from(tableName)
+    const { error } = await supabase
+      .from('PDF_DATA_INFO')
       .delete()
-      .eq('id', pdfId);
+      .eq('id', pdfId)
+      .eq('EMAIL ID', userEmail);
 
     if (error) {
       console.error('Error deleting PDF:', error);
@@ -227,36 +169,14 @@ export const deletePdf = async (userEmail: string, pdfId: string): Promise<boole
 };
 
 /**
- * Checks if a user table exists
- */
-export const checkUserTableExists = async (userEmail: string): Promise<boolean> => {
-  try {
-    const { data, error } = await adminSupabase.rpc('check_user_table_exists', {
-      user_email: userEmail
-    });
-
-    if (error) {
-      console.error('Error checking table existence:', error);
-      return false;
-    }
-
-    return data;
-  } catch (error) {
-    console.error('Failed to check table existence:', error);
-    return false;
-  }
-};
-
-/**
  * Gets PDF count for a user
  */
 export const getUserPdfCount = async (userEmail: string): Promise<number> => {
   try {
-    const tableName = await getUserTableName(userEmail);
-    
-    const { count, error } = await userSupabase
-      .from(tableName)
-      .select('*', { count: 'exact', head: true });
+    const { count, error } = await supabase
+      .from('PDF_DATA_INFO')
+      .select('*', { count: 'exact', head: true })
+      .eq('EMAIL ID', userEmail);
 
     if (error) {
       console.error('Error getting PDF count:', error);

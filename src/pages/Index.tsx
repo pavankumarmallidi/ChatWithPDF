@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { uploadToWebhook } from "@/services/webhookService";
-import { insertPdfMetadata, createUserTableIfNotExists, type PdfMetadata } from "@/services/userTableService";
+import { insertPdfData, type PdfData } from "@/services/userTableService";
 import ChatSummary from "@/components/ChatSummary";
 import AuthPage from "@/components/AuthPage";
 import HomePage from "@/components/HomePage";
@@ -28,7 +28,7 @@ const Index = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [pdfAnalysisData, setPdfAnalysisData] = useState<PdfAnalysisData | null>(null);
-  const [selectedPdfId, setSelectedPdfId] = useState<string | null>(null);
+  const [selectedPdfId, setSelectedPdfId] = useState<number | null>(null);
   const { toast } = useToast();
 
   const handleGetStarted = () => {
@@ -66,11 +66,6 @@ const Index = () => {
     setUploadProgress(0);
     
     try {
-      // Ensure user table exists before upload
-      console.log('Ensuring user table exists...');
-      const tableCreated = await createUserTableIfNotExists(user.email);
-      console.log('Table creation result:', tableCreated);
-      
       console.log('Starting webhook upload...');
       const responseData = await uploadToWebhook(file, user.email, setUploadProgress);
       console.log('Webhook response received:', responseData);
@@ -79,21 +74,20 @@ const Index = () => {
         const analysisData = responseData[0].output;
         console.log('Analysis data:', analysisData);
         
-        // Store PDF metadata in user's table
-        console.log('Storing PDF metadata...');
-        const pdfMetadata = {
-          pdf_name: file.name,
-          pdf_document: file.name, // You might want to store actual file path/URL
-          ocr_value: analysisData.ocrText || '',
+        // Store PDF data in database
+        console.log('Storing PDF data...');
+        const pdfData = {
+          pdfName: file.name,
           summary: analysisData.summary || '',
-          num_pages: analysisData.totalPages || 0,
-          num_words: analysisData.totalWords || 0,
-          language: analysisData.language || 'Unknown'
+          pages: analysisData.totalPages || 0,
+          words: analysisData.totalWords || 0,
+          language: analysisData.language || 'Unknown',
+          ocrText: analysisData.ocrText || ''
         };
-        console.log('PDF metadata to insert:', pdfMetadata);
+        console.log('PDF data to insert:', pdfData);
         
-        const pdfId = await insertPdfMetadata(user.email, pdfMetadata);
-        console.log('PDF metadata stored with ID:', pdfId);
+        const pdfId = await insertPdfData(user.email, pdfData);
+        console.log('PDF data stored with ID:', pdfId);
         
         setPdfAnalysisData({
           summary: analysisData.summary,
@@ -139,7 +133,7 @@ const Index = () => {
     });
   };
 
-  const handlePdfSelect = (pdf: PdfMetadata) => {
+  const handlePdfSelect = (pdf: PdfData) => {
     setSelectedPdfId(pdf.id);
     setCurrentView('pdf-chat');
   };

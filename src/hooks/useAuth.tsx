@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import { createUserTableIfNotExists } from '@/services/userTableService';
 
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -19,17 +18,6 @@ export const useAuth = () => {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
-
-        // Create user table when user signs in
-        if (event === 'SIGNED_IN' && session?.user?.email) {
-          console.log('User signed in, creating table for:', session.user.email);
-          try {
-            const tableCreated = await createUserTableIfNotExists(session.user.email);
-            console.log('User table creation result:', tableCreated);
-          } catch (error) {
-            console.error('Failed to create user table:', error);
-          }
-        }
       }
     );
 
@@ -42,17 +30,6 @@ export const useAuth = () => {
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
-
-      // Create user table for existing session
-      if (session?.user?.email) {
-        console.log('Existing session found, creating table for:', session.user.email);
-        try {
-          const tableCreated = await createUserTableIfNotExists(session.user.email);
-          console.log('User table creation result for existing session:', tableCreated);
-        } catch (error) {
-          console.error('Failed to create user table for existing session:', error);
-        }
-      }
     });
 
     return () => subscription.unsubscribe();

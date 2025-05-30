@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowLeft, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { getPdfById, type PdfMetadata } from "@/services/userTableService";
+import { getPdfById, type PdfData } from "@/services/userTableService";
 import { sendChatMessage } from "@/services/chatService";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
@@ -20,12 +20,12 @@ interface Message {
 
 interface PdfChatViewProps {
   userEmail: string;
-  pdfId: string;
+  pdfId: number;
   onBackToList: () => void;
 }
 
 const PdfChatView = ({ userEmail, pdfId, onBackToList }: PdfChatViewProps) => {
-  const [pdf, setPdf] = useState<PdfMetadata | null>(null);
+  const [pdf, setPdf] = useState<PdfData | null>(null);
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
@@ -54,7 +54,7 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList }: PdfChatViewProps) => {
         setMessages([
           {
             id: "1",
-            text: `Welcome! I'm ready to answer questions about "${pdfData.pdf_name}". ${pdfData.summary ? `Here's a summary: ${pdfData.summary}` : ''} What would you like to know?`,
+            text: `Welcome! I'm ready to answer questions about "${pdfData["PDF NAME"]}". ${pdfData["PDF SUMMARY"] ? `Here's a summary: ${pdfData["PDF SUMMARY"]}` : ''} What would you like to know?`,
             isUser: false,
             timestamp: new Date(),
           },
@@ -79,7 +79,7 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList }: PdfChatViewProps) => {
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputMessage.trim() || !userEmail) return;
+    if (!inputMessage.trim() || !userEmail || !pdf) return;
 
     const messageToSend = inputMessage;
     setInputMessage("");
@@ -96,7 +96,7 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList }: PdfChatViewProps) => {
     setIsLoading(true);
 
     try {
-      const response = await sendChatMessage(messageToSend, userEmail);
+      const response = await sendChatMessage(messageToSend, pdfId);
       
       let botMessageText = "I understand you'd like to know more about your PDF. Could you be more specific about what aspect you'd like me to elaborate on?";
       let relevanceScore: number | undefined;
@@ -164,10 +164,10 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList }: PdfChatViewProps) => {
   }
 
   const pdfAnalysisData = {
-    summary: pdf.summary || "No summary available",
-    totalPages: pdf.num_pages || 0,
-    totalWords: pdf.num_words || 0,
-    language: pdf.language || "Unknown"
+    summary: pdf["PDF SUMMARY"] || "No summary available",
+    totalPages: pdf["PAGES"] || 0,
+    totalWords: pdf["WORDS"] || 0,
+    language: pdf["LANGUAGE"] || "Unknown"
   };
 
   return (
@@ -198,7 +198,7 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList }: PdfChatViewProps) => {
                 <FileText className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white tracking-tight">{pdf.pdf_name}</h1>
+                <h1 className="text-xl font-bold text-white tracking-tight">{pdf["PDF NAME"]}</h1>
                 <p className="text-gray-300 text-sm">Chat with your document</p>
               </div>
             </div>

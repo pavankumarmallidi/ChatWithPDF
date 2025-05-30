@@ -4,26 +4,23 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, MessageCircle, Calendar, Globe, Hash } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { getUserPdfs, createUserTableIfNotExists, type PdfMetadata } from "@/services/userTableService";
+import { getUserPdfs, type PdfData } from "@/services/userTableService";
 
 interface PdfListProps {
   userEmail: string;
-  onPdfSelect: (pdf: PdfMetadata) => void;
+  onPdfSelect: (pdf: PdfData) => void;
   onBackToUpload: () => void;
 }
 
 const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
-  const [pdfs, setPdfs] = useState<PdfMetadata[]>([]);
+  const [pdfs, setPdfs] = useState<PdfData[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
-    const initializeAndFetchPdfs = async () => {
+    const fetchPdfs = async () => {
       try {
         setLoading(true);
-        
-        // Ensure user table exists
-        await createUserTableIfNotExists(userEmail);
         
         // Fetch user's PDFs
         const userPdfs = await getUserPdfs(userEmail);
@@ -41,7 +38,7 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
     };
 
     if (userEmail) {
-      initializeAndFetchPdfs();
+      fetchPdfs();
     }
   }, [userEmail, toast]);
 
@@ -114,7 +111,7 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="text-lg font-semibold text-white truncate mb-1">
-                        {pdf.pdf_name}
+                        {pdf["PDF NAME"]}
                       </h3>
                       <div className="flex items-center gap-2 text-sm text-gray-400">
                         <Calendar className="w-3 h-3" />
@@ -123,23 +120,23 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
                     </div>
                   </div>
 
-                  {pdf.summary && (
+                  {pdf["PDF SUMMARY"] && (
                     <p className="text-gray-300 text-sm mb-4 line-clamp-3 leading-relaxed">
-                      {pdf.summary}
+                      {pdf["PDF SUMMARY"]}
                     </p>
                   )}
 
                   <div className="grid grid-cols-2 gap-3 mb-4">
-                    {pdf.language && (
+                    {pdf["LANGUAGE"] && (
                       <div className="flex items-center gap-2 text-sm">
                         <Globe className="w-4 h-4 text-blue-400" />
-                        <span className="text-gray-300">{pdf.language}</span>
+                        <span className="text-gray-300">{pdf["LANGUAGE"]}</span>
                       </div>
                     )}
-                    {pdf.num_pages && (
+                    {pdf["PAGES"] && (
                       <div className="flex items-center gap-2 text-sm">
                         <Hash className="w-4 h-4 text-green-400" />
-                        <span className="text-gray-300">{pdf.num_pages} pages</span>
+                        <span className="text-gray-300">{pdf["PAGES"]} pages</span>
                       </div>
                     )}
                   </div>

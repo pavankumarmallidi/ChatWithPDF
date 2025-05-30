@@ -9,36 +9,48 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      PDF_DATA_INFO: {
+        Row: {
+          created_at: string
+          "EMAIL ID": string
+          id: number
+          LANGUAGE: string
+          "OCR OF PDF": string
+          PAGES: number
+          "PDF NAME": string
+          "PDF SUMMARY": string
+          WORDS: number
+        }
+        Insert: {
+          created_at?: string
+          "EMAIL ID": string
+          id?: number
+          LANGUAGE: string
+          "OCR OF PDF": string
+          PAGES: number
+          "PDF NAME": string
+          "PDF SUMMARY": string
+          WORDS: number
+        }
+        Update: {
+          created_at?: string
+          "EMAIL ID"?: string
+          id?: number
+          LANGUAGE?: string
+          "OCR OF PDF"?: string
+          PAGES?: number
+          "PDF NAME"?: string
+          "PDF SUMMARY"?: string
+          WORDS?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      check_user_table_exists: {
-        Args: { user_email: string }
-        Returns: boolean
-      }
-      create_user_pdf_table: {
-        Args: { user_email: string }
-        Returns: boolean
-      }
-      get_user_table_name: {
-        Args: { user_email: string }
-        Returns: string
-      }
-      insert_pdf_metadata: {
-        Args: {
-          user_email: string
-          pdf_name: string
-          ocr_text?: string
-          summary?: string
-          num_pages?: number
-          num_words?: number
-          language?: string
-        }
-        Returns: string
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
