@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
@@ -13,6 +12,7 @@ import LoadingState from "@/components/LoadingState";
 import UploadInterface from "@/components/UploadInterface";
 import PdfList from "@/components/PdfList";
 import PdfChatView from "@/components/PdfChatView";
+import ChatLayout from "@/components/ChatLayout";
 
 interface PdfAnalysisData {
   summary: string;
@@ -21,7 +21,7 @@ interface PdfAnalysisData {
   language: string;
 }
 
-type AppView = 'home' | 'auth' | 'upload' | 'list' | 'chat' | 'pdf-chat';
+type AppView = 'home' | 'auth' | 'upload' | 'chat-layout' | 'chat' | 'pdf-chat';
 
 const Index = () => {
   const { user, loading, signOut } = useAuth();
@@ -34,7 +34,7 @@ const Index = () => {
 
   const handleGetStarted = () => {
     if (user) {
-      setCurrentView('list');
+      setCurrentView('chat-layout');
     } else {
       setCurrentView('auth');
     }
@@ -149,11 +149,11 @@ const Index = () => {
   }
 
   if (currentView === 'auth') {
-    return <AuthPage onBackToHome={() => setCurrentView('home')} onSuccess={() => setCurrentView('list')} />;
+    return <AuthPage onBackToHome={() => setCurrentView('home')} onSuccess={() => setCurrentView('chat-layout')} />;
   }
 
   if (currentView === 'chat' && pdfAnalysisData) {
-    return <ChatSummary onBackToHome={() => setCurrentView('list')} pdfAnalysisData={pdfAnalysisData} />;
+    return <ChatSummary onBackToHome={() => setCurrentView('chat-layout')} pdfAnalysisData={pdfAnalysisData} />;
   }
 
   if (currentView === 'pdf-chat' && selectedPdfId && user?.email) {
@@ -161,17 +161,17 @@ const Index = () => {
       <PdfChatView
         userEmail={user.email}
         pdfId={selectedPdfId}
-        onBackToList={() => setCurrentView('list')}
+        onBackToList={() => setCurrentView('chat-layout')}
       />
     );
   }
 
-  if (currentView === 'list' && user?.email) {
+  if (currentView === 'chat-layout' && user?.email) {
     return (
-      <PdfList
+      <ChatLayout
         userEmail={user.email}
-        onPdfSelect={handlePdfSelect}
         onBackToUpload={() => setCurrentView('upload')}
+        initialPdfId={selectedPdfId}
       />
     );
   }
@@ -204,11 +204,11 @@ const Index = () => {
               
               <div className="flex items-center gap-3">
                 <Button
-                  onClick={() => setCurrentView('list')}
+                  onClick={() => setCurrentView('chat-layout')}
                   variant="outline"
                   className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/30 backdrop-blur-sm"
                 >
-                  Back to Library
+                  Back to Chats
                 </Button>
                 <Button
                   onClick={handleLogout}
@@ -234,8 +234,8 @@ const Index = () => {
 
   // Default view based on authentication status
   if (user) {
-    setCurrentView('list');
-    return null; // Will re-render with list view
+    setCurrentView('chat-layout');
+    return null; // Will re-render with chat-layout view
   }
 
   return <HomePage onGetStarted={handleGetStarted} />;
