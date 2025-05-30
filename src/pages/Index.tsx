@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { uploadToWebhook } from "@/services/webhookService";
 import { insertPdfData, type PdfData } from "@/services/userTableService";
 import { Button } from "@/components/ui/button";
-import { User, Power } from "lucide-react";
+import { User, Power, Star, ArrowRight } from "lucide-react";
 import AuthPage from "@/components/AuthPage";
 import HomePage from "@/components/HomePage";
 import LoadingState from "@/components/LoadingState";
@@ -122,8 +122,8 @@ const Index = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#1a1a2e] to-[#16213e] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#6366f1]"></div>
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-orange-500"></div>
       </div>
     );
   }
@@ -144,27 +144,23 @@ const Index = () => {
 
   if (currentView === 'upload' && user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#1a1a2e] to-[#16213e] relative overflow-hidden">
-        {/* Background effects */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-900/20 via-transparent to-transparent"></div>
-        <div 
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-          }}
-        ></div>
+      <div className="min-h-screen bg-black relative overflow-hidden">
+        {/* Background effects inspired by Modal */}
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-black to-red-500/10"></div>
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-red-500/20 rounded-full blur-3xl"></div>
 
         {/* Header with user info and back button */}
-        <div className="relative z-10 backdrop-blur-xl bg-white/5 border-b border-white/10">
+        <div className="relative z-10 bg-black/50 backdrop-blur-xl border-b border-gray-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-violet-500/25">
+                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/25">
                   <User className="w-6 h-6 text-white" />
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-white tracking-tight">PDF Upload</h2>
-                  <p className="text-gray-300 text-sm">{user.email}</p>
+                  <p className="text-gray-400 text-sm">{user.email}</p>
                 </div>
               </div>
               
@@ -172,7 +168,7 @@ const Index = () => {
                 <Button
                   onClick={() => setCurrentView('chat-layout')}
                   variant="outline"
-                  className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/30 backdrop-blur-sm"
+                  className="bg-gray-900/50 border-gray-700 text-white hover:bg-gray-800 backdrop-blur-sm"
                 >
                   Back to Chats
                 </Button>
@@ -204,7 +200,106 @@ const Index = () => {
     return null; // Will re-render with chat-layout view
   }
 
-  return <HomePage onGetStarted={handleGetStarted} />;
+  return (
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Background effects inspired by Modal */}
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-black to-red-500/10"></div>
+      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-red-500/20 rounded-full blur-3xl animate-pulse"></div>
+
+      {/* Header Navigation */}
+      <nav className="relative z-10 bg-black/50 backdrop-blur-xl border-b border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg"></div>
+              <span className="text-2xl font-bold text-white">PDFChat AI</span>
+            </div>
+            <Button 
+              onClick={handleGetStarted}
+              className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white"
+            >
+              Get Started
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-80px)]">
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6">
+          <p className="text-orange-400 font-medium mb-4">AI-powered PDF analysis platform</p>
+          
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+            Empowering businesses with{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500">
+              intelligent
+            </span>{" "}
+            PDF analysis that outranks competitors
+          </h1>
+          
+          <p className="text-gray-400 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+            Upload your documents and get instant AI-powered insights, summaries, and answers. 
+            Transform your document workflow with cutting-edge technology.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+            <Button 
+              onClick={handleGetStarted}
+              className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-3 text-lg"
+            >
+              Start your project
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+            
+            <div className="flex items-center gap-2">
+              <div className="flex items-center">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 text-orange-500 fill-current" />
+                ))}
+              </div>
+              <span className="text-white font-semibold">4.9</span>
+              <span className="text-gray-400">from 80+ reviews</span>
+            </div>
+          </div>
+
+          {/* Feature Cards */}
+          <div className="grid md:grid-cols-3 gap-6 mt-16">
+            <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-2xl p-6 hover:border-orange-500/50 transition-all duration-300">
+              <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <h3 className="text-white font-semibold text-lg mb-2">Lightning Fast</h3>
+              <p className="text-gray-400">Process PDFs in seconds with our advanced AI engine</p>
+            </div>
+
+            <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-2xl p-6 hover:border-orange-500/50 transition-all duration-300">
+              <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-white font-semibold text-lg mb-2">Accurate Analysis</h3>
+              <p className="text-gray-400">Get precise insights and summaries from your documents</p>
+            </div>
+
+            <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-2xl p-6 hover:border-orange-500/50 transition-all duration-300">
+              <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              </div>
+              <h3 className="text-white font-semibold text-lg mb-2">Smart Chat</h3>
+              <p className="text-gray-400">Ask questions and get instant answers about your content</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Index;

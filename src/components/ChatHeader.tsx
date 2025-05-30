@@ -3,9 +3,9 @@ import { MessageCircle, Zap } from "lucide-react";
 
 const ChatHeader = () => {
   return (
-    <div className="px-6 py-4 backdrop-blur-sm bg-white/5 border-b border-white/10 flex-shrink-0">
+    <div className="px-6 py-4 backdrop-blur-sm bg-gray-900/50 border-b border-gray-800 flex-shrink-0">
       <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-2xl bg-gradient-to-r from-violet-500 to-purple-600 flex items-center justify-center shadow-lg shadow-violet-500/25">
+        <div className="w-10 h-10 rounded-2xl bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center shadow-lg shadow-orange-500/25">
           <MessageCircle className="w-5 h-5 text-white" />
         </div>
         <div className="flex-1">
@@ -16,8 +16,8 @@ const ChatHeader = () => {
               <span className="text-xs text-green-400 font-medium">Online</span>
             </div>
           </div>
-          <p className="text-gray-300 text-sm flex items-center gap-1">
-            <Zap className="w-3 h-3 text-violet-400" />
+          <p className="text-gray-400 text-sm flex items-center gap-1">
+            <Zap className="w-3 h-3 text-orange-400" />
             Ask anything about your document
           </p>
         </div>
