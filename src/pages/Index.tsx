@@ -4,6 +4,8 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { uploadToWebhook } from "@/services/webhookService";
 import { insertPdfData, type PdfData } from "@/services/userTableService";
+import { Button } from "@/components/ui/button";
+import { User, Power } from "lucide-react";
 import ChatSummary from "@/components/ChatSummary";
 import AuthPage from "@/components/AuthPage";
 import HomePage from "@/components/HomePage";
