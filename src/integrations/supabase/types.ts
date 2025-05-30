@@ -15,6 +15,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_user_table_exists: {
+        Args: { user_email: string }
+        Returns: boolean
+      }
       create_user_pdf_table: {
         Args: { user_email: string }
         Returns: boolean
@@ -27,8 +31,7 @@ export type Database = {
         Args: {
           user_email: string
           pdf_name: string
-          pdf_document?: string
-          ocr_value?: string
+          ocr_text?: string
           summary?: string
           num_pages?: number
           num_words?: number
