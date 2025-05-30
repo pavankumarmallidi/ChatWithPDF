@@ -40,11 +40,6 @@ const UploadInterface = ({ onFileUpload }: UploadInterfaceProps) => {
                 </div>
               </label>
             </div>
-
-            <Button className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white border-0 text-base sm:text-lg py-4 sm:py-6">
-              <Upload className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-              Choose PDF File
-            </Button>
           </div>
         </div>
       </Card>

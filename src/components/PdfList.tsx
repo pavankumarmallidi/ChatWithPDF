@@ -2,9 +2,10 @@
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, MessageCircle, Calendar, Globe, Hash } from "lucide-react";
+import { FileText, MessageCircle, Calendar, Globe, Hash, Upload, User, Power } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { getUserPdfs, type PdfData } from "@/services/userTableService";
+import { useAuth } from "@/hooks/useAuth";
 
 interface PdfListProps {
   userEmail: string;
@@ -16,6 +17,7 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
   const [pdfs, setPdfs] = useState<PdfData[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     const fetchPdfs = async () => {
@@ -42,6 +44,31 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
     }
   }, [userEmail, toast]);
 
+  const handleLogout = async () => {
+    await signOut();
+    toast({
+      title: "Logged out",
+      description: "See you next time!",
+    });
+  };
+
+  const getUserDisplayName = () => {
+    if (user?.user_metadata?.full_name) {
+      return user.user_metadata.full_name;
+    }
+    if (user?.user_metadata?.first_name) {
+      const firstName = user.user_metadata.first_name;
+      const lastName = user.user_metadata.last_name || '';
+      return `${firstName} ${lastName}`.trim();
+    }
+    return user?.email || 'User';
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString() + ' at ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#1a1a2e] to-[#16213e] flex items-center justify-center">
@@ -61,6 +88,32 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
         }}
       ></div>
 
+      {/* Header with User Info and Logout */}
+      <div className="relative z-10 backdrop-blur-xl bg-white/5 border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-violet-500/25">
+                <User className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-white tracking-tight">Welcome back!</h2>
+                <p className="text-gray-300 text-sm">{getUserDisplayName()}</p>
+              </div>
+            </div>
+            
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="bg-red-500/10 border-red-500/30 text-red-400 hover:bg-red-500/20 hover:border-red-500/50 hover:text-red-300 backdrop-blur-sm transition-all duration-300"
+            >
+              <Power className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
+        </div>
+      </div>
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -77,6 +130,7 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
             onClick={onBackToUpload}
             className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
+            <Upload className="w-4 h-4 mr-2" />
             Upload New PDF
           </Button>
         </div>
@@ -93,6 +147,7 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
               onClick={onBackToUpload}
               className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
             >
+              <Upload className="w-4 h-4 mr-2" />
               Upload Your First PDF
             </Button>
           </div>
@@ -113,9 +168,9 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
                       <h3 className="text-lg font-semibold text-white truncate mb-1">
                         {pdf["PDF NAME"]}
                       </h3>
-                      <div className="flex items-center gap-2 text-sm text-gray-400">
+                      <div className="flex items-center gap-2 text-sm text-gray-400 mb-2">
                         <Calendar className="w-3 h-3" />
-                        {new Date(pdf.created_at).toLocaleDateString()}
+                        Last uploaded: {formatDate(pdf.created_at)}
                       </div>
                     </div>
                   </div>

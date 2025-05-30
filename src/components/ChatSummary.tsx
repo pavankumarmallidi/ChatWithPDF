@@ -1,10 +1,9 @@
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Home, FileText, LogOut } from "lucide-react";
+import { ArrowLeft, FileText, Globe, Hash, Type } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/useAuth";
 import { sendChatMessage } from "@/services/chatService";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
@@ -31,11 +30,10 @@ interface ChatSummaryProps {
 }
 
 const ChatSummary = ({ onBackToHome, pdfAnalysisData }: ChatSummaryProps) => {
-  const { user, signOut } = useAuth();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "Welcome! I've successfully analyzed your PDF document. I can answer any questions you have about its content. What would you like to know?",
+      text: `Great! I've analyzed your PDF. Here's what I found: ${pdfAnalysisData.summary}. Feel free to ask me any questions about the document!`,
       isUser: false,
       timestamp: new Date(),
     },
@@ -44,32 +42,14 @@ const ChatSummary = ({ onBackToHome, pdfAnalysisData }: ChatSummaryProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleLogout = async () => {
-    try {
-      await signOut();
-      toast({
-        title: "Logged out successfully",
-        description: "See you next time!",
-      });
-      onBackToHome();
-    } catch (error) {
-      console.error("Logout error:", error);
-      toast({
-        title: "Logout failed",
-        description: "Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputMessage.trim() || !user?.email) return;
+    if (!inputMessage.trim()) return;
 
     const messageToSend = inputMessage;
     setInputMessage("");
 
-    // Immediately add user message to chat
+    // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
       text: messageToSend,
@@ -81,7 +61,8 @@ const ChatSummary = ({ onBackToHome, pdfAnalysisData }: ChatSummaryProps) => {
     setIsLoading(true);
 
     try {
-      const response = await sendChatMessage(messageToSend, user.email);
+      // Note: Using a placeholder PDF ID since we don't have the actual PDF ID in this flow
+      const response = await sendChatMessage(messageToSend, 1);
       
       let botMessageText = "I understand you'd like to know more about your PDF. Could you be more specific about what aspect you'd like me to elaborate on?";
       let relevanceScore: number | undefined;
@@ -116,7 +97,6 @@ const ChatSummary = ({ onBackToHome, pdfAnalysisData }: ChatSummaryProps) => {
         variant: "destructive",
       });
 
-      // Add error message to chat
       const errorResponse: Message = {
         id: (Date.now() + 2).toString(),
         text: `Sorry, I encountered an error: ${errorMessage}. Please try again.`,
@@ -132,55 +112,45 @@ const ChatSummary = ({ onBackToHome, pdfAnalysisData }: ChatSummaryProps) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0f0f23] via-[#1a1a2e] to-[#16213e] relative overflow-hidden">
-      {/* Enhanced background */}
+      {/* Background effects */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-900/20 via-transparent to-transparent"></div>
       <div 
         className="absolute inset-0 opacity-30"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          backgroundImage: `url("data:image/svg+xml,%3Csvv width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
         }}
       ></div>
 
       {/* Header */}
       <div className="relative z-10 backdrop-blur-xl bg-white/5 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-violet-500/25">
-                <FileText className="w-6 h-6 text-white" />
+          <div className="flex items-center gap-4">
+            <Button
+              onClick={onBackToHome}
+              variant="outline"
+              className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/30 backdrop-blur-sm"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Library
+            </Button>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-r from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-violet-500/25">
+                <FileText className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-white tracking-tight">PDF Analysis Chat</h1>
-                <p className="text-gray-300 text-sm">Intelligent document analysis and Q&A</p>
+                <h1 className="text-xl font-bold text-white tracking-tight">PDF Analysis Complete</h1>
+                <p className="text-gray-300 text-sm">Chat with your document</p>
               </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Button
-                onClick={onBackToHome}
-                variant="outline"
-                className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/30 backdrop-blur-sm transition-all duration-300 hover:scale-105"
-              >
-                <Home className="w-4 h-4 mr-2" />
-                Home
-              </Button>
-              <Button
-                onClick={handleLogout}
-                variant="outline"
-                className="bg-red-500/20 border-red-500/30 text-red-300 hover:bg-red-500/30 hover:border-red-500/40 backdrop-blur-sm transition-all duration-300 hover:scale-105"
-                title="Logout"
-              >
-                <LogOut className="w-4 h-4" />
-              </Button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Content - Two Panel Layout */}
+      {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-6">
         <div className="h-[calc(100vh-140px)] flex flex-col lg:flex-row gap-6">
           
-          {/* Left Panel - Document Sidebar */}
+          {/* Left Panel - Document Analysis */}
           <div className="lg:w-80 flex-shrink-0">
             <DocumentSidebar pdfAnalysisData={pdfAnalysisData} />
           </div>
@@ -194,7 +164,7 @@ const ChatSummary = ({ onBackToHome, pdfAnalysisData }: ChatSummaryProps) => {
                 <p className="text-gray-400 text-sm">Ask questions about the content and get intelligent answers</p>
               </div>
               
-              {/* Chat Messages Area - Fixed Height with Scrollbar */}
+              {/* Chat Messages Area */}
               <div className="flex-1 min-h-0 overflow-hidden">
                 <MessageList 
                   messages={messages} 

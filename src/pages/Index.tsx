@@ -7,7 +7,6 @@ import { insertPdfData, type PdfData } from "@/services/userTableService";
 import ChatSummary from "@/components/ChatSummary";
 import AuthPage from "@/components/AuthPage";
 import HomePage from "@/components/HomePage";
-import UserHeader from "@/components/UserHeader";
 import LoadingState from "@/components/LoadingState";
 import UploadInterface from "@/components/UploadInterface";
 import PdfList from "@/components/PdfList";
@@ -74,26 +73,34 @@ const Index = () => {
         const analysisData = responseData[0].output;
         console.log('Analysis data:', analysisData);
         
-        // Store PDF data in database
+        // Store PDF data in database using the exact column names
         console.log('Storing PDF data...');
         const pdfData = {
+          "EMAIL ID": user.email,
+          "PDF NAME": file.name,
+          "PDF SUMMARY": analysisData.summary || '',
+          "PAGES": analysisData.totalPages || 0,
+          "WORDS": analysisData.totalWords || 0,
+          "LANGUAGE": analysisData.language || 'Unknown',
+          "OCR OF PDF": analysisData.ocrText || ''
+        };
+        console.log('PDF data to insert:', pdfData);
+        
+        const pdfId = await insertPdfData(user.email, {
           pdfName: file.name,
           summary: analysisData.summary || '',
           pages: analysisData.totalPages || 0,
           words: analysisData.totalWords || 0,
           language: analysisData.language || 'Unknown',
           ocrText: analysisData.ocrText || ''
-        };
-        console.log('PDF data to insert:', pdfData);
-        
-        const pdfId = await insertPdfData(user.email, pdfData);
+        });
         console.log('PDF data stored with ID:', pdfId);
         
         setPdfAnalysisData({
-          summary: analysisData.summary,
-          totalPages: analysisData.totalPages,
-          totalWords: analysisData.totalWords,
-          language: analysisData.language
+          summary: analysisData.summary || '',
+          totalPages: analysisData.totalPages || 0,
+          totalWords: analysisData.totalWords || 0,
+          language: analysisData.language || 'Unknown'
         });
         setCurrentView('chat');
         
@@ -138,18 +145,6 @@ const Index = () => {
     setCurrentView('pdf-chat');
   };
 
-  const getUserDisplayName = () => {
-    if (user?.user_metadata?.full_name) {
-      return user.user_metadata.full_name;
-    }
-    if (user?.user_metadata?.first_name) {
-      const firstName = user.user_metadata.first_name;
-      const lastName = user.user_metadata.last_name || '';
-      return `${firstName} ${lastName}`.trim();
-    }
-    return user?.email || 'User';
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#1a1a2e] to-[#16213e] flex items-center justify-center">
@@ -189,11 +184,49 @@ const Index = () => {
   if (currentView === 'upload' && user) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#1a1a2e] to-[#16213e] relative overflow-hidden">
-        <UserHeader 
-          getUserDisplayName={getUserDisplayName}
-          onHomeClick={() => setCurrentView('list')}
-          onLogout={handleLogout}
-        />
+        {/* Background effects */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-900/20 via-transparent to-transparent"></div>
+        <div 
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          }}
+        ></div>
+
+        {/* Header with user info and back button */}
+        <div className="relative z-10 backdrop-blur-xl bg-white/5 border-b border-white/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-violet-500/25">
+                  <User className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-white tracking-tight">PDF Upload</h2>
+                  <p className="text-gray-300 text-sm">{user.email}</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <Button
+                  onClick={() => setCurrentView('list')}
+                  variant="outline"
+                  className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/30 backdrop-blur-sm"
+                >
+                  Back to Library
+                </Button>
+                <Button
+                  onClick={handleLogout}
+                  variant="outline"
+                  className="bg-red-500/10 border-red-500/30 text-red-400 hover:bg-red-500/20 hover:border-red-500/50 hover:text-red-300 backdrop-blur-sm"
+                >
+                  <Power className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {isUploading ? (
           <LoadingState uploadProgress={uploadProgress} />
