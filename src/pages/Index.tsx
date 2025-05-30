@@ -71,38 +71,31 @@ const Index = () => {
       const responseData = await uploadToWebhook(file, user.email, setUploadProgress);
       console.log('Webhook response received:', responseData);
       
-      if (responseData && responseData.length > 0 && responseData[0].output) {
-        const analysisData = responseData[0].output;
-        console.log('Analysis data:', analysisData);
+      // Handle new webhook response format
+      if (responseData && Array.isArray(responseData) && responseData.length > 0) {
+        const webhookData = responseData[0];
+        console.log('Processing webhook data:', webhookData);
         
-        // Store PDF data in database using the exact column names
-        console.log('Storing PDF data...');
+        // Map webhook response to database format
         const pdfData = {
-          "EMAIL ID": user.email,
-          "PDF NAME": file.name,
-          "PDF SUMMARY": analysisData.summary || '',
-          "PAGES": analysisData.totalPages || 0,
-          "WORDS": analysisData.totalWords || 0,
-          "LANGUAGE": analysisData.language || 'Unknown',
-          "OCR OF PDF": analysisData.ocrText || ''
+          pdfName: file.name,
+          summary: webhookData.Summary || '',
+          pages: webhookData.totalPages || 0,
+          words: webhookData.totalWords || 0,
+          language: webhookData.language || 'Unknown',
+          ocrText: webhookData.ocr || ''
         };
+        
         console.log('PDF data to insert:', pdfData);
         
-        const pdfId = await insertPdfData(user.email, {
-          pdfName: file.name,
-          summary: analysisData.summary || '',
-          pages: analysisData.totalPages || 0,
-          words: analysisData.totalWords || 0,
-          language: analysisData.language || 'Unknown',
-          ocrText: analysisData.ocrText || ''
-        });
+        const pdfId = await insertPdfData(user.email, pdfData);
         console.log('PDF data stored with ID:', pdfId);
         
         setPdfAnalysisData({
-          summary: analysisData.summary || '',
-          totalPages: analysisData.totalPages || 0,
-          totalWords: analysisData.totalWords || 0,
-          language: analysisData.language || 'Unknown'
+          summary: pdfData.summary,
+          totalPages: pdfData.pages,
+          totalWords: pdfData.words,
+          language: pdfData.language
         });
         setCurrentView('chat');
         
