@@ -12,7 +12,7 @@ export const uploadToWebhook = async (
     formData.append('pdf', file);
     formData.append('userEmail', userEmail);
 
-    const webhookUrl = "https://pavankumarmallidi.app.n8n.cloud/webhook/a88a8171-43a6-4a0a-b351-669b761c4f80";
+    const webhookUrl = "https://pavankumarmallidi.app.n8n.cloud/webhook-test/a88a8171-43a6-4a0a-b351-669b761c4f80";
 
     fetch(webhookUrl, {
       method: 'POST',
