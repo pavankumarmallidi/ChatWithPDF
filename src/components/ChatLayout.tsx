@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { MessageCircle } from "lucide-react";
 import { type PdfData } from "@/services/userTableService";
 import ChatListView from "./ChatListView";
 import PdfChatView from "./PdfChatView";
