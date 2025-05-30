@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
@@ -122,7 +121,7 @@ const Index = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-orange-500"></div>
       </div>
     );
@@ -144,23 +143,18 @@ const Index = () => {
 
   if (currentView === 'upload' && user) {
     return (
-      <div className="min-h-screen bg-black relative overflow-hidden">
-        {/* Background effects inspired by Modal */}
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-black to-red-500/10"></div>
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-red-500/20 rounded-full blur-3xl"></div>
-
+      <div className="min-h-screen bg-gray-50">
         {/* Header with user info and back button */}
-        <div className="relative z-10 bg-black/50 backdrop-blur-xl border-b border-gray-800">
+        <div className="bg-white border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/25">
+                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
                   <User className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-white tracking-tight">PDF Upload</h2>
-                  <p className="text-gray-400 text-sm">{user.email}</p>
+                  <h2 className="text-xl font-bold text-gray-900 tracking-tight">PDF Upload</h2>
+                  <p className="text-gray-500 text-sm">{user.email}</p>
                 </div>
               </div>
               
@@ -168,14 +162,14 @@ const Index = () => {
                 <Button
                   onClick={() => setCurrentView('chat-layout')}
                   variant="outline"
-                  className="bg-gray-900/50 border-gray-700 text-white hover:bg-gray-800 backdrop-blur-sm"
+                  className="border-gray-300 text-gray-700 hover:bg-gray-50"
                 >
                   Back to Chats
                 </Button>
                 <Button
                   onClick={handleLogout}
                   variant="outline"
-                  className="bg-red-500/10 border-red-500/30 text-red-400 hover:bg-red-500/20 hover:border-red-500/50 hover:text-red-300 backdrop-blur-sm"
+                  className="border-red-300 text-red-600 hover:bg-red-50"
                 >
                   <Power className="w-4 h-4 mr-2" />
                   Logout
@@ -201,19 +195,14 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black relative overflow-hidden">
-      {/* Background effects inspired by Modal */}
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-black to-red-500/10"></div>
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-red-500/20 rounded-full blur-3xl animate-pulse"></div>
-
+    <div className="min-h-screen bg-white">
       {/* Header Navigation */}
-      <nav className="relative z-10 bg-black/50 backdrop-blur-xl border-b border-gray-800">
+      <nav className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg"></div>
-              <span className="text-2xl font-bold text-white">PDFChat AI</span>
+              <span className="text-2xl font-bold text-gray-900">PDFChat AI</span>
             </div>
             <Button 
               onClick={handleGetStarted}
@@ -227,11 +216,11 @@ const Index = () => {
       </nav>
 
       {/* Hero Section */}
-      <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-80px)]">
+      <div className="flex items-center justify-center min-h-[calc(100vh-80px)] bg-gray-50">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6">
-          <p className="text-orange-400 font-medium mb-4">AI-powered PDF analysis platform</p>
+          <p className="text-orange-600 font-medium mb-4">AI-powered PDF analysis platform</p>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
             Empowering businesses with{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500">
               intelligent
@@ -239,7 +228,7 @@ const Index = () => {
             PDF analysis that outranks competitors
           </h1>
           
-          <p className="text-gray-400 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+          <p className="text-gray-600 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
             Upload your documents and get instant AI-powered insights, summaries, and answers. 
             Transform your document workflow with cutting-edge technology.
           </p>
@@ -259,41 +248,41 @@ const Index = () => {
                   <Star key={i} className="w-5 h-5 text-orange-500 fill-current" />
                 ))}
               </div>
-              <span className="text-white font-semibold">4.9</span>
-              <span className="text-gray-400">from 80+ reviews</span>
+              <span className="text-gray-900 font-semibold">4.9</span>
+              <span className="text-gray-600">from 80+ reviews</span>
             </div>
           </div>
 
           {/* Feature Cards */}
           <div className="grid md:grid-cols-3 gap-6 mt-16">
-            <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-2xl p-6 hover:border-orange-500/50 transition-all duration-300">
+            <div className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-orange-200 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-4">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="text-white font-semibold text-lg mb-2">Lightning Fast</h3>
-              <p className="text-gray-400">Process PDFs in seconds with our advanced AI engine</p>
+              <h3 className="text-gray-900 font-semibold text-lg mb-2">Lightning Fast</h3>
+              <p className="text-gray-600">Process PDFs in seconds with our advanced AI engine</p>
             </div>
 
-            <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-2xl p-6 hover:border-orange-500/50 transition-all duration-300">
+            <div className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-orange-200 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-4">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-white font-semibold text-lg mb-2">Accurate Analysis</h3>
-              <p className="text-gray-400">Get precise insights and summaries from your documents</p>
+              <h3 className="text-gray-900 font-semibold text-lg mb-2">Accurate Analysis</h3>
+              <p className="text-gray-600">Get precise insights and summaries from your documents</p>
             </div>
 
-            <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-2xl p-6 hover:border-orange-500/50 transition-all duration-300">
+            <div className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-orange-200 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-4">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               </div>
-              <h3 className="text-white font-semibold text-lg mb-2">Smart Chat</h3>
-              <p className="text-gray-400">Ask questions and get instant answers about your content</p>
+              <h3 className="text-gray-900 font-semibold text-lg mb-2">Smart Chat</h3>
+              <p className="text-gray-600">Ask questions and get instant answers about your content</p>
             </div>
           </div>
         </div>

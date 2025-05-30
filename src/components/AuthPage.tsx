@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
-import { FileText, ArrowLeft, MessageCircle, Zap } from "lucide-react";
+import { ArrowLeft, MessageCircle } from "lucide-react";
 
 interface AuthPageProps {
   onBackToHome?: () => void;
@@ -33,7 +33,7 @@ const FloatingInput = ({ id, name, type, placeholder, required = false, disabled
         type={type}
         required={required}
         disabled={disabled}
-        className="peer w-full px-0 py-3 bg-transparent border-0 border-b-2 border-gray-600 text-white placeholder-transparent focus:border-orange-500 focus:outline-none transition-colors"
+        className="peer w-full px-4 py-3 bg-gray-50 border border-gray-200 text-gray-900 placeholder-transparent focus:border-orange-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all duration-200 rounded-xl"
         placeholder={placeholder}
         onFocus={() => setFocused(true)}
         onBlur={(e) => {
@@ -44,10 +44,10 @@ const FloatingInput = ({ id, name, type, placeholder, required = false, disabled
       />
       <label
         htmlFor={id}
-        className={`absolute left-0 transition-all duration-200 pointer-events-none ${
+        className={`absolute left-4 transition-all duration-200 pointer-events-none ${
           focused || hasValue
-            ? '-top-6 text-sm text-orange-500'
-            : 'top-3 text-gray-400'
+            ? '-top-2 text-xs text-orange-600 bg-white px-2'
+            : 'top-3 text-gray-500'
         }`}
       >
         {placeholder}
@@ -133,54 +133,46 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-black relative overflow-hidden">
-      {/* Background effects matching the main design */}
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-black to-red-500/10"></div>
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-red-500/20 rounded-full blur-3xl animate-pulse"></div>
-
+    <div className="min-h-screen bg-gray-50 relative">
       {/* Back button */}
       {onBackToHome && (
         <Button
           onClick={onBackToHome}
           variant="ghost"
-          className="absolute top-6 left-6 text-gray-300 hover:text-white hover:bg-gray-800/50 z-20 backdrop-blur-sm"
+          className="absolute top-6 left-6 text-gray-600 hover:text-gray-900 hover:bg-white/80 z-20"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Home
         </Button>
       )}
 
-      <div className="relative z-10 flex items-center justify-center min-h-screen p-6">
-        <Card className="w-full max-w-md bg-gray-900/50 backdrop-blur-xl border-gray-800 shadow-2xl rounded-3xl overflow-hidden">
+      <div className="flex items-center justify-center min-h-screen p-6">
+        <Card className="w-full max-w-md bg-white shadow-xl border border-gray-200 rounded-3xl overflow-hidden">
           <div className="p-8">
             <div className="text-center mb-8">
               <div className="flex items-center justify-center gap-3 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/25">
+                <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
                   <MessageCircle className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-white tracking-tight">PDFChat AI</h1>
-                  <div className="flex items-center gap-1 text-orange-400 text-sm">
-                    <Zap className="w-3 h-3" />
-                    <span>AI-powered analysis</span>
-                  </div>
+                  <h1 className="text-3xl font-bold text-gray-900 tracking-tight">PDFChat AI</h1>
+                  <p className="text-orange-600 text-sm font-medium">AI-powered analysis</p>
                 </div>
               </div>
-              <p className="text-gray-400 text-sm">Transform your documents with intelligent conversation</p>
+              <p className="text-gray-600 text-sm">Transform your documents with intelligent conversation</p>
             </div>
 
             <Tabs defaultValue="login" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-gray-800/50 backdrop-blur-sm mb-8 rounded-2xl">
+              <TabsList className="grid w-full grid-cols-2 bg-gray-100 mb-8 rounded-2xl p-1">
                 <TabsTrigger 
                   value="login" 
-                  className="text-gray-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-red-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl font-medium"
+                  className="text-gray-600 data-[state=active]:bg-white data-[state=active]:text-orange-600 data-[state=active]:shadow-sm rounded-xl font-medium"
                 >
                   LOGIN
                 </TabsTrigger>
                 <TabsTrigger 
                   value="register" 
-                  className="text-gray-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-red-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl font-medium"
+                  className="text-gray-600 data-[state=active]:bg-white data-[state=active]:text-orange-600 data-[state=active]:shadow-sm rounded-xl font-medium"
                 >
                   SIGN UP
                 </TabsTrigger>
@@ -206,17 +198,17 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                   />
                   
                   <div className="flex items-center justify-between text-sm">
-                    <label className="flex items-center text-gray-300">
-                      <input type="checkbox" className="mr-2 w-4 h-4 text-orange-500 rounded border-gray-500 focus:ring-orange-500 bg-gray-700" />
+                    <label className="flex items-center text-gray-600">
+                      <input type="checkbox" className="mr-2 w-4 h-4 text-orange-500 rounded border-gray-300 focus:ring-orange-500" />
                       Remember me
                     </label>
-                    <a href="#" className="text-orange-400 hover:text-orange-300 transition-colors">Forgot password?</a>
+                    <a href="#" className="text-orange-600 hover:text-orange-700 transition-colors">Forgot password?</a>
                   </div>
 
                   <Button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white py-3 rounded-2xl text-base font-medium mt-8 shadow-lg shadow-orange-500/25 transition-all duration-300 hover:shadow-orange-500/40"
+                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white py-3 rounded-2xl text-base font-medium mt-8 shadow-lg transition-all duration-300"
                   >
                     {isLoading ? "Signing in..." : "LOGIN"}
                   </Button>
@@ -253,7 +245,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                   <Button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white py-3 rounded-2xl text-base font-medium mt-8 shadow-lg shadow-orange-500/25 transition-all duration-300 hover:shadow-orange-500/40"
+                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white py-3 rounded-2xl text-base font-medium mt-8 shadow-lg transition-all duration-300"
                   >
                     {isLoading ? "Creating account..." : "SIGN UP"}
                   </Button>
