@@ -19,11 +19,20 @@ interface FloatingInputProps {
   placeholder: string;
   required?: boolean;
   disabled?: boolean;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FloatingInput = ({ id, name, type, placeholder, required = false, disabled = false }: FloatingInputProps) => {
+const FloatingInput = ({ id, name, type, placeholder, required = false, disabled = false, value, onChange }: FloatingInputProps) => {
   const [focused, setFocused] = useState(false);
   const [hasValue, setHasValue] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setHasValue(e.target.value !== '');
+    if (onChange) {
+      onChange(e);
+    }
+  };
 
   return (
     <div className="relative mb-6">
@@ -33,19 +42,17 @@ const FloatingInput = ({ id, name, type, placeholder, required = false, disabled
         type={type}
         required={required}
         disabled={disabled}
+        value={value}
+        onChange={handleChange}
         className="peer w-full px-4 py-4 input-base text-[var(--text-primary)] placeholder-transparent focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
         placeholder={placeholder}
         onFocus={() => setFocused(true)}
-        onBlur={(e) => {
-          setFocused(false);
-          setHasValue(e.target.value !== '');
-        }}
-        onChange={(e) => setHasValue(e.target.value !== '')}
+        onBlur={() => setFocused(false)}
       />
       <label
         htmlFor={id}
         className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-          focused || hasValue
+          focused || hasValue || value
             ? '-top-2 text-xs bg-[var(--bg-secondary)] px-2 text-purple-400'
             : 'top-4 text-[var(--text-secondary)]'
         } rounded-md`}
@@ -58,6 +65,9 @@ const FloatingInput = ({ id, name, type, placeholder, required = false, disabled
 
 const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("login");
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const [registerForm, setRegisterForm] = useState({ email: '', password: '', fullName: '' });
   const { toast } = useToast();
   const { signIn, signUp } = useAuth();
 
@@ -68,9 +78,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
     setIsLoading(true);
     
     try {
-      const formData = new FormData(e.target as HTMLFormElement);
-      const email = formData.get('email') as string;
-      const password = formData.get('password') as string;
+      const { email, password } = loginForm;
 
       if (!email || !password) {
         toast({
@@ -123,10 +131,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
     setIsLoading(true);
     
     try {
-      const formData = new FormData(e.target as HTMLFormElement);
-      const email = formData.get('email') as string;
-      const password = formData.get('password') as string;
-      const fullName = formData.get('fullName') as string;
+      const { email, password, fullName } = registerForm;
 
       if (!email || !password || !fullName) {
         toast({
@@ -150,8 +155,9 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
           title: "Account created!",
           description: "Please check your email to confirm your account before logging in.",
         });
-        // Clear the form
-        (e.target as HTMLFormElement).reset();
+        // Clear the form and switch to login
+        setRegisterForm({ email: '', password: '', fullName: '' });
+        setActiveTab("login");
       }
     } catch (error) {
       console.error('Registration error:', error);
@@ -201,7 +207,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
               <p className="text-[var(--text-secondary)] text-sm">Transform your documents with intelligent conversation</p>
             </div>
 
-            <Tabs defaultValue="login" className="w-full">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-8 rounded-2xl p-1 bg-[var(--bg-secondary)]">
                 <TabsTrigger 
                   value="login" 
@@ -226,6 +232,8 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                     placeholder="Email Address"
                     required
                     disabled={isLoading}
+                    value={loginForm.email}
+                    onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
                   />
                   <FloatingInput
                     id="password"
@@ -234,6 +242,8 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                     placeholder="Password"
                     required
                     disabled={isLoading}
+                    value={loginForm.password}
+                    onChange={(e) => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
                   />
                   
                   <div className="flex items-center justify-between text-sm">
@@ -263,6 +273,8 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                     placeholder="Full Name"
                     required
                     disabled={isLoading}
+                    value={registerForm.fullName}
+                    onChange={(e) => setRegisterForm(prev => ({ ...prev, fullName: e.target.value }))}
                   />
                   <FloatingInput
                     id="reg-email"
@@ -271,6 +283,8 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                     placeholder="Email Address"
                     required
                     disabled={isLoading}
+                    value={registerForm.email}
+                    onChange={(e) => setRegisterForm(prev => ({ ...prev, email: e.target.value }))}
                   />
                   <FloatingInput
                     id="reg-password"
@@ -279,6 +293,8 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                     placeholder="Password"
                     required
                     disabled={isLoading}
+                    value={registerForm.password}
+                    onChange={(e) => setRegisterForm(prev => ({ ...prev, password: e.target.value }))}
                   />
                   
                   <Button 
