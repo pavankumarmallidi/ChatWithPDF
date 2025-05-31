@@ -5,12 +5,11 @@ import { useAuth } from "@/hooks/useAuth";
 import { uploadToWebhook } from "@/services/webhookService";
 import { insertPdfData, type PdfData } from "@/services/userTableService";
 import { Button } from "@/components/ui/button";
-import { User, Power, Star, ArrowRight } from "lucide-react";
+import { User, Power, Star, ArrowRight, FileText, Sparkles, Brain, Shield } from "lucide-react";
 import AuthPage from "@/components/AuthPage";
 import LoadingState from "@/components/LoadingState";
 import UploadInterface from "@/components/UploadInterface";
 import ChatLayout from "@/components/ChatLayout";
-import ThemeToggle from "@/components/ThemeToggle";
 
 type AppView = 'home' | 'auth' | 'upload' | 'chat-layout';
 
@@ -50,20 +49,14 @@ const Index = () => {
       return;
     }
 
-    console.log('Starting PDF upload for user:', user.email);
-    console.log('File details:', { name: file.name, size: file.size, type: file.type });
-
     setIsUploading(true);
     setUploadProgress(0);
     
     try {
-      console.log('Starting webhook upload...');
       const responseData = await uploadToWebhook(file, user.email, setUploadProgress);
-      console.log('Webhook response received:', responseData);
       
       if (responseData && Array.isArray(responseData) && responseData.length > 0) {
         const webhookData = responseData[0];
-        console.log('Processing webhook data:', webhookData);
         
         const pdfData = {
           pdfName: file.name,
@@ -74,11 +67,7 @@ const Index = () => {
           ocrText: webhookData.ocr || ''
         };
         
-        console.log('PDF data to insert:', pdfData);
-        
         const pdfId = await insertPdfData(user.email, pdfData);
-        console.log('PDF data stored with ID:', pdfId);
-        
         setSelectedPdfId(pdfId);
         setCurrentView('chat-layout');
         
@@ -87,7 +76,6 @@ const Index = () => {
           description: "Your PDF has been processed and is ready for questions.",
         });
       } else {
-        console.warn('No valid analysis data received from webhook');
         toast({
           title: "Upload incomplete",
           description: "PDF uploaded but no analysis data received.",
@@ -119,7 +107,7 @@ const Index = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-primary theme-transition flex items-center justify-center">
+      <div className="min-h-screen bg-primary flex items-center justify-center">
         <div className="loading-spinner w-16 h-16"></div>
       </div>
     );
@@ -141,12 +129,12 @@ const Index = () => {
 
   if (currentView === 'upload' && user) {
     return (
-      <div className="min-h-screen bg-primary theme-transition">
-        <div className="card-base border-b theme-transition">
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e]">
+        <div className="card-base border-b">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 btn-primary rounded-2xl flex items-center justify-center shadow-lg">
+                <div className="w-12 h-12 btn-primary rounded-2xl flex items-center justify-center shadow-lg animate-glow">
                   <User className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -156,22 +144,15 @@ const Index = () => {
               </div>
               
               <div className="flex items-center gap-3">
-                <ThemeToggle />
                 <Button
                   onClick={() => setCurrentView('chat-layout')}
-                  variant="outline"
-                  className="input-base text-primary hover-bg"
-                  style={{
-                    borderColor: 'var(--border-color)',
-                    color: 'var(--text-primary)'
-                  }}
+                  className="btn-secondary"
                 >
                   Back to Chats
                 </Button>
                 <Button
                   onClick={handleLogout}
-                  variant="outline"
-                  className="border-red-500 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
+                  className="bg-red-500/20 border-red-500/30 text-red-400 hover:bg-red-500/30 rounded-md"
                 >
                   <Power className="w-4 h-4 mr-2" />
                   Logout
@@ -196,58 +177,68 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-primary theme-transition">
-      <nav className="card-base border-b theme-transition">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 btn-primary rounded-lg"></div>
-              <span className="text-2xl font-bold text-primary">PDFChat AI</span>
+    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] relative overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
+      <div 
+        className="absolute inset-0 opacity-30"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }}
+      ></div>
+
+      {/* Navigation */}
+      <nav className="relative z-10 px-6 py-4">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 btn-primary rounded-lg flex items-center justify-center animate-glow">
+              <FileText className="w-6 h-6 text-white" />
             </div>
-            <div className="flex items-center gap-3">
-              <ThemeToggle />
-              <Button 
-                onClick={handleGetStarted}
-                className="btn-primary"
-              >
-                Get Started
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </div>
+            <span className="text-2xl font-bold text-primary">PDFChat AI</span>
           </div>
+          <Button 
+            onClick={handleGetStarted}
+            className="btn-primary px-6 py-2"
+          >
+            Get Started
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
         </div>
       </nav>
 
-      <div className="flex items-center justify-center min-h-[calc(100vh-80px)] bg-secondary">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 animate-fade-in">
-          <p className="font-medium mb-4" style={{ color: 'var(--accent-color)' }}>AI-powered PDF analysis platform</p>
+      {/* Hero Section */}
+      <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-100px)] px-6">
+        <div className="max-w-4xl mx-auto text-center animate-fade-in">
+          <div className="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 rounded-full px-4 py-2 mb-8">
+            <Sparkles className="w-4 h-4 text-purple-400" />
+            <span className="text-purple-400 text-sm font-medium">Unleash your Creativity with AI</span>
+          </div>
           
           <h1 className="text-5xl md:text-7xl font-bold text-primary mb-6 leading-tight">
-            Empowering businesses with{" "}
-            <span style={{ color: 'var(--accent-color)' }}>
-              intelligent
-            </span>{" "}
-            PDF analysis
+            Transform PDFs with{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400">
+              AI Intelligence
+            </span>
           </h1>
           
-          <p className="text-secondary text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-            Upload your documents and get instant AI-powered insights, summaries, and answers. 
-            Transform your document workflow with cutting-edge technology.
+          <p className="text-secondary text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
+            Create production-quality insights from your documents with 
+            unprecedented quality, speed, and style consistency.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <Button 
               onClick={handleGetStarted}
-              className="btn-primary px-8 py-3 text-lg"
+              className="btn-primary px-8 py-4 text-lg animate-glow"
             >
-              Start your project
+              Start analyzing for free
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
             
             <div className="flex items-center gap-2">
               <div className="flex items-center">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-current" style={{ color: 'var(--accent-color)' }} />
+                  <Star key={i} className="w-5 h-5 fill-current text-yellow-400" />
                 ))}
               </div>
               <span className="text-primary font-semibold">4.9</span>
@@ -255,16 +246,32 @@ const Index = () => {
             </div>
           </div>
 
+          <p className="text-sm text-muted mb-12">No credit card needed</p>
+
           <div className="grid md:grid-cols-3 gap-6 mt-16">
             {[
-              { icon: "⚡", title: "Lightning Fast", desc: "Process PDFs in seconds with our advanced AI engine" },
-              { icon: "🎯", title: "Accurate Analysis", desc: "Get precise insights and summaries from your documents" },
-              { icon: "💬", title: "Smart Chat", desc: "Ask questions and get instant answers about your content" }
+              { 
+                icon: Brain, 
+                title: "AI-Powered Analysis", 
+                desc: "Advanced AI algorithms extract and analyze content with unprecedented accuracy" 
+              },
+              { 
+                icon: Sparkles, 
+                title: "Lightning Fast", 
+                desc: "Process documents in seconds, not minutes. Get instant insights and summaries" 
+              },
+              { 
+                icon: Shield, 
+                title: "Secure & Private", 
+                desc: "Your documents are processed securely with enterprise-grade encryption" 
+              }
             ].map((item, index) => (
-              <div key={index} className="card-base rounded-2xl p-6 hover-bg theme-transition">
-                <div className="text-3xl mb-4">{item.icon}</div>
+              <div key={index} className="card-base p-6 hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                <div className="w-12 h-12 btn-primary rounded-lg flex items-center justify-center mb-4 animate-glow">
+                  <item.icon className="w-6 h-6 text-white" />
+                </div>
                 <h3 className="text-primary font-semibold text-lg mb-2">{item.title}</h3>
-                <p className="text-secondary">{item.desc}</p>
+                <p className="text-secondary text-sm leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>

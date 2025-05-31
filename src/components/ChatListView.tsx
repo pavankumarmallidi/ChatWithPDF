@@ -2,10 +2,9 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Search, FileText, ArrowLeft, Plus, Hash, BookOpen } from "lucide-react";
+import { Search, FileText, ArrowLeft, Plus, Hash, BookOpen, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { getUserPdfs, type PdfData } from "@/services/userTableService";
-import ThemeToggle from "./ThemeToggle";
 
 interface ChatListViewProps {
   userEmail: string;
@@ -61,37 +60,32 @@ const ChatListView = ({ userEmail, onPdfSelect, onBackToUpload, selectedPdfId }:
 
   if (loading) {
     return (
-      <div className="h-full bg-primary theme-transition flex items-center justify-center">
+      <div className="h-full bg-[var(--bg-secondary)] flex items-center justify-center">
         <div className="loading-spinner w-12 h-12"></div>
       </div>
     );
   }
 
   return (
-    <div className="h-full bg-primary flex flex-col theme-transition">
+    <div className="h-full bg-[var(--bg-secondary)] flex flex-col">
       {/* Header */}
-      <div className="card-base border-b px-6 py-4 theme-transition">
+      <div className="card-base border-b px-6 py-4 bg-[var(--bg-primary)] rounded-none">
         <div className="flex items-center justify-between mb-4">
           <Button
             onClick={onBackToUpload}
-            variant="ghost"
-            size="sm"
-            className="text-secondary hover:text-primary hover-bg"
+            className="btn-secondary"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
           </Button>
 
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <Button
-              onClick={onBackToUpload}
-              className="btn-primary rounded-full px-4 py-2 shadow-lg"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Upload PDF
-            </Button>
-          </div>
+          <Button
+            onClick={onBackToUpload}
+            className="btn-primary rounded-xl px-4 py-2 shadow-lg"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Upload PDF
+          </Button>
         </div>
 
         {/* Search */}
@@ -102,12 +96,7 @@ const ChatListView = ({ userEmail, onPdfSelect, onBackToUpload, selectedPdfId }:
             placeholder="Search PDFs"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full input-base text-primary placeholder:text-secondary focus:ring-2 focus:ring-blue-500/20 rounded-xl pl-10 pr-4 py-3 text-sm theme-transition"
-            style={{
-              backgroundColor: 'var(--input-bg)',
-              borderColor: 'var(--border-color)',
-              color: 'var(--text-primary)'
-            }}
+            className="w-full input-base text-primary placeholder:text-secondary focus:ring-2 focus:ring-purple-500/20 rounded-xl pl-10 pr-4 py-3 text-sm"
           />
         </div>
       </div>
@@ -119,19 +108,15 @@ const ChatListView = ({ userEmail, onPdfSelect, onBackToUpload, selectedPdfId }:
             {filteredPdfs.map((pdf) => (
               <Card
                 key={pdf.id}
-                className={`p-4 cursor-pointer transition-all duration-300 hover:shadow-xl border theme-transition ${
+                className={`p-4 cursor-pointer transition-all duration-300 hover:shadow-xl border rounded-xl ${
                   selectedPdfId === pdf.id 
-                    ? 'border-blue-500 shadow-lg' 
-                    : 'hover-bg'
+                    ? 'border-purple-500 shadow-lg bg-purple-500/10' 
+                    : 'card-base hover:scale-105'
                 }`}
                 onClick={() => onPdfSelect(pdf)}
-                style={{
-                  backgroundColor: selectedPdfId === pdf.id ? 'rgba(13, 110, 253, 0.1)' : 'var(--card-bg)',
-                  borderColor: selectedPdfId === pdf.id ? 'var(--accent-color)' : 'var(--border-color)'
-                }}
               >
                 <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 btn-primary rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                  <div className="w-12 h-12 btn-primary rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
                     <FileText className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -139,11 +124,11 @@ const ChatListView = ({ userEmail, onPdfSelect, onBackToUpload, selectedPdfId }:
                       {pdf["PDF NAME"]}
                     </h4>
                     <div className="flex items-center gap-4 mb-3">
-                      <div className="flex items-center gap-1" style={{ color: 'var(--accent-color)' }}>
+                      <div className="flex items-center gap-1 text-purple-400">
                         <Hash className="w-3 h-3" />
                         <span className="text-xs font-medium">{pdf["PAGES"]} pages</span>
                       </div>
-                      <div className="flex items-center gap-1" style={{ color: 'var(--accent-color)' }}>
+                      <div className="flex items-center gap-1 text-blue-400">
                         <BookOpen className="w-3 h-3" />
                         <span className="text-xs font-medium">{pdf["WORDS"]?.toLocaleString() || 0} words</span>
                       </div>
@@ -151,7 +136,7 @@ const ChatListView = ({ userEmail, onPdfSelect, onBackToUpload, selectedPdfId }:
                     <p className="text-sm text-secondary mb-2">
                       {formatTimeAgo(pdf["CREATED AT"])}
                     </p>
-                    <p className="text-xs text-secondary line-clamp-2">
+                    <p className="text-xs text-muted line-clamp-2">
                       {pdf["PDF SUMMARY"] ? pdf["PDF SUMMARY"].slice(0, 80) + "..." : "Ready for questions..."}
                     </p>
                   </div>
@@ -161,13 +146,16 @@ const ChatListView = ({ userEmail, onPdfSelect, onBackToUpload, selectedPdfId }:
           </div>
         ) : (
           <div className="text-center py-12 animate-fade-in">
-            <div className="w-16 h-16 btn-primary rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <div className="w-16 h-16 btn-primary rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg animate-glow">
               <FileText className="w-8 h-8 text-white" />
             </div>
             <h3 className="text-lg font-medium text-primary mb-2">No PDFs found</h3>
-            <p className="text-secondary mb-4">
-              {searchTerm ? "Try a different search term" : "Upload your first PDF to get started"}
-            </p>
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Sparkles className="w-4 h-4 text-purple-400" />
+              <p className="text-secondary">
+                {searchTerm ? "Try a different search term" : "Upload your first PDF to get started"}
+              </p>
+            </div>
             <Button
               onClick={onBackToUpload}
               className="btn-primary shadow-lg"

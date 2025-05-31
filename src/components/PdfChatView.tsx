@@ -1,12 +1,11 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { ArrowLeft, FileText, Send, Bot, User, Hash, BookOpen, Sparkles } from "lucide-react";
+import { ArrowLeft, FileText, Send, User, Hash, BookOpen, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { getPdfById, type PdfData } from "@/services/userTableService";
 import { sendChatMessage } from "@/services/chatService";
 import { chatHistoryService, type ChatMessage } from "@/services/chatHistoryService";
-import ThemeToggle from "./ThemeToggle";
 
 interface PdfChatViewProps {
   userEmail: string;
@@ -145,7 +144,7 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
 
   if (loading) {
     return (
-      <div className="h-full flex items-center justify-center bg-background theme-transition">
+      <div className="h-full flex items-center justify-center bg-[var(--bg-primary)]">
         <div className="loading-spinner w-16 h-16"></div>
       </div>
     );
@@ -153,10 +152,10 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
 
   if (!pdf) {
     return (
-      <div className="h-full flex items-center justify-center bg-background theme-transition">
+      <div className="h-full flex items-center justify-center bg-[var(--bg-primary)]">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-foreground mb-4">PDF not found</h2>
-          <Button onClick={onBackToList} className="bg-primary hover:bg-primary/90 text-primary-foreground">
+          <h2 className="text-2xl font-bold text-primary mb-4">PDF not found</h2>
+          <Button onClick={onBackToList} className="btn-primary">
             Back to Chat List
           </Button>
         </div>
@@ -165,63 +164,59 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
   }
 
   return (
-    <div className="h-full flex flex-col bg-background theme-transition">
+    <div className="h-full flex flex-col bg-[var(--bg-primary)]">
       {/* Header */}
-      <div className="bg-card border-b border-border px-6 py-4 theme-transition">
+      <div className="bg-[var(--card-bg)] border-b border-color px-6 py-4 rounded-none">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             {showBackButton && (
               <Button
                 onClick={onBackToList}
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground hover:text-foreground hover:bg-accent"
+                className="btn-secondary"
               >
                 <ArrowLeft className="w-4 h-4" />
               </Button>
             )}
             
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-primary rounded-3xl flex items-center justify-center shadow-lg">
-                <FileText className="w-6 h-6 text-primary-foreground" />
+              <div className="w-12 h-12 btn-primary rounded-xl flex items-center justify-center shadow-lg animate-glow">
+                <FileText className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-semibold text-foreground tracking-tight">
+                <h1 className="text-xl font-semibold text-primary tracking-tight">
                   {pdf["PDF NAME"]}
                 </h1>
                 <div className="flex items-center gap-4 mt-1">
-                  <div className="flex items-center gap-1 text-primary">
+                  <div className="flex items-center gap-1 text-purple-400">
                     <Hash className="w-3 h-3" />
                     <span className="text-sm font-medium">{pdf["PAGES"]} pages</span>
                   </div>
-                  <div className="flex items-center gap-1 text-blue-500">
+                  <div className="flex items-center gap-1 text-blue-400">
                     <BookOpen className="w-3 h-3" />
                     <span className="text-sm font-medium">{pdf["WORDS"]?.toLocaleString() || 0} words</span>
                   </div>
-                  <span className="text-muted-foreground text-sm">•</span>
-                  <span className="text-muted-foreground text-sm">Ready to chat</span>
+                  <span className="text-muted text-sm">•</span>
+                  <span className="text-muted text-sm">Ready to chat</span>
                 </div>
               </div>
             </div>
           </div>
-          
-          <ThemeToggle />
         </div>
       </div>
 
       {/* AI Summary Section */}
       {pdf["PDF SUMMARY"] && (
-        <div className="bg-primary/10 border-b border-border px-6 py-4 theme-transition">
+        <div className="bg-purple-500/10 border-b border-color px-6 py-4">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 bg-primary rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-              <Sparkles className="w-5 h-5 text-primary-foreground" />
+            <div className="w-10 h-10 btn-primary rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
+              <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-primary font-semibold text-sm">AI SUMMARY</h3>
-                <div className="h-1 w-8 bg-primary rounded-full"></div>
+                <h3 className="text-purple-400 font-semibold text-sm">AI SUMMARY</h3>
+                <div className="h-1 w-8 bg-purple-400 rounded-full"></div>
               </div>
-              <p className="text-foreground text-sm leading-relaxed">
+              <p className="text-primary text-sm leading-relaxed">
                 {pdf["PDF SUMMARY"]}
               </p>
             </div>
@@ -234,31 +229,31 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex items-start gap-3 message-bubble ${message.isUser ? 'flex-row-reverse' : ''}`}
+            className={`flex items-start gap-3 ${message.isUser ? 'flex-row-reverse' : ''}`}
           >
-            <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg ${
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg ${
               message.isUser 
                 ? 'bg-green-500' 
-                : 'bg-primary'
+                : 'btn-primary'
             }`}>
               {message.isUser ? (
                 <User className="w-5 h-5 text-white" />
               ) : (
-                <Sparkles className="w-5 h-5 text-primary-foreground" />
+                <Sparkles className="w-5 h-5 text-white" />
               )}
             </div>
             
             <div className={`max-w-[70%] ${message.isUser ? 'text-right' : ''}`}>
-              <div className={`inline-block px-4 py-3 rounded-2xl shadow-lg theme-transition ${
+              <div className={`inline-block px-4 py-3 shadow-lg transition-all duration-300 ${
                 message.isUser
-                  ? 'bg-green-500 text-white'
-                  : 'bg-card border border-border text-foreground'
+                  ? 'bg-green-500 text-white message-bubble'
+                  : 'bg-[var(--card-bg)] border border-color text-primary message-bubble received'
               }`}>
                 <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
                   {message.text}
                 </p>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 px-2">
+              <p className="text-xs text-muted mt-2 px-2">
                 {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </p>
             </div>
@@ -268,17 +263,17 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
         {/* Loading indicator */}
         {isSending && (
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 bg-primary rounded-2xl flex items-center justify-center shadow-lg">
-              <Sparkles className="w-5 h-5 text-primary-foreground" />
+            <div className="w-10 h-10 btn-primary rounded-xl flex items-center justify-center shadow-lg">
+              <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <div className="bg-card border border-border px-4 py-3 rounded-2xl shadow-lg theme-transition">
+            <div className="bg-[var(--card-bg)] border border-color px-4 py-3 rounded-xl shadow-lg">
               <div className="flex items-center gap-2">
                 <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
                 </div>
-                <span className="text-xs text-muted-foreground ml-2">AI is thinking...</span>
+                <span className="text-xs text-muted ml-2">AI is thinking...</span>
               </div>
             </div>
           </div>
@@ -288,7 +283,7 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
       </div>
 
       {/* Input Area */}
-      <div className="bg-card border-t border-border px-6 py-4 theme-transition">
+      <div className="bg-[var(--card-bg)] border-t border-color px-6 py-4">
         <form onSubmit={handleSendMessage} className="flex gap-3 items-end">
           <div className="flex-1">
             <input
@@ -296,7 +291,7 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               placeholder="Ask anything about your document..."
-              className="w-full bg-input border border-border text-foreground placeholder:text-muted-foreground focus:bg-input focus:ring-2 focus:ring-primary/20 focus:border-primary rounded-2xl px-4 py-3 text-sm transition-all duration-200 theme-transition"
+              className="w-full input-base text-primary placeholder:text-muted focus:ring-2 focus:ring-purple-500/20 rounded-xl px-4 py-3 text-sm transition-all duration-200"
               disabled={isSending}
             />
           </div>
@@ -304,7 +299,7 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
           <Button
             type="submit"
             disabled={isSending || !inputMessage.trim()}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground border-0 px-4 py-3 rounded-2xl shadow-lg transition-all duration-200 disabled:opacity-50 min-w-[44px] h-11"
+            className="btn-primary rounded-xl px-4 py-3 shadow-lg transition-all duration-200 disabled:opacity-50 min-w-[44px] h-11"
           >
             <Send className="w-4 h-4" />
           </Button>
