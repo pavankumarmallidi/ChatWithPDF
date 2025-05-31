@@ -33,7 +33,7 @@ const FloatingInput = ({ id, name, type, placeholder, required = false, disabled
         type={type}
         required={required}
         disabled={disabled}
-        className="peer w-full px-4 py-4 input-base text-primary placeholder-transparent focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-lg"
+        className="peer w-full px-4 py-4 input-base text-[var(--text-primary)] placeholder-transparent focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
         placeholder={placeholder}
         onFocus={() => setFocused(true)}
         onBlur={(e) => {
@@ -47,7 +47,7 @@ const FloatingInput = ({ id, name, type, placeholder, required = false, disabled
         className={`absolute left-4 transition-all duration-300 pointer-events-none ${
           focused || hasValue
             ? '-top-2 text-xs bg-[var(--bg-secondary)] px-2 text-purple-400'
-            : 'top-4 text-secondary'
+            : 'top-4 text-[var(--text-secondary)]'
         } rounded-md`}
       >
         {placeholder}
@@ -63,68 +63,110 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoading) return;
+    
     setIsLoading(true);
     
-    const formData = new FormData(e.target as HTMLFormElement);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
+    try {
+      const formData = new FormData(e.target as HTMLFormElement);
+      const email = formData.get('email') as string;
+      const password = formData.get('password') as string;
 
-    const { data, error } = await signIn(email, password);
-    
-    if (error) {
-      let errorMessage = error.message;
-      
-      if (error.message.includes('email_not_confirmed')) {
-        errorMessage = "Please check your email and click the confirmation link before logging in.";
-      } else if (error.message.includes('Invalid login credentials')) {
-        errorMessage = "Invalid email or password. Please check your credentials and try again.";
+      if (!email || !password) {
+        toast({
+          title: "Missing credentials",
+          description: "Please enter both email and password.",
+          variant: "destructive",
+        });
+        return;
       }
+
+      const { data, error } = await signIn(email.trim(), password);
       
+      if (error) {
+        let errorMessage = error.message;
+        
+        if (error.message.includes('email_not_confirmed')) {
+          errorMessage = "Please check your email and click the confirmation link before logging in.";
+        } else if (error.message.includes('Invalid login credentials')) {
+          errorMessage = "Invalid email or password. Please check your credentials and try again.";
+        }
+        
+        toast({
+          title: "Login failed",
+          description: errorMessage,
+          variant: "destructive",
+        });
+      } else if (data.user) {
+        toast({
+          title: "Welcome back!",
+          description: "You've successfully logged in.",
+        });
+        onSuccess?.();
+      }
+    } catch (error) {
+      console.error('Login error:', error);
       toast({
         title: "Login failed",
-        description: errorMessage,
+        description: "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });
-    } else if (data.user) {
-      toast({
-        title: "Welcome back!",
-        description: "You've successfully logged in.",
-      });
-      onSuccess?.();
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoading) return;
+    
     setIsLoading(true);
     
-    const formData = new FormData(e.target as HTMLFormElement);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-    const fullName = formData.get('fullName') as string;
+    try {
+      const formData = new FormData(e.target as HTMLFormElement);
+      const email = formData.get('email') as string;
+      const password = formData.get('password') as string;
+      const fullName = formData.get('fullName') as string;
 
-    const { data, error } = await signUp(email, password, fullName);
-    
-    if (error) {
+      if (!email || !password || !fullName) {
+        toast({
+          title: "Missing information",
+          description: "Please fill in all required fields.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const { data, error } = await signUp(email.trim(), password, fullName.trim());
+      
+      if (error) {
+        toast({
+          title: "Registration failed",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Account created!",
+          description: "Please check your email to confirm your account before logging in.",
+        });
+        // Clear the form
+        (e.target as HTMLFormElement).reset();
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
       toast({
         title: "Registration failed",
-        description: error.message,
+        description: "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Account created!",
-        description: "Please check your email to confirm your account before logging in.",
-      });
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[var(--bg-primary)] via-[var(--bg-secondary)] to-[var(--bg-tertiary)] relative overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
       
@@ -132,7 +174,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
         {onBackToHome && (
           <Button
             onClick={onBackToHome}
-            className="btn-secondary"
+            className="btn-secondary rounded-xl"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
@@ -141,35 +183,35 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
       </div>
 
       <div className="flex items-center justify-center min-h-screen p-6">
-        <Card className="w-full max-w-md card-base shadow-2xl rounded-2xl overflow-hidden animate-fade-in">
+        <Card className="w-full max-w-md bg-[var(--card-bg)] border-[var(--border-color)] shadow-2xl rounded-3xl overflow-hidden animate-fade-in">
           <div className="p-8">
             <div className="text-center mb-8">
               <div className="flex items-center justify-center gap-3 mb-6">
-                <div className="w-16 h-16 btn-primary rounded-2xl flex items-center justify-center shadow-lg animate-glow">
+                <div className="w-16 h-16 btn-primary rounded-3xl flex items-center justify-center shadow-lg animate-glow">
                   <FileText className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-primary tracking-tight">PDFChat AI</h1>
+                  <h1 className="text-3xl font-bold text-[var(--text-primary)] tracking-tight">PDFChat AI</h1>
                   <div className="flex items-center gap-1 justify-center">
                     <Sparkles className="w-3 h-3 text-purple-400" />
                     <p className="text-sm font-medium text-purple-400">AI-powered analysis</p>
                   </div>
                 </div>
               </div>
-              <p className="text-secondary text-sm">Transform your documents with intelligent conversation</p>
+              <p className="text-[var(--text-secondary)] text-sm">Transform your documents with intelligent conversation</p>
             </div>
 
             <Tabs defaultValue="login" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8 rounded-xl p-1 bg-[var(--bg-secondary)]">
+              <TabsList className="grid w-full grid-cols-2 mb-8 rounded-2xl p-1 bg-[var(--bg-secondary)]">
                 <TabsTrigger 
                   value="login" 
-                  className="text-secondary data-[state=active]:text-primary rounded-lg font-medium transition-all duration-300 data-[state=active]:bg-[var(--accent-primary)] data-[state=active]:text-white"
+                  className="text-[var(--text-secondary)] data-[state=active]:text-[var(--text-primary)] rounded-xl font-medium transition-all duration-300 data-[state=active]:bg-[var(--accent-primary)] data-[state=active]:text-white"
                 >
                   LOGIN
                 </TabsTrigger>
                 <TabsTrigger 
                   value="register" 
-                  className="text-secondary data-[state=active]:text-primary rounded-lg font-medium transition-all duration-300 data-[state=active]:bg-[var(--accent-primary)] data-[state=active]:text-white"
+                  className="text-[var(--text-secondary)] data-[state=active]:text-[var(--text-primary)] rounded-xl font-medium transition-all duration-300 data-[state=active]:bg-[var(--accent-primary)] data-[state=active]:text-white"
                 >
                   SIGN UP
                 </TabsTrigger>
@@ -195,7 +237,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                   />
                   
                   <div className="flex items-center justify-between text-sm">
-                    <label className="flex items-center text-secondary">
+                    <label className="flex items-center text-[var(--text-secondary)]">
                       <input type="checkbox" className="mr-2 w-4 h-4 rounded-md accent-purple-500" />
                       Remember me
                     </label>
@@ -205,7 +247,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                   <Button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full btn-primary py-4 rounded-xl text-base font-medium mt-8 shadow-lg transition-all duration-300 hover:scale-105"
+                    className="w-full btn-primary py-4 rounded-2xl text-base font-medium mt-8 shadow-lg transition-all duration-300 hover:scale-105"
                   >
                     {isLoading ? "Signing in..." : "LOGIN"}
                   </Button>
@@ -242,7 +284,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                   <Button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full btn-primary py-4 rounded-xl text-base font-medium mt-8 shadow-lg transition-all duration-300 hover:scale-105"
+                    className="w-full btn-primary py-4 rounded-2xl text-base font-medium mt-8 shadow-lg transition-all duration-300 hover:scale-105"
                   >
                     {isLoading ? "Creating account..." : "SIGN UP"}
                   </Button>
