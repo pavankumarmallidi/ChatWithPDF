@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { ArrowLeft, MessageCircle } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface AuthPageProps {
   onBackToHome?: () => void;
@@ -33,7 +34,7 @@ const FloatingInput = ({ id, name, type, placeholder, required = false, disabled
         type={type}
         required={required}
         disabled={disabled}
-        className="peer w-full px-4 py-3 bg-gray-50 border border-gray-200 text-gray-900 placeholder-transparent focus:border-orange-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all duration-200 rounded-xl"
+        className="peer w-full px-4 py-3 bg-input border border-border text-foreground placeholder-transparent focus:border-primary focus:bg-input focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 rounded-xl theme-transition"
         placeholder={placeholder}
         onFocus={() => setFocused(true)}
         onBlur={(e) => {
@@ -46,8 +47,8 @@ const FloatingInput = ({ id, name, type, placeholder, required = false, disabled
         htmlFor={id}
         className={`absolute left-4 transition-all duration-200 pointer-events-none ${
           focused || hasValue
-            ? '-top-2 text-xs text-orange-600 bg-white px-2'
-            : 'top-3 text-gray-500'
+            ? '-top-2 text-xs text-primary bg-background px-2'
+            : 'top-3 text-muted-foreground'
         }`}
       >
         {placeholder}
@@ -133,46 +134,48 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 relative">
-      {/* Back button */}
-      {onBackToHome && (
-        <Button
-          onClick={onBackToHome}
-          variant="ghost"
-          className="absolute top-6 left-6 text-gray-600 hover:text-gray-900 hover:bg-white/80 z-20"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Home
-        </Button>
-      )}
+    <div className="min-h-screen bg-background relative theme-transition">
+      <div className="absolute top-6 left-6 flex items-center gap-3 z-20">
+        {onBackToHome && (
+          <Button
+            onClick={onBackToHome}
+            variant="ghost"
+            className="text-muted-foreground hover:text-foreground hover:bg-accent"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Home
+          </Button>
+        )}
+        <ThemeToggle />
+      </div>
 
       <div className="flex items-center justify-center min-h-screen p-6">
-        <Card className="w-full max-w-md bg-white shadow-xl border border-gray-200 rounded-3xl overflow-hidden">
+        <Card className="w-full max-w-md bg-card shadow-xl border border-border rounded-3xl overflow-hidden animate-fade-in theme-transition">
           <div className="p-8">
             <div className="text-center mb-8">
               <div className="flex items-center justify-center gap-3 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
-                  <MessageCircle className="w-8 h-8 text-white" />
+                <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center shadow-lg">
+                  <MessageCircle className="w-8 h-8 text-primary-foreground" />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900 tracking-tight">PDFChat AI</h1>
-                  <p className="text-orange-600 text-sm font-medium">AI-powered analysis</p>
+                  <h1 className="text-3xl font-bold text-foreground tracking-tight">PDFChat AI</h1>
+                  <p className="text-primary text-sm font-medium">AI-powered analysis</p>
                 </div>
               </div>
-              <p className="text-gray-600 text-sm">Transform your documents with intelligent conversation</p>
+              <p className="text-muted-foreground text-sm">Transform your documents with intelligent conversation</p>
             </div>
 
             <Tabs defaultValue="login" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-gray-100 mb-8 rounded-2xl p-1">
+              <TabsList className="grid w-full grid-cols-2 bg-muted mb-8 rounded-2xl p-1">
                 <TabsTrigger 
                   value="login" 
-                  className="text-gray-600 data-[state=active]:bg-white data-[state=active]:text-orange-600 data-[state=active]:shadow-sm rounded-xl font-medium"
+                  className="text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm rounded-xl font-medium theme-transition"
                 >
                   LOGIN
                 </TabsTrigger>
                 <TabsTrigger 
                   value="register" 
-                  className="text-gray-600 data-[state=active]:bg-white data-[state=active]:text-orange-600 data-[state=active]:shadow-sm rounded-xl font-medium"
+                  className="text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm rounded-xl font-medium theme-transition"
                 >
                   SIGN UP
                 </TabsTrigger>
@@ -198,17 +201,17 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                   />
                   
                   <div className="flex items-center justify-between text-sm">
-                    <label className="flex items-center text-gray-600">
-                      <input type="checkbox" className="mr-2 w-4 h-4 text-orange-500 rounded border-gray-300 focus:ring-orange-500" />
+                    <label className="flex items-center text-muted-foreground">
+                      <input type="checkbox" className="mr-2 w-4 h-4 text-primary rounded border-border focus:ring-primary" />
                       Remember me
                     </label>
-                    <a href="#" className="text-orange-600 hover:text-orange-700 transition-colors">Forgot password?</a>
+                    <a href="#" className="text-primary hover:text-primary/80 transition-colors">Forgot password?</a>
                   </div>
 
                   <Button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white py-3 rounded-2xl text-base font-medium mt-8 shadow-lg transition-all duration-300"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 rounded-2xl text-base font-medium mt-8 shadow-lg transition-all duration-300"
                   >
                     {isLoading ? "Signing in..." : "LOGIN"}
                   </Button>
@@ -245,7 +248,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                   <Button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white py-3 rounded-2xl text-base font-medium mt-8 shadow-lg transition-all duration-300"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 rounded-2xl text-base font-medium mt-8 shadow-lg transition-all duration-300"
                   >
                     {isLoading ? "Creating account..." : "SIGN UP"}
                   </Button>

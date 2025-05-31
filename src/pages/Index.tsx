@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
@@ -6,10 +7,10 @@ import { insertPdfData, type PdfData } from "@/services/userTableService";
 import { Button } from "@/components/ui/button";
 import { User, Power, Star, ArrowRight } from "lucide-react";
 import AuthPage from "@/components/AuthPage";
-import HomePage from "@/components/HomePage";
 import LoadingState from "@/components/LoadingState";
 import UploadInterface from "@/components/UploadInterface";
 import ChatLayout from "@/components/ChatLayout";
+import ThemeToggle from "@/components/ThemeToggle";
 
 type AppView = 'home' | 'auth' | 'upload' | 'chat-layout';
 
@@ -60,12 +61,10 @@ const Index = () => {
       const responseData = await uploadToWebhook(file, user.email, setUploadProgress);
       console.log('Webhook response received:', responseData);
       
-      // Handle new webhook response format
       if (responseData && Array.isArray(responseData) && responseData.length > 0) {
         const webhookData = responseData[0];
         console.log('Processing webhook data:', webhookData);
         
-        // Map webhook response to database format
         const pdfData = {
           pdfName: file.name,
           summary: webhookData.Summary || '',
@@ -80,7 +79,6 @@ const Index = () => {
         const pdfId = await insertPdfData(user.email, pdfData);
         console.log('PDF data stored with ID:', pdfId);
         
-        // Set the PDF ID and go directly to chat layout
         setSelectedPdfId(pdfId);
         setCurrentView('chat-layout');
         
@@ -121,8 +119,8 @@ const Index = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-orange-500"></div>
+      <div className="min-h-screen bg-background flex items-center justify-center theme-transition">
+        <div className="loading-spinner w-16 h-16"></div>
       </div>
     );
   }
@@ -143,33 +141,33 @@ const Index = () => {
 
   if (currentView === 'upload' && user) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        {/* Header with user info and back button */}
-        <div className="bg-white border-b border-gray-200">
+      <div className="min-h-screen bg-background theme-transition">
+        <div className="bg-card border-b border-border theme-transition">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
-                  <User className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center shadow-lg">
+                  <User className="w-6 h-6 text-primary-foreground" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900 tracking-tight">PDF Upload</h2>
-                  <p className="text-gray-500 text-sm">{user.email}</p>
+                  <h2 className="text-xl font-bold text-foreground tracking-tight">PDF Upload</h2>
+                  <p className="text-muted-foreground text-sm">{user.email}</p>
                 </div>
               </div>
               
               <div className="flex items-center gap-3">
+                <ThemeToggle />
                 <Button
                   onClick={() => setCurrentView('chat-layout')}
                   variant="outline"
-                  className="border-gray-300 text-gray-700 hover:bg-gray-50"
+                  className="border-border text-foreground hover:bg-accent"
                 >
                   Back to Chats
                 </Button>
                 <Button
                   onClick={handleLogout}
                   variant="outline"
-                  className="border-red-300 text-red-600 hover:bg-red-50"
+                  className="border-destructive text-destructive hover:bg-destructive/10"
                 >
                   <Power className="w-4 h-4 mr-2" />
                   Logout
@@ -188,47 +186,47 @@ const Index = () => {
     );
   }
 
-  // Default view based on authentication status
   if (user) {
     setCurrentView('chat-layout');
-    return null; // Will re-render with chat-layout view
+    return null;
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header Navigation */}
-      <nav className="bg-white border-b border-gray-200">
+    <div className="min-h-screen bg-background theme-transition">
+      <nav className="bg-card border-b border-border theme-transition">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg"></div>
-              <span className="text-2xl font-bold text-gray-900">PDFChat AI</span>
+              <div className="w-8 h-8 bg-primary rounded-lg"></div>
+              <span className="text-2xl font-bold text-foreground">PDFChat AI</span>
             </div>
-            <Button 
-              onClick={handleGetStarted}
-              className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white"
-            >
-              Get Started
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
+              <Button 
+                onClick={handleGetStarted}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+              >
+                Get Started
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <div className="flex items-center justify-center min-h-[calc(100vh-80px)] bg-gray-50">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6">
-          <p className="text-orange-600 font-medium mb-4">AI-powered PDF analysis platform</p>
+      <div className="flex items-center justify-center min-h-[calc(100vh-80px)] bg-secondary/30">
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 animate-fade-in">
+          <p className="text-primary font-medium mb-4">AI-powered PDF analysis platform</p>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
             Empowering businesses with{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500">
+            <span className="text-primary">
               intelligent
             </span>{" "}
-            PDF analysis that outranks competitors
+            PDF analysis
           </h1>
           
-          <p className="text-gray-600 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-lg md:text-xl mb-8 max-w-2xl mx-auto">
             Upload your documents and get instant AI-powered insights, summaries, and answers. 
             Transform your document workflow with cutting-edge technology.
           </p>
@@ -236,7 +234,7 @@ const Index = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <Button 
               onClick={handleGetStarted}
-              className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 py-3 text-lg"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 text-lg"
             >
               Start your project
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -245,45 +243,26 @@ const Index = () => {
             <div className="flex items-center gap-2">
               <div className="flex items-center">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-orange-500 fill-current" />
+                  <Star key={i} className="w-5 h-5 text-primary fill-current" />
                 ))}
               </div>
-              <span className="text-gray-900 font-semibold">4.9</span>
-              <span className="text-gray-600">from 80+ reviews</span>
+              <span className="text-foreground font-semibold">4.9</span>
+              <span className="text-muted-foreground">from 80+ reviews</span>
             </div>
           </div>
 
-          {/* Feature Cards */}
           <div className="grid md:grid-cols-3 gap-6 mt-16">
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-orange-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+            {[
+              { icon: "⚡", title: "Lightning Fast", desc: "Process PDFs in seconds with our advanced AI engine" },
+              { icon: "🎯", title: "Accurate Analysis", desc: "Get precise insights and summaries from your documents" },
+              { icon: "💬", title: "Smart Chat", desc: "Ask questions and get instant answers about your content" }
+            ].map((item, index) => (
+              <div key={index} className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-300 theme-transition">
+                <div className="text-3xl mb-4">{item.icon}</div>
+                <h3 className="text-foreground font-semibold text-lg mb-2">{item.title}</h3>
+                <p className="text-muted-foreground">{item.desc}</p>
               </div>
-              <h3 className="text-gray-900 font-semibold text-lg mb-2">Lightning Fast</h3>
-              <p className="text-gray-600">Process PDFs in seconds with our advanced AI engine</p>
-            </div>
-
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-orange-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-gray-900 font-semibold text-lg mb-2">Accurate Analysis</h3>
-              <p className="text-gray-600">Get precise insights and summaries from your documents</p>
-            </div>
-
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-orange-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-              </div>
-              <h3 className="text-gray-900 font-semibold text-lg mb-2">Smart Chat</h3>
-              <p className="text-gray-600">Ask questions and get instant answers about your content</p>
-            </div>
+            ))}
           </div>
         </div>
       </div>

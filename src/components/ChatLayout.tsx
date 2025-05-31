@@ -4,6 +4,7 @@ import { MessageCircle } from "lucide-react";
 import { type PdfData } from "@/services/userTableService";
 import ChatListView from "./ChatListView";
 import PdfChatView from "./PdfChatView";
+import ThemeToggle from "./ThemeToggle";
 
 interface ChatLayoutProps {
   userEmail: string;
@@ -24,11 +25,10 @@ const ChatLayout = ({ userEmail, onBackToUpload, initialPdfId }: ChatLayoutProps
 
   const handleBackToList = () => {
     setShowChatOnMobile(false);
-    // Don't clear selectedPdf to maintain desktop state
   };
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-background theme-transition">
       <div className="h-screen flex">
         {/* Mobile: Show either list or chat */}
         <div className="lg:hidden w-full">
@@ -54,7 +54,7 @@ const ChatLayout = ({ userEmail, onBackToUpload, initialPdfId }: ChatLayoutProps
         {/* Desktop: Side-by-side panels */}
         <div className="hidden lg:flex w-full">
           {/* Left Panel - Chat List */}
-          <div className="w-80 flex-shrink-0 border-r border-gray-700">
+          <div className="w-80 flex-shrink-0 border-r border-border theme-transition">
             <ChatListView
               userEmail={userEmail}
               onPdfSelect={handlePdfSelect}
@@ -73,13 +73,16 @@ const ChatLayout = ({ userEmail, onBackToUpload, initialPdfId }: ChatLayoutProps
                 showBackButton={false}
               />
             ) : (
-              <div className="h-full flex items-center justify-center bg-gray-900">
-                <div className="text-center">
-                  <div className="w-24 h-24 bg-gradient-to-r from-orange-500 to-red-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-orange-500/25">
-                    <MessageCircle className="w-12 h-12 text-white" />
+              <div className="h-full flex items-center justify-center bg-background">
+                <div className="text-center animate-fade-in">
+                  <div className="w-24 h-24 bg-primary rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
+                    <MessageCircle className="w-12 h-12 text-primary-foreground" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-3">Select a PDF to start chatting</h3>
-                  <p className="text-gray-400 text-lg">Choose a document from the list to begin your conversation</p>
+                  <h3 className="text-2xl font-bold text-foreground mb-3">Select a PDF to start chatting</h3>
+                  <p className="text-muted-foreground text-lg">Choose a document from the list to begin your conversation</p>
+                  <div className="mt-6">
+                    <ThemeToggle className="mx-auto" />
+                  </div>
                 </div>
               </div>
             )}
