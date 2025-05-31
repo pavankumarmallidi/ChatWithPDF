@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -34,7 +33,12 @@ const FloatingInput = ({ id, name, type, placeholder, required = false, disabled
         type={type}
         required={required}
         disabled={disabled}
-        className="peer w-full px-4 py-3 bg-input border border-border text-foreground placeholder-transparent focus:border-primary focus:bg-input focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-200 rounded-xl theme-transition"
+        className="peer w-full px-4 py-3 input-base text-primary placeholder-transparent focus:outline-none focus:ring-2 transition-all duration-200 rounded-xl theme-transition"
+        style={{
+          backgroundColor: 'var(--input-bg)',
+          borderColor: 'var(--border-color)',
+          color: 'var(--text-primary)'
+        }}
         placeholder={placeholder}
         onFocus={() => setFocused(true)}
         onBlur={(e) => {
@@ -47,9 +51,13 @@ const FloatingInput = ({ id, name, type, placeholder, required = false, disabled
         htmlFor={id}
         className={`absolute left-4 transition-all duration-200 pointer-events-none ${
           focused || hasValue
-            ? '-top-2 text-xs text-primary bg-background px-2'
-            : 'top-3 text-muted-foreground'
+            ? '-top-2 text-xs bg-primary px-2'
+            : 'top-3 text-secondary'
         }`}
+        style={{
+          color: focused || hasValue ? 'var(--accent-color)' : 'var(--text-secondary)',
+          backgroundColor: focused || hasValue ? 'var(--bg-primary)' : 'transparent'
+        }}
       >
         {placeholder}
       </label>
@@ -134,13 +142,13 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative theme-transition">
+    <div className="min-h-screen bg-primary relative theme-transition">
       <div className="absolute top-6 left-6 flex items-center gap-3 z-20">
         {onBackToHome && (
           <Button
             onClick={onBackToHome}
             variant="ghost"
-            className="text-muted-foreground hover:text-foreground hover:bg-accent"
+            className="text-secondary hover:text-primary hover-bg"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
@@ -150,32 +158,41 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
       </div>
 
       <div className="flex items-center justify-center min-h-screen p-6">
-        <Card className="w-full max-w-md bg-card shadow-xl border border-border rounded-3xl overflow-hidden animate-fade-in theme-transition">
+        <Card className="w-full max-w-md card-base shadow-xl rounded-3xl overflow-hidden animate-fade-in theme-transition">
           <div className="p-8">
             <div className="text-center mb-8">
               <div className="flex items-center justify-center gap-3 mb-6">
-                <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center shadow-lg">
-                  <MessageCircle className="w-8 h-8 text-primary-foreground" />
+                <div className="w-16 h-16 btn-primary rounded-2xl flex items-center justify-center shadow-lg">
+                  <MessageCircle className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-foreground tracking-tight">PDFChat AI</h1>
-                  <p className="text-primary text-sm font-medium">AI-powered analysis</p>
+                  <h1 className="text-3xl font-bold text-primary tracking-tight">PDFChat AI</h1>
+                  <p className="text-sm font-medium" style={{ color: 'var(--accent-color)' }}>AI-powered analysis</p>
                 </div>
               </div>
-              <p className="text-muted-foreground text-sm">Transform your documents with intelligent conversation</p>
+              <p className="text-secondary text-sm">Transform your documents with intelligent conversation</p>
             </div>
 
             <Tabs defaultValue="login" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-muted mb-8 rounded-2xl p-1">
+              <TabsList 
+                className="grid w-full grid-cols-2 mb-8 rounded-2xl p-1"
+                style={{ backgroundColor: 'var(--bg-secondary)' }}
+              >
                 <TabsTrigger 
                   value="login" 
-                  className="text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm rounded-xl font-medium theme-transition"
+                  className="text-secondary data-[state=active]:text-primary rounded-xl font-medium theme-transition"
+                  style={{
+                    backgroundColor: 'transparent'
+                  }}
                 >
                   LOGIN
                 </TabsTrigger>
                 <TabsTrigger 
                   value="register" 
-                  className="text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm rounded-xl font-medium theme-transition"
+                  className="text-secondary data-[state=active]:text-primary rounded-xl font-medium theme-transition"
+                  style={{
+                    backgroundColor: 'transparent'
+                  }}
                 >
                   SIGN UP
                 </TabsTrigger>
@@ -201,17 +218,17 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                   />
                   
                   <div className="flex items-center justify-between text-sm">
-                    <label className="flex items-center text-muted-foreground">
-                      <input type="checkbox" className="mr-2 w-4 h-4 text-primary rounded border-border focus:ring-primary" />
+                    <label className="flex items-center text-secondary">
+                      <input type="checkbox" className="mr-2 w-4 h-4 rounded" style={{ accentColor: 'var(--accent-color)' }} />
                       Remember me
                     </label>
-                    <a href="#" className="text-primary hover:text-primary/80 transition-colors">Forgot password?</a>
+                    <a href="#" className="hover:underline transition-colors" style={{ color: 'var(--accent-color)' }}>Forgot password?</a>
                   </div>
 
                   <Button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 rounded-2xl text-base font-medium mt-8 shadow-lg transition-all duration-300"
+                    className="w-full btn-primary py-3 rounded-2xl text-base font-medium mt-8 shadow-lg transition-all duration-300"
                   >
                     {isLoading ? "Signing in..." : "LOGIN"}
                   </Button>
@@ -248,7 +265,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                   <Button 
                     type="submit" 
                     disabled={isLoading}
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 rounded-2xl text-base font-medium mt-8 shadow-lg transition-all duration-300"
+                    className="w-full btn-primary py-3 rounded-2xl text-base font-medium mt-8 shadow-lg transition-all duration-300"
                   >
                     {isLoading ? "Creating account..." : "SIGN UP"}
                   </Button>

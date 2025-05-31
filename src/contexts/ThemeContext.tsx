@@ -24,13 +24,25 @@ interface ThemeProviderProps {
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [theme, setTheme] = useState<Theme>(() => {
+    // Check localStorage first
     const savedTheme = localStorage.getItem('theme') as Theme;
-    return savedTheme || 'light';
+    if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+      return savedTheme;
+    }
+    // Default to light theme
+    return 'light';
   });
 
   useEffect(() => {
+    // Save to localStorage
     localStorage.setItem('theme', theme);
+    
+    // Apply theme to document
     document.documentElement.setAttribute('data-theme', theme);
+    
+    // Remove old theme classes and add new one
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(theme);
   }, [theme]);
 
   const toggleTheme = () => {

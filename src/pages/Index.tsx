@@ -119,7 +119,7 @@ const Index = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center theme-transition">
+      <div className="min-h-screen bg-primary theme-transition flex items-center justify-center">
         <div className="loading-spinner w-16 h-16"></div>
       </div>
     );
@@ -141,17 +141,17 @@ const Index = () => {
 
   if (currentView === 'upload' && user) {
     return (
-      <div className="min-h-screen bg-background theme-transition">
-        <div className="bg-card border-b border-border theme-transition">
+      <div className="min-h-screen bg-primary theme-transition">
+        <div className="card-base border-b theme-transition">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center shadow-lg">
-                  <User className="w-6 h-6 text-primary-foreground" />
+                <div className="w-12 h-12 btn-primary rounded-2xl flex items-center justify-center shadow-lg">
+                  <User className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-foreground tracking-tight">PDF Upload</h2>
-                  <p className="text-muted-foreground text-sm">{user.email}</p>
+                  <h2 className="text-xl font-bold text-primary tracking-tight">PDF Upload</h2>
+                  <p className="text-secondary text-sm">{user.email}</p>
                 </div>
               </div>
               
@@ -160,14 +160,18 @@ const Index = () => {
                 <Button
                   onClick={() => setCurrentView('chat-layout')}
                   variant="outline"
-                  className="border-border text-foreground hover:bg-accent"
+                  className="input-base text-primary hover-bg"
+                  style={{
+                    borderColor: 'var(--border-color)',
+                    color: 'var(--text-primary)'
+                  }}
                 >
                   Back to Chats
                 </Button>
                 <Button
                   onClick={handleLogout}
                   variant="outline"
-                  className="border-destructive text-destructive hover:bg-destructive/10"
+                  className="border-red-500 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
                 >
                   <Power className="w-4 h-4 mr-2" />
                   Logout
@@ -192,19 +196,19 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background theme-transition">
-      <nav className="bg-card border-b border-border theme-transition">
+    <div className="min-h-screen bg-primary theme-transition">
+      <nav className="card-base border-b theme-transition">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-lg"></div>
-              <span className="text-2xl font-bold text-foreground">PDFChat AI</span>
+              <div className="w-8 h-8 btn-primary rounded-lg"></div>
+              <span className="text-2xl font-bold text-primary">PDFChat AI</span>
             </div>
             <div className="flex items-center gap-3">
               <ThemeToggle />
               <Button 
                 onClick={handleGetStarted}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                className="btn-primary"
               >
                 Get Started
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -214,19 +218,19 @@ const Index = () => {
         </div>
       </nav>
 
-      <div className="flex items-center justify-center min-h-[calc(100vh-80px)] bg-secondary/30">
+      <div className="flex items-center justify-center min-h-[calc(100vh-80px)] bg-secondary">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 animate-fade-in">
-          <p className="text-primary font-medium mb-4">AI-powered PDF analysis platform</p>
+          <p className="font-medium mb-4" style={{ color: 'var(--accent-color)' }}>AI-powered PDF analysis platform</p>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-bold text-primary mb-6 leading-tight">
             Empowering businesses with{" "}
-            <span className="text-primary">
+            <span style={{ color: 'var(--accent-color)' }}>
               intelligent
             </span>{" "}
             PDF analysis
           </h1>
           
-          <p className="text-muted-foreground text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+          <p className="text-secondary text-lg md:text-xl mb-8 max-w-2xl mx-auto">
             Upload your documents and get instant AI-powered insights, summaries, and answers. 
             Transform your document workflow with cutting-edge technology.
           </p>
@@ -234,7 +238,7 @@ const Index = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <Button 
               onClick={handleGetStarted}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 text-lg"
+              className="btn-primary px-8 py-3 text-lg"
             >
               Start your project
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -243,11 +247,11 @@ const Index = () => {
             <div className="flex items-center gap-2">
               <div className="flex items-center">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-primary fill-current" />
+                  <Star key={i} className="w-5 h-5 fill-current" style={{ color: 'var(--accent-color)' }} />
                 ))}
               </div>
-              <span className="text-foreground font-semibold">4.9</span>
-              <span className="text-muted-foreground">from 80+ reviews</span>
+              <span className="text-primary font-semibold">4.9</span>
+              <span className="text-secondary">from 80+ reviews</span>
             </div>
           </div>
 
@@ -257,10 +261,10 @@ const Index = () => {
               { icon: "🎯", title: "Accurate Analysis", desc: "Get precise insights and summaries from your documents" },
               { icon: "💬", title: "Smart Chat", desc: "Ask questions and get instant answers about your content" }
             ].map((item, index) => (
-              <div key={index} className="bg-card border border-border rounded-2xl p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-300 theme-transition">
+              <div key={index} className="card-base rounded-2xl p-6 hover-bg theme-transition">
                 <div className="text-3xl mb-4">{item.icon}</div>
-                <h3 className="text-foreground font-semibold text-lg mb-2">{item.title}</h3>
-                <p className="text-muted-foreground">{item.desc}</p>
+                <h3 className="text-primary font-semibold text-lg mb-2">{item.title}</h3>
+                <p className="text-secondary">{item.desc}</p>
               </div>
             ))}
           </div>
