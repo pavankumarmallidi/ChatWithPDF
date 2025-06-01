@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -126,7 +125,7 @@ const ChatHistory = () => {
       <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] flex items-center justify-center">
         <div className="text-white text-center">
           <h2 className="text-2xl font-bold mb-4">Please log in</h2>
-          <Button onClick={() => navigate('/auth')} className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6]">
+          <Button onClick={() => navigate('/auth')} className="bg-gradient-to-r from-[#4169E1] to-[#5578F0]">
             Go to Login
           </Button>
         </div>
@@ -159,19 +158,19 @@ const ChatHistory = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
         {loading ? (
           <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mx-auto"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto"></div>
             <p className="text-gray-400 mt-4">Loading chat history...</p>
           </div>
         ) : chatThreads.length === 0 ? (
           <div className="text-center py-12">
-            <div className="w-16 h-16 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-3xl flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-3xl flex items-center justify-center mx-auto mb-4">
               <MessageSquare className="w-8 h-8 text-white" />
             </div>
             <h3 className="text-lg font-medium text-white mb-2">No chat history yet</h3>
             <p className="text-gray-400 mb-6">Start your first conversation with AI by selecting PDFs</p>
             <Button
               onClick={() => navigate('/')}
-              className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white rounded-xl"
+              className="bg-gradient-to-r from-[#4169E1] to-[#5578F0] hover:from-[#3457DA] hover:to-[#4E6EEF] text-white rounded-xl"
             >
               Select PDFs to Chat
             </Button>
@@ -183,7 +182,7 @@ const ChatHistory = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-xl flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-xl flex items-center justify-center">
                         <MessageSquare className="w-5 h-5 text-white" />
                       </div>
                       <div>
@@ -203,7 +202,7 @@ const ChatHistory = () => {
                         <div className="flex flex-wrap gap-2">
                           {thread.pdfNames.map((pdfName, index) => (
                             <div key={index} className="flex items-center gap-1 bg-[#232347] border border-[#2d3748] rounded-lg px-2 py-1">
-                              <FileText className="w-3 h-3 text-purple-400" />
+                              <FileText className="w-3 h-3 text-blue-400" />
                               <span className="text-xs text-gray-300 truncate max-w-32">{pdfName}</span>
                             </div>
                           ))}

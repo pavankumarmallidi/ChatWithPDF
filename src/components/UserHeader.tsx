@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { User, Home, Power } from "lucide-react";
@@ -15,7 +14,7 @@ const UserHeader = ({ getUserDisplayName, onHomeClick, onLogout }: UserHeaderPro
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-violet-500/25">
+            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25">
               <User className="w-6 h-6 text-white" />
             </div>
             <div>

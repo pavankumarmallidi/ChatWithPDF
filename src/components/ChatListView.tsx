@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -104,7 +103,7 @@ const ChatListView = ({ userEmail, onPdfSelect, onBackToUpload, selectedPdfId }:
             placeholder="Search PDFs"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full input-base text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] focus:ring-2 focus:ring-purple-500/20 rounded-2xl pl-10 pr-4 py-3 text-sm"
+            className="w-full input-base text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] focus:ring-2 focus:ring-blue-500/20 rounded-2xl pl-10 pr-4 py-3 text-sm"
           />
         </div>
       </div>
@@ -118,7 +117,7 @@ const ChatListView = ({ userEmail, onPdfSelect, onBackToUpload, selectedPdfId }:
                 key={pdf.id}
                 className={`p-4 cursor-pointer transition-all duration-300 hover:shadow-xl border rounded-2xl ${
                   selectedPdfId === pdf.id 
-                    ? 'border-purple-500 shadow-lg bg-purple-500/10' 
+                    ? 'border-blue-500 shadow-lg bg-blue-500/10' 
                     : 'bg-[var(--card-bg)] border-[var(--border-color)] hover:scale-105'
                 }`}
                 onClick={() => onPdfSelect(pdf)}
@@ -132,7 +131,7 @@ const ChatListView = ({ userEmail, onPdfSelect, onBackToUpload, selectedPdfId }:
                       {pdf["PDF NAME"]}
                     </h4>
                     <div className="flex items-center gap-4 mb-3">
-                      <div className="flex items-center gap-1 text-purple-400">
+                      <div className="flex items-center gap-1 text-blue-400">
                         <Hash className="w-3 h-3" />
                         <span className="text-xs font-medium">{pdf["PAGES"]} pages</span>
                       </div>
@@ -159,7 +158,7 @@ const ChatListView = ({ userEmail, onPdfSelect, onBackToUpload, selectedPdfId }:
             </div>
             <h3 className="text-lg font-medium text-[var(--text-primary)] mb-2">No PDFs found</h3>
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Sparkles className="w-4 h-4 text-purple-400" />
+              <Sparkles className="w-4 h-4 text-blue-400" />
               <p className="text-[var(--text-secondary)]">
                 {searchTerm ? "Try a different search term" : "Upload your first PDF to get started"}
               </p>

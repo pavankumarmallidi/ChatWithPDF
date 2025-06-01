@@ -1,4 +1,3 @@
-
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Bot, User, Sparkles } from "lucide-react";
 import { forwardRef } from "react";
@@ -28,7 +27,7 @@ const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
                 className={`flex ${message.isUser ? 'justify-end' : 'justify-start'} items-start gap-3 group`}
               >
                 {!message.isUser && (
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-violet-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-violet-500/25">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/25">
                     <Bot className="w-4 h-4 text-white" />
                   </div>
                 )}
@@ -36,7 +35,7 @@ const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
                 <div
                   className={`max-w-[80%] ${
                     message.isUser
-                      ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-[20px_20px_4px_20px] shadow-lg shadow-violet-600/25'
+                      ? 'bg-gradient-to-r from-blue-600 to-blue-600 text-white rounded-[20px_20px_4px_20px] shadow-lg shadow-blue-600/25'
                       : 'bg-white/10 backdrop-blur-sm text-white rounded-[20px_20px_20px_4px] border border-white/10 shadow-lg'
                   } px-4 py-3 transition-all duration-300 hover:shadow-xl`}
                 >
@@ -51,8 +50,8 @@ const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
                     
                     {!message.isUser && message.relevanceScore !== undefined && (
                       <div className="flex items-center gap-1">
-                        <Sparkles className="w-3 h-3 text-violet-400" />
-                        <span className="text-xs text-violet-400 font-medium">
+                        <Sparkles className="w-3 h-3 text-blue-400" />
+                        <span className="text-xs text-blue-400 font-medium">
                           {message.relevanceScore.toFixed(1)}
                         </span>
                       </div>
@@ -61,7 +60,7 @@ const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
                 </div>
                 
                 {message.isUser && (
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-gray-600 to-gray-700 flex items-center justify-center flex-shrink-0 shadow-lg shadow-gray-600/25">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/25">
                     <User className="w-4 h-4 text-white" />
                   </div>
                 )}
@@ -70,15 +69,15 @@ const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
             
             {isLoading && (
               <div className="flex justify-start items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-violet-500 to-purple-600 flex items-center justify-center shadow-lg shadow-violet-500/25">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
                   <Bot className="w-4 h-4 text-white" />
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm border border-white/10 px-4 py-3 rounded-[20px_20px_20px_4px] shadow-lg">
                   <div className="flex items-center gap-2">
                     <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-violet-500 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                      <div className="w-2 h-2 bg-violet-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
                     </div>
                     <span className="text-xs text-gray-300 ml-2">AI is thinking...</span>
                   </div>

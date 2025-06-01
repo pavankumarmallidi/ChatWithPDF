@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Send, User, Bot, FileText } from "lucide-react";
@@ -182,7 +181,7 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
           <div className="flex flex-wrap gap-3">
             {selectedPdfs.map((pdf) => (
               <div key={pdf.id} className="flex items-center gap-2 bg-[#232347] border border-[#2d3748] rounded-xl px-3 py-2">
-                <FileText className="w-4 h-4 text-purple-400" />
+                <FileText className="w-4 h-4 text-blue-400" />
                 <span className="text-sm text-white truncate max-w-48">{pdf["PDF NAME"]}</span>
               </div>
             ))}
@@ -195,7 +194,7 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
         <div className="max-w-4xl mx-auto space-y-4">
           {messages.length === 0 ? (
             <div className="text-center py-12">
-              <div className="w-16 h-16 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-3xl flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-3xl flex items-center justify-center mx-auto mb-4">
                 <Bot className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-lg font-medium text-white mb-2">Start your conversation</h3>
@@ -210,7 +209,7 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
                 <div className={`flex items-start gap-3 max-w-2xl ${message.isUser ? 'flex-row-reverse' : ''}`}>
                   <div className={`w-8 h-8 rounded-2xl flex items-center justify-center flex-shrink-0 ${
                     message.isUser 
-                      ? 'bg-gradient-to-r from-[#6366f1] to-[#8b5cf6]' 
+                      ? 'bg-gradient-to-r from-[#4169E1] to-[#5578F0]' 
                       : 'bg-[#232347]'
                   }`}>
                     {message.isUser ? (
@@ -221,7 +220,7 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
                   </div>
                   <div className={`rounded-2xl p-4 ${
                     message.isUser
-                      ? 'bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white'
+                      ? 'bg-gradient-to-r from-[#4169E1] to-[#5578F0] text-white'
                       : 'bg-[#1a1a2e] border border-[#2d3748] text-white'
                   }`}>
                     <p className="whitespace-pre-wrap">{message.text}</p>
@@ -267,12 +266,12 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
             onKeyPress={handleKeyPress}
             placeholder="Ask a question about your PDFs..."
             disabled={isLoading}
-            className="flex-1 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:ring-2 focus:ring-purple-500/50 rounded-2xl px-4 py-3 transition-all duration-300"
+            className="flex-1 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500/50 rounded-2xl px-4 py-3 transition-all duration-300"
           />
           <Button
             onClick={handleSendMessage}
             disabled={isLoading || !inputMessage.trim()}
-            className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white rounded-2xl px-6 transition-all duration-300 hover:scale-105"
+            className="bg-gradient-to-r from-[#4169E1] to-[#5578F0] hover:from-[#3457DA] hover:to-[#4E6EEF] text-white rounded-2xl px-6 transition-all duration-300 hover:scale-105"
           >
             <Send className="w-4 h-4" />
           </Button>

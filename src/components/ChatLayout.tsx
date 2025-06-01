@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { MessageCircle, Sparkles } from "lucide-react";
 import { type PdfData } from "@/services/userTableService";
@@ -79,7 +78,7 @@ const ChatLayout = ({ userEmail, onBackToUpload, initialPdfId }: ChatLayoutProps
                   </div>
                   <h3 className="text-2xl font-bold text-primary mb-3">Select a PDF to start chatting</h3>
                   <div className="flex items-center justify-center gap-2 mb-3">
-                    <Sparkles className="w-5 h-5 text-purple-400" />
+                    <Sparkles className="w-5 h-5 text-blue-400" />
                     <p className="text-secondary text-lg">AI-powered document conversation</p>
                   </div>
                   <p className="text-muted">Choose a document from the list to begin your conversation</p>

@@ -78,7 +78,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
       <header className="relative z-10 p-6">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-lg flex items-center justify-center">
               <FileText className="w-6 h-6 text-white" />
             </div>
             <h1 className="text-lg font-bold text-white">PDF Analyzer</h1>
@@ -91,7 +91,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
               onClick={onGetStarted}
               variant="outline"
               size="sm"
-              className="border-[#6366f1] text-[#6366f1] hover:bg-[#6366f1] hover:text-white text-sm"
+              className="border-[#4169E1] text-[#4169E1] hover:bg-[#4169E1] hover:text-white text-sm"
             >
               {user ? "Go to App" : "Log in"}
             </Button>
@@ -102,13 +102,13 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
       {/* Hero Section */}
       <section className="relative z-10 text-center py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-[#6366f1]/10 border border-[#6366f1]/20 rounded-full px-4 py-2 mb-8">
-            <Sparkles className="w-4 h-4 text-[#6366f1]" />
-            <span className="text-[#6366f1] text-sm font-medium">AI vs. Manual: Find out who wins during live analysis</span>
+          <div className="inline-flex items-center gap-2 bg-[#4169E1]/10 border border-[#4169E1]/20 rounded-full px-4 py-2 mb-8">
+            <Sparkles className="w-4 h-4 text-[#4169E1]" />
+            <span className="text-[#4169E1] text-sm font-medium">AI vs. Manual: Find out who wins during live analysis</span>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-            Got a PDF? <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#8b5cf6]">Analyze it today</span>
+            Got a PDF? <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4169E1] to-[#5578F0]">Analyze it today</span>
           </h1>
           
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
@@ -118,7 +118,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
 
           <Button 
             onClick={onGetStarted}
-            className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white border-0 px-8 py-6 text-lg mb-8"
+            className="bg-gradient-to-r from-[#4169E1] to-[#5578F0] hover:from-[#3457DA] hover:to-[#4E6EEF] text-white border-0 px-8 py-6 text-lg mb-8"
           >
             Start for free. No credit card required.
           </Button>
@@ -147,7 +147,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
             {features.map((feature, index) => (
               <Card key={index} className="bg-[#1e1e1e]/50 border-gray-700 backdrop-blur-sm hover:bg-[#1e1e1e]/70 transition-all duration-300 hover:scale-105">
                 <div className="p-6">
-                  <div className="w-12 h-12 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-lg flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-lg flex items-center justify-center mb-4">
                     <feature.icon className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
@@ -174,7 +174,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
               { step: "03", title: "Interact & Export", description: "Chat with your document, get summaries, ask questions, and export your analysis results." }
             ].map((item, index) => (
               <div key={index} className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-full flex items-center justify-center mx-auto mb-6">
                   <span className="text-white font-bold text-lg">{item.step}</span>
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-3">{item.title}</h3>
@@ -199,7 +199,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
               <div className="space-y-4">
                 {benefits.map((benefit, index) => (
                   <div key={index} className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-[#6366f1]" />
+                    <CheckCircle className="w-5 h-5 text-[#4169E1]" />
                     <span className="text-gray-300">{benefit}</span>
                   </div>
                 ))}
@@ -207,7 +207,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
               
               <Button 
                 onClick={onGetStarted}
-                className="mt-8 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white border-0 px-8 py-6 text-lg"
+                className="mt-8 bg-gradient-to-r from-[#4169E1] to-[#5578F0] hover:from-[#3457DA] hover:to-[#4E6EEF] text-white border-0 px-8 py-6 text-lg"
               >
                 Get Started Free <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
@@ -217,7 +217,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
               <Card className="bg-[#1e1e1e]/50 border-gray-700 backdrop-blur-sm p-8">
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-[#6366f1] rounded-lg flex items-center justify-center">
+                    <div className="w-12 h-12 bg-[#4169E1] rounded-lg flex items-center justify-center">
                       <FileText className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -235,8 +235,8 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
                   </div>
                   
                   <div className="flex gap-2">
-                    <span className="bg-[#6366f1]/20 text-[#6366f1] px-3 py-1 rounded-full text-sm">Business Report</span>
-                    <span className="bg-[#8b5cf6]/20 text-[#8b5cf6] px-3 py-1 rounded-full text-sm">English</span>
+                    <span className="bg-[#4169E1]/20 text-[#4169E1] px-3 py-1 rounded-full text-sm">Business Report</span>
+                    <span className="bg-[#5578F0]/20 text-[#5578F0] px-3 py-1 rounded-full text-sm">English</span>
                   </div>
                 </div>
               </Card>
@@ -255,7 +255,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
           <Button 
             onClick={onGetStarted}
             size="lg"
-            className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white border-0 px-12 py-6 text-lg"
+            className="bg-gradient-to-r from-[#4169E1] to-[#5578F0] hover:from-[#3457DA] hover:to-[#4E6EEF] text-white border-0 px-12 py-6 text-lg"
           >
             Start Analyzing Now <ArrowRight className="w-5 h-5 ml-2" />
           </Button>

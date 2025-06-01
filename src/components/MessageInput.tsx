@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send, Loader2 } from "lucide-react";
@@ -29,7 +28,7 @@ const MessageInput = ({ inputMessage, setInputMessage, onSendMessage, isLoading 
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Ask anything about your PDF..."
-            className="bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder:text-gray-400 focus:border-violet-500 focus:ring-violet-500/20 rounded-2xl px-4 py-3 text-sm resize-none transition-all duration-300 hover:border-white/30 focus:bg-white/15 min-h-[48px] max-h-[120px]"
+            className="bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500/20 rounded-2xl px-4 py-3 text-sm resize-none transition-all duration-300 hover:border-white/30 focus:bg-white/15 min-h-[48px] max-h-[120px]"
             disabled={isLoading}
             rows={1}
           />
@@ -37,7 +36,7 @@ const MessageInput = ({ inputMessage, setInputMessage, onSendMessage, isLoading 
         <Button
           type="submit"
           disabled={isLoading || !inputMessage.trim()}
-          className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white border-0 px-4 py-3 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 hover:scale-105 active:scale-95 min-w-[48px] h-12"
+          className="bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-500 hover:to-blue-500 text-white border-0 px-4 py-3 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 hover:scale-105 active:scale-95 min-w-[48px] h-12"
         >
           {isLoading ? (
             <Loader2 className="w-4 h-4 animate-spin" />

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -72,7 +71,7 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#1a1a2e] to-[#16213e] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#6366f1]"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#4169E1]"></div>
       </div>
     );
   }
@@ -80,7 +79,7 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#1a1a2e] to-[#16213e] relative overflow-hidden">
       {/* Background effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-900/20 via-transparent to-transparent"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent"></div>
       <div 
         className="absolute inset-0 opacity-30"
         style={{
@@ -93,7 +92,7 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-violet-500/25">
+              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25">
                 <User className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -118,7 +117,7 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-violet-500/25">
+            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25">
               <FileText className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -128,7 +127,7 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
           </div>
           <Button
             onClick={onBackToUpload}
-            className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            className="bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-500 hover:to-blue-500 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
             <Upload className="w-4 h-4 mr-2" />
             Upload New PDF
@@ -138,14 +137,14 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
         {/* PDF Grid */}
         {pdfs.length === 0 ? (
           <div className="text-center py-16">
-            <div className="w-24 h-24 bg-gradient-to-r from-violet-500 to-purple-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-violet-500/25">
+            <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-500/25">
               <FileText className="w-12 h-12 text-white" />
             </div>
             <h3 className="text-xl font-semibold text-white mb-2">No PDFs uploaded yet</h3>
             <p className="text-gray-400 mb-6">Upload your first PDF to start analyzing and chatting with documents</p>
             <Button
               onClick={onBackToUpload}
-              className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              className="bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-500 hover:to-blue-500 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
             >
               <Upload className="w-4 h-4 mr-2" />
               Upload Your First PDF
@@ -161,7 +160,7 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
               >
                 <div className="p-6">
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-violet-500/25 group-hover:scale-110 transition-transform duration-300">
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25 group-hover:scale-110 transition-transform duration-300">
                       <FileText className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -197,7 +196,7 @@ const PdfList = ({ userEmail, onPdfSelect, onBackToUpload }: PdfListProps) => {
                   </div>
 
                   <Button
-                    className="w-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white shadow-lg group-hover:shadow-xl transition-all duration-300"
+                    className="w-full bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-500 hover:to-blue-500 text-white shadow-lg group-hover:shadow-xl transition-all duration-300"
                     onClick={(e) => {
                       e.stopPropagation();
                       onPdfSelect(pdf);

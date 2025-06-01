@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,9 +10,9 @@
   --text-primary: #ffffff;
   --text-secondary: #b8b9ba;
   --text-muted: #8a8b8c;
-  --accent-primary: #6366f1;
-  --accent-secondary: #8b5cf6;
-  --accent-purple: #a855f7;
+  --accent-primary: #4169E1;
+  --accent-secondary: #5578F0;
+  --accent-royal-blue: #4169E1;
   --border-color: #2d3748;
   --hover-bg: #2a2a3e;
   --card-bg: #1e1e2e;
@@ -93,7 +92,7 @@
 
   /* Message bubbles with clear backgrounds */
   .message-bubble-user {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #6485F4 0%, #5578F0 100%);
     border-radius: 20px 20px 4px 20px;
     color: white;
   }
@@ -225,7 +224,7 @@
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, var(--accent-secondary), var(--accent-purple));
+  background: linear-gradient(135deg, var(--accent-secondary), var(--accent-royal-blue));
 }
 
 /* Line clamp utility */
@@ -260,13 +259,13 @@ input, button, select, textarea, .card, .modal, .dropdown, .tooltip, .popover {
 
 /* Tab styling fixes */
 [data-state="active"] {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+  background: linear-gradient(135deg, #6485F4, #5578F0) !important;
   color: white !important;
 }
 
 /* Checkbox styling */
 input[type="checkbox"] {
-  accent-color: #8b5cf6;
+  accent-color: #5578F0;
   border-radius: 6px;
 }
 
@@ -279,5 +278,5 @@ button:hover {
 /* Focus states */
 input:focus, textarea:focus, button:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 0 0 2px rgba(69, 120, 240, 0.3);
 }

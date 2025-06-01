@@ -193,7 +193,7 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
                   {pdf["PDF NAME"]}
                 </h1>
                 <div className="flex items-center gap-4 mt-1">
-                  <div className="flex items-center gap-1 text-purple-400">
+                  <div className="flex items-center gap-1 text-blue-400">
                     <Hash className="w-3 h-3" />
                     <span className="text-sm font-medium">{pdf["PAGES"]} pages</span>
                   </div>
@@ -212,15 +212,15 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
 
       {/* AI Summary Section */}
       {pdf["PDF SUMMARY"] && (
-        <div className="bg-purple-500/10 border-b border-[var(--border-color)] px-6 py-4 rounded-none">
+        <div className="bg-blue-500/10 border-b border-[var(--border-color)] px-6 py-4 rounded-none">
           <div className="flex items-start gap-3">
             <div className="w-10 h-10 btn-primary rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-purple-400 font-semibold text-sm">AI SUMMARY</h3>
-                <div className="h-1 w-8 bg-purple-400 rounded-full"></div>
+                <h3 className="text-blue-400 font-semibold text-sm">AI SUMMARY</h3>
+                <div className="h-1 w-8 bg-blue-400 rounded-full"></div>
               </div>
               <p className="text-[var(--text-primary)] text-sm leading-relaxed">
                 {pdf["PDF SUMMARY"]}
@@ -275,9 +275,9 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
             <div className="bg-[var(--card-bg)] border border-[var(--border-color)] px-4 py-3 rounded-2xl shadow-lg">
               <div className="flex items-center gap-2">
                 <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
                 </div>
                 <span className="text-xs text-[var(--text-muted)] ml-2">AI is thinking...</span>
               </div>
@@ -297,7 +297,7 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               placeholder="Ask anything about your document..."
-              className="w-full input-base text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:ring-2 focus:ring-purple-500/20 rounded-2xl px-4 py-3 text-sm transition-all duration-200"
+              className="w-full input-base text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:ring-2 focus:ring-blue-500/20 rounded-2xl px-4 py-3 text-sm transition-all duration-200"
               disabled={isSending}
             />
           </div>
@@ -305,7 +305,7 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
           <Button
             type="submit"
             disabled={isSending || !inputMessage.trim()}
-            className="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white border-0 rounded-2xl px-4 py-3 shadow-lg transition-all duration-200 disabled:opacity-50 min-w-[44px] h-11"
+            className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white border-0 rounded-2xl px-4 py-3 shadow-lg transition-all duration-200 disabled:opacity-50 min-w-[44px] h-11"
           >
             <Send className="w-4 h-4" />
           </Button>

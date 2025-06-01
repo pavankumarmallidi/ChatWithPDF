@@ -123,7 +123,7 @@ const Index = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500"></div>
       </div>
     );
   }
@@ -159,7 +159,7 @@ const Index = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-2xl flex items-center justify-center shadow-lg">
+                <div className="w-12 h-12 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-2xl flex items-center justify-center shadow-lg">
                   <FileText className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -194,7 +194,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent"></div>
       <div 
         className="absolute inset-0 opacity-30"
         style={{
@@ -206,7 +206,7 @@ const Index = () => {
       <nav className="relative z-10 px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-2xl flex items-center justify-center animate-pulse">
+            <div className="w-10 h-10 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-2xl flex items-center justify-center animate-pulse">
               <FileText className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold text-white">PDFChat AI</span>
@@ -233,7 +233,7 @@ const Index = () => {
             ) : (
               <Button 
                 onClick={handleGetStarted}
-                className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white px-6 py-2 rounded-xl transition-all duration-300 hover:scale-105"
+                className="bg-gradient-to-r from-[#4169E1] to-[#5578F0] hover:from-[#3457DA] hover:to-[#4E6EEF] text-white px-6 py-2 rounded-xl transition-all duration-300 hover:scale-105"
               >
                 Get Started
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -246,14 +246,14 @@ const Index = () => {
       {/* Hero Section */}
       <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-100px)] px-6">
         <div className="max-w-4xl mx-auto text-center animate-fade-in">
-          <div className="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/20 rounded-full px-4 py-2 mb-8">
-            <Sparkles className="w-4 h-4 text-purple-400" />
-            <span className="text-purple-400 text-sm font-medium">Unleash your Creativity with AI</span>
+          <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-2 mb-8">
+            <Sparkles className="w-4 h-4 text-blue-400" />
+            <span className="text-blue-400 text-sm font-medium">Unleash your Creativity with AI</span>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
             Transform PDFs with{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-pink-400 to-indigo-400">
               AI Intelligence
             </span>
           </h1>
@@ -266,7 +266,7 @@ const Index = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <Button 
               onClick={handleGetStarted}
-              className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white px-8 py-4 text-lg rounded-2xl shadow-lg hover:scale-105 transition-all duration-300"
+              className="bg-gradient-to-r from-[#4169E1] to-[#5578F0] hover:from-[#3457DA] hover:to-[#4E6EEF] text-white px-8 py-4 text-lg rounded-2xl shadow-lg hover:scale-105 transition-all duration-300"
             >
               Start analyzing for free
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -304,7 +304,7 @@ const Index = () => {
               }
             ].map((item, index) => (
               <div key={index} className="bg-[#1a1a2e] border border-[#2d3748] rounded-3xl p-6 hover:scale-105 transition-all duration-300 hover:shadow-2xl">
-                <div className="w-12 h-12 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-2xl flex items-center justify-center mb-4 animate-pulse">
+                <div className="w-12 h-12 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-2xl flex items-center justify-center mb-4 animate-pulse">
                   <item.icon className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-white font-semibold text-lg mb-2">{item.title}</h3>

@@ -98,7 +98,7 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500"></div>
       </div>
     );
   }
@@ -110,7 +110,7 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-2xl flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-2xl flex items-center justify-center shadow-lg">
                 <User className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -129,7 +129,7 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
               </Button>
               <Button
                 onClick={onUploadNew}
-                className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white rounded-xl transition-all duration-300"
+                className="bg-gradient-to-r from-[#4169E1] to-[#5578F0] hover:from-[#3457DA] hover:to-[#4E6EEF] text-white rounded-xl transition-all duration-300"
               >
                 Upload New PDF
               </Button>
@@ -155,7 +155,7 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
               placeholder="Search for keywords inside PDF content..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:ring-2 focus:ring-purple-500/50 rounded-2xl pl-12 pr-4 py-4 text-base transition-all duration-300"
+              className="w-full bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500/50 rounded-2xl pl-12 pr-4 py-4 text-base transition-all duration-300"
             />
           </div>
         </div>
@@ -169,8 +169,8 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
                   key={pdf.id}
                   className={`bg-[#1a1a2e] border-[#2d3748] rounded-2xl p-6 hover:scale-105 transition-all duration-300 cursor-pointer ${
                     selectedPdfs.some(p => p.id === pdf.id) 
-                      ? 'ring-2 ring-purple-500 border-purple-500 shadow-lg shadow-purple-500/20' 
-                      : 'hover:border-purple-400'
+                      ? 'ring-2 ring-blue-500 border-blue-500 shadow-lg shadow-blue-500/20' 
+                      : 'hover:border-blue-400'
                   }`}
                   onClick={() => handlePdfSelect(pdf, !selectedPdfs.some(p => p.id === pdf.id))}
                 >
@@ -182,9 +182,9 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
                         e.stopPropagation();
                         handlePdfSelect(pdf, e.target.checked);
                       }}
-                      className="mt-1 w-5 h-5 rounded-md accent-purple-500"
+                      className="mt-1 w-5 h-5 rounded-md accent-blue-500"
                     />
-                    <div className="w-12 h-12 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-2xl flex items-center justify-center flex-shrink-0">
                       <FileText className="w-6 h-6 text-white" />
                     </div>
                   </div>
@@ -202,7 +202,7 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
                   
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1 text-purple-400">
+                      <div className="flex items-center gap-1 text-blue-400">
                         <Hash className="w-3 h-3" />
                         <span>{pdf["PAGES"]} pages</span>
                       </div>
@@ -225,7 +225,7 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
           </div>
         ) : (
           <div className="text-center py-16">
-            <div className="w-24 h-24 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-3xl flex items-center justify-center mx-auto mb-6">
+            <div className="w-24 h-24 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-3xl flex items-center justify-center mx-auto mb-6">
               <FileText className="w-12 h-12 text-white" />
             </div>
             <h3 className="text-xl font-semibold text-white mb-2">
@@ -236,7 +236,7 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
             </p>
             <Button
               onClick={onUploadNew}
-              className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white shadow-lg hover:scale-105 rounded-2xl"
+              className="bg-gradient-to-r from-[#4169E1] to-[#5578F0] hover:from-[#3457DA] hover:to-[#4E6EEF] text-white shadow-lg hover:scale-105 rounded-2xl"
             >
               Upload Your First PDF
             </Button>
@@ -251,7 +251,7 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
               disabled={selectedPdfs.length === 0}
               className={`px-8 py-4 text-lg font-medium rounded-2xl transition-all duration-300 ${
                 selectedPdfs.length > 0
-                  ? 'bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white shadow-lg hover:scale-105'
+                  ? 'bg-gradient-to-r from-[#4169E1] to-[#5578F0] hover:from-[#3457DA] hover:to-[#4E6EEF] text-white shadow-lg hover:scale-105'
                   : 'bg-gray-600 text-gray-400 cursor-not-allowed'
               }`}
             >

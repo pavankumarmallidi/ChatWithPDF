@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Upload, FileText, Sparkles } from "lucide-react";
@@ -18,7 +17,7 @@ const UploadInterface = ({ onFileUpload }: UploadInterfaceProps) => {
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-primary mb-2">Upload Your PDF</h2>
             <div className="flex items-center justify-center gap-2 mb-2">
-              <Sparkles className="w-4 h-4 text-purple-400" />
+              <Sparkles className="w-4 h-4 text-blue-400" />
               <p className="text-secondary text-sm sm:text-base">AI-powered document analysis</p>
             </div>
             <p className="text-muted text-xs sm:text-sm">Select a PDF file to extract and analyze its content</p>
@@ -26,7 +25,7 @@ const UploadInterface = ({ onFileUpload }: UploadInterfaceProps) => {
 
           <div className="space-y-4">
             <div 
-              className="border-2 border-dashed rounded-xl p-6 sm:p-8 transition-all duration-300 hover:border-purple-500 hover:bg-purple-500/5 cursor-pointer group"
+              className="border-2 border-dashed rounded-xl p-6 sm:p-8 transition-all duration-300 hover:border-blue-500 hover:bg-blue-500/5 cursor-pointer group"
               style={{ 
                 borderColor: 'var(--border-color)',
                 backgroundColor: 'var(--bg-secondary)'
@@ -43,8 +42,8 @@ const UploadInterface = ({ onFileUpload }: UploadInterfaceProps) => {
                 htmlFor="pdf-upload"
                 className="cursor-pointer flex flex-col items-center gap-3"
               >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-purple-500/20 rounded-xl flex items-center justify-center group-hover:bg-purple-500/30 transition-all duration-300">
-                  <Upload className="w-6 h-6 sm:w-7 sm:h-7 text-purple-400 group-hover:text-purple-300" />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-blue-500/20 rounded-xl flex items-center justify-center group-hover:bg-blue-500/30 transition-all duration-300">
+                  <Upload className="w-6 h-6 sm:w-7 sm:h-7 text-blue-400 group-hover:text-blue-300" />
                 </div>
                 <div className="text-primary">
                   <p className="font-medium text-sm sm:text-base">Click to upload PDF</p>
