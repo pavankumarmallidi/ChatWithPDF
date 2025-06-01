@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Search, FileText, Power, User, MessageCircle } from "lucide-react";
+import { Search, FileText, Power, User, MessageCircle, BookOpen, Hash } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { getUserPdfs, type PdfData } from "@/services/userTableService";
 import { useAuth } from "@/hooks/useAuth";
@@ -152,40 +152,64 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
           </div>
         </div>
 
-        {/* PDF List */}
+        {/* PDF Cards Grid */}
         {filteredPdfs.length > 0 ? (
           <>
-            <div className="grid gap-4 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {filteredPdfs.map((pdf) => (
                 <Card
                   key={pdf.id}
-                  className="bg-[#1a1a2e] border-[#2d3748] rounded-2xl p-6 hover:bg-[#232347] transition-all duration-300"
+                  className={`bg-[#1a1a2e] border-[#2d3748] rounded-2xl p-6 hover:scale-105 transition-all duration-300 cursor-pointer ${
+                    selectedPdfs.some(p => p.id === pdf.id) 
+                      ? 'ring-2 ring-purple-500 border-purple-500 shadow-lg shadow-purple-500/20' 
+                      : 'hover:border-purple-400'
+                  }`}
+                  onClick={() => handlePdfSelect(pdf, !selectedPdfs.some(p => p.id === pdf.id))}
                 >
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-4 mb-4">
                     <input
                       type="checkbox"
                       checked={selectedPdfs.some(p => p.id === pdf.id)}
-                      onChange={(e) => handlePdfSelect(pdf, e.target.checked)}
-                      className="mt-2 w-5 h-5 rounded-md accent-purple-500"
+                      onChange={(e) => {
+                        e.stopPropagation();
+                        handlePdfSelect(pdf, e.target.checked);
+                      }}
+                      className="mt-1 w-5 h-5 rounded-md accent-purple-500"
                     />
                     <div className="w-12 h-12 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-2xl flex items-center justify-center flex-shrink-0">
                       <FileText className="w-6 h-6 text-white" />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-semibold text-white mb-2">
-                        {pdf["PDF NAME"]}
-                      </h3>
-                      {pdf["PDF SUMMARY"] && (
-                        <p className="text-gray-300 text-sm mb-3 line-clamp-2">
-                          {pdf["PDF SUMMARY"]}
-                        </p>
-                      )}
-                      <div className="flex items-center gap-4 text-sm text-gray-400">
+                  </div>
+                  
+                  <div className="mb-4">
+                    <h3 className="text-lg font-semibold text-white mb-2 line-clamp-2">
+                      {pdf["PDF NAME"]}
+                    </h3>
+                    {pdf["PDF SUMMARY"] && (
+                      <p className="text-gray-300 text-sm mb-3 line-clamp-3">
+                        {pdf["PDF SUMMARY"]}
+                      </p>
+                    )}
+                  </div>
+                  
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-1 text-purple-400">
+                        <Hash className="w-3 h-3" />
                         <span>{pdf["PAGES"]} pages</span>
-                        {pdf["WORDS"] && <span>{pdf["WORDS"].toLocaleString()} words</span>}
-                        {pdf["LANGUAGE"] && <span>{pdf["LANGUAGE"]}</span>}
                       </div>
+                      {pdf["WORDS"] && (
+                        <div className="flex items-center gap-1 text-blue-400">
+                          <BookOpen className="w-3 h-3" />
+                          <span>{pdf["WORDS"].toLocaleString()} words</span>
+                        </div>
+                      )}
                     </div>
+                    {pdf["LANGUAGE"] && (
+                      <span className="text-gray-400 text-xs bg-gray-700 px-2 py-1 rounded-lg">
+                        {pdf["LANGUAGE"]}
+                      </span>
+                    )}
                   </div>
                 </Card>
               ))}

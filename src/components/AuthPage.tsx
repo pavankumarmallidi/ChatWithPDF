@@ -12,57 +12,20 @@ interface AuthPageProps {
   onSuccess?: () => void;
 }
 
-interface FloatingInputProps {
-  id: string;
-  name: string;
-  type: string;
-  placeholder: string;
-  required?: boolean;
-  disabled?: boolean;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-const FloatingInput = ({ id, name, type, placeholder, required = false, disabled = false, value, onChange }: FloatingInputProps) => {
-  const [focused, setFocused] = useState(false);
-  const hasValue = value.length > 0;
-
-  return (
-    <div className="relative mb-6">
-      <input
-        id={id}
-        name={name}
-        type={type}
-        required={required}
-        disabled={disabled}
-        value={value}
-        onChange={onChange}
-        className="peer w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder-transparent focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
-        placeholder={placeholder}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-      />
-      <label
-        htmlFor={id}
-        className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-          focused || hasValue
-            ? '-top-2 text-xs bg-[#1e1e2e] px-2 text-purple-400'
-            : 'top-4 text-gray-400'
-        } rounded-md`}
-      >
-        {placeholder}
-      </label>
-    </div>
-  );
-};
-
 const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
-  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
-  const [registerForm, setRegisterForm] = useState({ email: '', password: '', fullName: '' });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const { toast } = useToast();
   const { signIn, signUp } = useAuth();
+
+  const resetForm = () => {
+    setEmail("");
+    setPassword("");
+    setFullName("");
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,8 +34,6 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
     setIsLoading(true);
     
     try {
-      const { email, password } = loginForm;
-
       if (!email || !password) {
         toast({
           title: "Missing credentials",
@@ -104,6 +65,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
           title: "Welcome back!",
           description: "You've successfully logged in.",
         });
+        resetForm();
         onSuccess?.();
       }
     } catch (error) {
@@ -125,8 +87,6 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
     setIsLoading(true);
     
     try {
-      const { email, password, fullName } = registerForm;
-
       if (!email || !password || !fullName) {
         toast({
           title: "Missing information",
@@ -150,7 +110,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
           title: "Account created!",
           description: "Please check your email to confirm your account before logging in.",
         });
-        setRegisterForm({ email: '', password: '', fullName: '' });
+        resetForm();
         setActiveTab("login");
       }
     } catch (error) {
@@ -169,24 +129,24 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
     <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
       
-      <div className="absolute top-6 left-6 z-20">
-        {onBackToHome && (
+      {onBackToHome && (
+        <div className="absolute top-6 left-6 z-20">
           <Button
             onClick={onBackToHome}
-            className="bg-[#1a1a2e] border border-[#2d3748] text-white hover:bg-[#2a2a3e] rounded-xl transition-all duration-300"
+            className="bg-[#1a1a2e] border border-[#2d3748] text-white hover:bg-[#2a2a3e] rounded-2xl transition-all duration-300"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Button>
-        )}
-      </div>
+        </div>
+      )}
 
       <div className="flex items-center justify-center min-h-screen p-6">
         <Card className="w-full max-w-md bg-[#1e1e2e] border-[#2d3748] shadow-2xl rounded-3xl overflow-hidden animate-fade-in">
           <div className="p-8">
             <div className="text-center mb-8">
               <div className="flex items-center justify-center gap-3 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-3xl flex items-center justify-center shadow-lg animate-pulse">
+                <div className="w-16 h-16 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-3xl flex items-center justify-center shadow-lg">
                   <FileText className="w-8 h-8 text-white" />
                 </div>
                 <div>
@@ -218,33 +178,27 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
 
               <TabsContent value="login" className="mt-0">
                 <form onSubmit={handleLogin} className="space-y-6">
-                  <FloatingInput
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Email Address"
-                    required
-                    disabled={isLoading}
-                    value={loginForm.email}
-                    onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
-                  />
-                  <FloatingInput
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    required
-                    disabled={isLoading}
-                    value={loginForm.password}
-                    onChange={(e) => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
-                  />
-                  
-                  <div className="flex items-center justify-between text-sm">
-                    <label className="flex items-center text-gray-400">
-                      <input type="checkbox" className="mr-2 w-4 h-4 rounded-md accent-purple-500" />
-                      Remember me
-                    </label>
-                    <a href="#" className="text-purple-400 hover:text-purple-300 transition-colors">Forgot password?</a>
+                  <div>
+                    <input
+                      type="email"
+                      placeholder="Email Address"
+                      required
+                      disabled={isLoading}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      required
+                      disabled={isLoading}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                    />
                   </div>
 
                   <Button 
@@ -259,36 +213,39 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
 
               <TabsContent value="register" className="mt-0">
                 <form onSubmit={handleRegister} className="space-y-6">
-                  <FloatingInput
-                    id="fullName"
-                    name="fullName"
-                    type="text"
-                    placeholder="Full Name"
-                    required
-                    disabled={isLoading}
-                    value={registerForm.fullName}
-                    onChange={(e) => setRegisterForm(prev => ({ ...prev, fullName: e.target.value }))}
-                  />
-                  <FloatingInput
-                    id="reg-email"
-                    name="email"
-                    type="email"
-                    placeholder="Email Address"
-                    required
-                    disabled={isLoading}
-                    value={registerForm.email}
-                    onChange={(e) => setRegisterForm(prev => ({ ...prev, email: e.target.value }))}
-                  />
-                  <FloatingInput
-                    id="reg-password"
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    required
-                    disabled={isLoading}
-                    value={registerForm.password}
-                    onChange={(e) => setRegisterForm(prev => ({ ...prev, password: e.target.value }))}
-                  />
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Full Name"
+                      required
+                      disabled={isLoading}
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="email"
+                      placeholder="Email Address"
+                      required
+                      disabled={isLoading}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      required
+                      disabled={isLoading}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                    />
+                  </div>
                   
                   <Button 
                     type="submit" 
