@@ -37,6 +37,8 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
 
   const saveMessageToHistory = async (message: string, sender: 'user' | 'ai') => {
     try {
+      const pdfIds = selectedPdfs.map(pdf => pdf.id);
+      
       const { error } = await supabase
         .from('CHAT_HISTORY')
         .insert({
@@ -44,7 +46,8 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
           EMAIL_ID: userEmail,
           SENDER: sender,
           RECIVER: sender === 'user' ? 'ai' : 'user',
-          MESSAGE: message
+          MESSAGE: message,
+          pdf_ids: pdfIds
         });
 
       if (error) {

@@ -65,7 +65,9 @@ const ChatThread = () => {
 
       // Get PDF IDs from the first message (they should be consistent across the chat)
       if (data && data.length > 0) {
-        const chatPdfIds = data[0].pdf_ids || [];
+        // Convert Json[] to number[] safely
+        const chatPdfIds = Array.isArray(data[0].pdf_ids) ? 
+          data[0].pdf_ids.filter(id => typeof id === 'number') as number[] : [];
         setPdfIds(chatPdfIds);
         
         // Fetch PDF names

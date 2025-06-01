@@ -48,12 +48,16 @@ const ChatHistory = () => {
       data?.forEach((message) => {
         const chatId = message.CHAT_ID;
         if (!threadsMap.has(chatId)) {
+          // Convert Json[] to number[] safely
+          const pdfIds = Array.isArray(message.pdf_ids) ? 
+            message.pdf_ids.filter(id => typeof id === 'number') as number[] : [];
+          
           threadsMap.set(chatId, {
             chatId,
             lastMessage: message.MESSAGE || '',
             lastMessageTime: message.created_at,
             messageCount: 1,
-            pdfIds: message.pdf_ids || [],
+            pdfIds,
             pdfNames: []
           });
         } else {
@@ -63,7 +67,9 @@ const ChatHistory = () => {
           if (new Date(message.created_at) > new Date(thread.lastMessageTime)) {
             thread.lastMessage = message.MESSAGE || '';
             thread.lastMessageTime = message.created_at;
-            thread.pdfIds = message.pdf_ids || [];
+            // Convert Json[] to number[] safely
+            thread.pdfIds = Array.isArray(message.pdf_ids) ? 
+              message.pdf_ids.filter(id => typeof id === 'number') as number[] : [];
           }
         }
       });
