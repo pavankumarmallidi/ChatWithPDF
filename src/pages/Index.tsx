@@ -5,26 +5,26 @@ import { useAuth } from "@/hooks/useAuth";
 import { uploadToWebhook } from "@/services/webhookService";
 import { insertPdfData, type PdfData } from "@/services/userTableService";
 import { Button } from "@/components/ui/button";
-import { User, Power, Star, ArrowRight, FileText, Sparkles, Brain, Shield } from "lucide-react";
+import { ArrowRight, FileText, Sparkles, Brain, Shield, Star } from "lucide-react";
 import AuthPage from "@/components/AuthPage";
 import LoadingState from "@/components/LoadingState";
 import UploadInterface from "@/components/UploadInterface";
-import ChatLayout from "@/components/ChatLayout";
+import PdfSelectionPage from "@/components/PdfSelectionPage";
+import ChatInterface from "@/components/ChatInterface";
 
-type AppView = 'home' | 'auth' | 'upload' | 'chat-layout';
+type AppView = 'home' | 'auth' | 'selection' | 'upload' | 'chat';
 
 const Index = () => {
-  const { user, loading, signOut } = useAuth();
+  const { user, loading } = useAuth();
   const [currentView, setCurrentView] = useState<AppView>('home');
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [selectedPdfId, setSelectedPdfId] = useState<number | null>(null);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [selectedPdfs, setSelectedPdfs] = useState<PdfData[]>([]);
   const { toast } = useToast();
 
   const handleGetStarted = () => {
     if (user) {
-      setCurrentView('chat-layout');
+      setCurrentView('selection');
     } else {
       setCurrentView('auth');
     }
@@ -68,14 +68,14 @@ const Index = () => {
           ocrText: webhookData.ocr || ''
         };
         
-        const pdfId = await insertPdfData(user.email, pdfData);
-        setSelectedPdfId(pdfId);
-        setCurrentView('chat-layout');
+        await insertPdfData(user.email, pdfData);
         
         toast({
           title: "PDF analyzed successfully!",
           description: "Your PDF has been processed and is ready for questions.",
         });
+        
+        setCurrentView('selection');
       } else {
         toast({
           title: "Upload incomplete",
@@ -96,95 +96,65 @@ const Index = () => {
     }
   };
 
-  const handleLogout = async () => {
-    if (isLoggingOut) return;
-    
-    setIsLoggingOut(true);
-    
-    try {
-      const { error } = await signOut();
-      
-      if (error) {
-        console.error('Logout error:', error);
-        toast({
-          title: "Logout failed",
-          description: "Failed to log out. Please try again.",
-          variant: "destructive",
-        });
-      } else {
-        setCurrentView('home');
-        setSelectedPdfId(null);
-        toast({
-          title: "Logged out",
-          description: "See you next time!",
-        });
-      }
-    } catch (error) {
-      console.error('Logout error:', error);
-      toast({
-        title: "Logout failed",
-        description: "An unexpected error occurred. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoggingOut(false);
-    }
+  const handleStartChat = (pdfs: PdfData[]) => {
+    setSelectedPdfs(pdfs);
+    setCurrentView('chat');
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
-        <div className="loading-spinner w-16 h-16"></div>
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500"></div>
       </div>
     );
   }
 
   if (currentView === 'auth') {
-    return <AuthPage onBackToHome={() => setCurrentView('home')} onSuccess={() => setCurrentView('chat-layout')} />;
+    return <AuthPage onBackToHome={() => setCurrentView('home')} onSuccess={() => setCurrentView('selection')} />;
   }
 
-  if (currentView === 'chat-layout' && user?.email) {
+  if (currentView === 'selection' && user?.email) {
     return (
-      <ChatLayout
+      <PdfSelectionPage
         userEmail={user.email}
-        onBackToUpload={() => setCurrentView('upload')}
-        initialPdfId={selectedPdfId}
+        onStartChat={handleStartChat}
+        onUploadNew={() => setCurrentView('upload')}
+      />
+    );
+  }
+
+  if (currentView === 'chat' && user?.email) {
+    return (
+      <ChatInterface
+        selectedPdfs={selectedPdfs}
+        userEmail={user.email}
+        onBackToSelection={() => setCurrentView('selection')}
       />
     );
   }
 
   if (currentView === 'upload' && user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[var(--bg-primary)] via-[var(--bg-secondary)] to-[var(--bg-tertiary)]">
-        <div className="bg-[var(--card-bg)] border-b border-[var(--border-color)]">
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e]">
+        <div className="bg-[#1e1e2e] border-b border-[#2d3748]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 btn-primary rounded-3xl flex items-center justify-center shadow-lg animate-glow">
-                  <User className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-2xl flex items-center justify-center shadow-lg">
+                  <FileText className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-[var(--text-primary)] tracking-tight">PDF Upload</h2>
-                  <p className="text-[var(--text-secondary)] text-sm">{user.email}</p>
+                  <h2 className="text-xl font-bold text-white">PDF Upload</h2>
+                  <p className="text-gray-400 text-sm">{user.email}</p>
                 </div>
               </div>
               
-              <div className="flex items-center gap-3">
-                <Button
-                  onClick={() => setCurrentView('chat-layout')}
-                  className="btn-secondary rounded-xl"
-                >
-                  Back to Chats
-                </Button>
-                <Button
-                  onClick={handleLogout}
-                  disabled={isLoggingOut}
-                  className="bg-red-500/20 border-red-500/30 text-red-400 hover:bg-red-500/30 rounded-xl transition-all duration-300"
-                >
-                  <Power className="w-4 h-4 mr-2" />
-                  {isLoggingOut ? "Logging out..." : "Logout"}
-                </Button>
-              </div>
+              <Button
+                onClick={() => setCurrentView('selection')}
+                className="bg-[#232347] border border-[#2d3748] text-white hover:bg-[#2a2a3e] rounded-xl"
+              >
+                Back to Selection
+              </Button>
             </div>
           </div>
         </div>
@@ -199,13 +169,12 @@ const Index = () => {
   }
 
   if (user) {
-    setCurrentView('chat-layout');
+    setCurrentView('selection');
     return null;
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[var(--bg-primary)] via-[var(--bg-secondary)] to-[var(--bg-tertiary)] relative overflow-hidden">
-      {/* Background effects */}
+    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
       <div 
         className="absolute inset-0 opacity-30"
@@ -218,14 +187,14 @@ const Index = () => {
       <nav className="relative z-10 px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 btn-primary rounded-2xl flex items-center justify-center animate-glow">
+            <div className="w-10 h-10 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-2xl flex items-center justify-center animate-pulse">
               <FileText className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-[var(--text-primary)]">PDFChat AI</span>
+            <span className="text-2xl font-bold text-white">PDFChat AI</span>
           </div>
           <Button 
             onClick={handleGetStarted}
-            className="btn-primary px-6 py-2 rounded-xl"
+            className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white px-6 py-2 rounded-xl transition-all duration-300 hover:scale-105"
           >
             Get Started
             <ArrowRight className="w-4 h-4 ml-2" />
@@ -241,14 +210,14 @@ const Index = () => {
             <span className="text-purple-400 text-sm font-medium">Unleash your Creativity with AI</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-[var(--text-primary)] mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
             Transform PDFs with{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400">
               AI Intelligence
             </span>
           </h1>
           
-          <p className="text-[var(--text-secondary)] text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-gray-300 text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
             Create production-quality insights from your documents with 
             unprecedented quality, speed, and style consistency.
           </p>
@@ -256,7 +225,7 @@ const Index = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <Button 
               onClick={handleGetStarted}
-              className="btn-primary px-8 py-4 text-lg animate-glow rounded-2xl"
+              className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white px-8 py-4 text-lg rounded-2xl shadow-lg hover:scale-105 transition-all duration-300"
             >
               Start analyzing for free
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -268,12 +237,12 @@ const Index = () => {
                   <Star key={i} className="w-5 h-5 fill-current text-yellow-400" />
                 ))}
               </div>
-              <span className="text-[var(--text-primary)] font-semibold">4.9</span>
-              <span className="text-[var(--text-secondary)]">from 80+ reviews</span>
+              <span className="text-white font-semibold">4.9</span>
+              <span className="text-gray-400">from 80+ reviews</span>
             </div>
           </div>
 
-          <p className="text-sm text-[var(--text-muted)] mb-12">No credit card needed</p>
+          <p className="text-sm text-gray-400 mb-12">No credit card needed</p>
 
           <div className="grid md:grid-cols-3 gap-6 mt-16">
             {[
@@ -293,12 +262,12 @@ const Index = () => {
                 desc: "Your documents are processed securely with enterprise-grade encryption" 
               }
             ].map((item, index) => (
-              <div key={index} className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-3xl p-6 hover:scale-105 transition-all duration-300 hover:shadow-2xl">
-                <div className="w-12 h-12 btn-primary rounded-2xl flex items-center justify-center mb-4 animate-glow">
+              <div key={index} className="bg-[#1a1a2e] border border-[#2d3748] rounded-3xl p-6 hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                <div className="w-12 h-12 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-2xl flex items-center justify-center mb-4 animate-pulse">
                   <item.icon className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-[var(--text-primary)] font-semibold text-lg mb-2">{item.title}</h3>
-                <p className="text-[var(--text-secondary)] text-sm leading-relaxed">{item.desc}</p>
+                <h3 className="text-white font-semibold text-lg mb-2">{item.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>

@@ -91,66 +91,18 @@
     background: var(--hover-bg);
   }
 
-  .text-primary {
-    color: var(--text-primary);
+  /* Message bubbles with clear backgrounds */
+  .message-bubble-user {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    border-radius: 20px 20px 4px 20px;
+    color: white;
   }
 
-  .text-secondary {
-    color: var(--text-secondary);
-  }
-
-  .text-muted {
-    color: var(--text-muted);
-  }
-
-  .bg-primary {
-    background: var(--bg-primary);
-  }
-
-  .bg-secondary {
-    background: var(--bg-secondary);
-  }
-
-  .hover-bg:hover {
-    background: var(--hover-bg);
-  }
-
-  .rounded-sm {
-    border-radius: var(--border-radius-sm);
-  }
-
-  .rounded-md {
-    border-radius: var(--border-radius-md);
-  }
-
-  .rounded-lg {
-    border-radius: var(--border-radius-lg);
-  }
-
-  .rounded-xl {
-    border-radius: var(--border-radius-xl);
-  }
-
-  .rounded-2xl {
-    border-radius: var(--border-radius-2xl);
-  }
-
-  .rounded-3xl {
-    border-radius: var(--border-radius-3xl);
-  }
-
-  .rounded-full {
-    border-radius: var(--border-radius-full);
-  }
-
-  .message-bubble {
-    border-radius: var(--border-radius-2xl);
-    border-bottom-right-radius: 4px;
-  }
-
-  .message-bubble.received {
-    border-radius: var(--border-radius-2xl);
-    border-bottom-left-radius: 4px;
+  .message-bubble-ai {
+    background: #1a1a2e;
+    border: 1px solid #2d3748;
+    border-radius: 20px 20px 20px 4px;
+    color: white;
   }
 
   /* Ensure all components have rounded edges */
@@ -284,9 +236,11 @@
   overflow: hidden;
 }
 
-/* Remove all light mode styles */
-[data-theme="light"] {
-  display: none !important;
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Ensure consistent rounded corners across all UI elements */
@@ -302,4 +256,28 @@ input, button, select, textarea, .card, .modal, .dropdown, .tooltip, .popover {
 /* Large containers */
 .page-container, .main-content, .sidebar {
   border-radius: var(--border-radius-2xl) !important;
+}
+
+/* Tab styling fixes */
+[data-state="active"] {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+  color: white !important;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  accent-color: #8b5cf6;
+  border-radius: 6px;
+}
+
+/* Button hover states */
+button:hover {
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+
+/* Focus states */
+input:focus, textarea:focus, button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.3);
 }
