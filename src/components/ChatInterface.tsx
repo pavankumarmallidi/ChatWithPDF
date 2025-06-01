@@ -41,7 +41,7 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
   }, [messages]);
 
   const sendToWebhook = async (message: string, pdfIds: number[]) => {
-    const webhookUrl = "https://pavankumarmallidi.app.n8n.cloud/webhook/5221a79c-7222-4245-98ec-01d6b56d20c7";
+    const webhookUrl = "https://pavankumarmallidi.app.n8n.cloud/webhook/message-receive";
     
     try {
       const response = await fetch(webhookUrl, {

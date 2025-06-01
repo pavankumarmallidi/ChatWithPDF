@@ -1,10 +1,9 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
-import { ArrowLeft, Sparkles, FileText } from "lucide-react";
+import { ArrowLeft, FileText, Sparkles } from "lucide-react";
 
 interface AuthPageProps {
   onBackToHome?: () => void;
@@ -124,13 +123,6 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
     }
   };
 
-  const handleTabClick = (tab: string) => {
-    if (!isLoading) {
-      setActiveTab(tab);
-      resetForm();
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
@@ -149,73 +141,80 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
       )}
 
       <div className="flex items-center justify-center min-h-screen p-6 relative z-10">
-        <Card className="w-full max-w-md bg-[#1e1e2e] border-[#2d3748] shadow-2xl rounded-3xl overflow-hidden animate-fade-in">
-          <div className="p-8">
-            {/* Header */}
-            <div className="text-center mb-8">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-3xl flex items-center justify-center shadow-lg">
-                  <FileText className="w-8 h-8 text-white" />
+        <div className="w-full max-w-4xl h-[600px] bg-white rounded-3xl shadow-2xl overflow-hidden flex">
+          
+          {/* Left Panel - Welcome/Info */}
+          <div className="flex-1 bg-gradient-to-br from-[#6366f1] to-[#8b5cf6] p-12 flex flex-col justify-center text-white relative">
+            <div className="absolute top-8 left-8">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white/20 rounded-2xl flex items-center justify-center">
+                  <FileText className="w-6 h-6 text-white" />
                 </div>
-                <div>
-                  <h1 className="text-3xl font-bold text-white tracking-tight">PDFChat AI</h1>
-                  <div className="flex items-center gap-1 justify-center">
-                    <Sparkles className="w-3 h-3 text-purple-400" />
-                    <p className="text-sm font-medium text-purple-400">AI-powered analysis</p>
-                  </div>
-                </div>
+                <span className="text-xl font-bold">PDFChat AI</span>
               </div>
-              <p className="text-gray-300 text-sm">Transform your documents with intelligent conversation</p>
             </div>
-
-            {/* Tab Toggle */}
-            <div className="flex bg-[#1a1a2e] rounded-full p-1 mb-8 relative">
-              <button
-                type="button"
-                onClick={() => handleTabClick("login")}
-                disabled={isLoading}
-                className={`flex-1 py-3 text-sm font-medium rounded-full transition-all duration-300 relative z-10 ${
-                  activeTab === "login"
-                    ? "text-white"
-                    : "text-gray-400 hover:text-white"
-                } ${isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
-              >
-                LOGIN
-              </button>
-              <button
-                type="button"
-                onClick={() => handleTabClick("signup")}
-                disabled={isLoading}
-                className={`flex-1 py-3 text-sm font-medium rounded-full transition-all duration-300 relative z-10 ${
-                  activeTab === "signup"
-                    ? "text-white"
-                    : "text-gray-400 hover:text-white"
-                } ${isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
-              >
-                SIGN UP
-              </button>
-              <div 
-                className={`absolute top-1 bottom-1 w-1/2 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-full transition-transform duration-300 ${
-                  activeTab === "signup" ? "transform translate-x-full" : ""
-                }`}
-              />
+            
+            <div className="text-center">
+              {activeTab === "login" ? (
+                <>
+                  <h2 className="text-4xl font-bold mb-4">Welcome Back!</h2>
+                  <p className="text-lg opacity-90 mb-8">
+                    To keep connected with us please login with your personal info
+                  </p>
+                  <Button
+                    onClick={() => setActiveTab("signup")}
+                    disabled={isLoading}
+                    className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#6366f1] px-8 py-3 rounded-full font-semibold transition-all duration-300"
+                  >
+                    SIGN UP
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <h2 className="text-4xl font-bold mb-4">Hello, Friend!</h2>
+                  <p className="text-lg opacity-90 mb-8">
+                    Enter your personal details and start journey with us
+                  </p>
+                  <Button
+                    onClick={() => setActiveTab("login")}
+                    disabled={isLoading}
+                    className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#6366f1] px-8 py-3 rounded-full font-semibold transition-all duration-300"
+                  >
+                    SIGN IN
+                  </Button>
+                </>
+              )}
             </div>
+            
+            <div className="absolute bottom-8 left-8">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4" />
+                <span className="text-sm opacity-80">AI-powered document analysis</span>
+              </div>
+            </div>
+          </div>
 
-            {/* Login Form */}
-            {activeTab === "login" && (
-              <form onSubmit={handleLogin} className="space-y-6">
-                <div>
+          {/* Right Panel - Form */}
+          <div className="flex-1 p-12 flex flex-col justify-center">
+            
+            {activeTab === "login" ? (
+              <>
+                <div className="text-center mb-8">
+                  <h3 className="text-3xl font-bold text-gray-800 mb-2">Sign in</h3>
+                  <p className="text-gray-600">or use your account</p>
+                </div>
+
+                <form onSubmit={handleLogin} className="space-y-6">
                   <input
                     type="email"
-                    placeholder="Email Address"
+                    placeholder="Email"
                     required
                     disabled={isLoading}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-4 py-4 bg-gray-100 border-0 text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6366f1] transition-all duration-300 rounded-lg"
                   />
-                </div>
-                <div>
+                  
                   <input
                     type="password"
                     placeholder="Password"
@@ -223,46 +222,46 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                     disabled={isLoading}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-4 py-4 bg-gray-100 border-0 text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6366f1] transition-all duration-300 rounded-lg"
                   />
+
+                  <Button 
+                    type="submit" 
+                    disabled={isLoading || !email.trim() || !password.trim()}
+                    className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-4 rounded-full text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  >
+                    {isLoading ? "Signing in..." : "SIGN IN"}
+                  </Button>
+                </form>
+              </>
+            ) : (
+              <>
+                <div className="text-center mb-8">
+                  <h3 className="text-3xl font-bold text-gray-800 mb-2">Create Account</h3>
+                  <p className="text-gray-600">or use your email for registration</p>
                 </div>
 
-                <Button 
-                  type="submit" 
-                  disabled={isLoading || !email.trim() || !password.trim()}
-                  className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-4 rounded-2xl text-base font-medium shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-                >
-                  {isLoading ? "Signing in..." : "LOGIN"}
-                </Button>
-              </form>
-            )}
-
-            {/* Signup Form */}
-            {activeTab === "signup" && (
-              <form onSubmit={handleRegister} className="space-y-6">
-                <div>
+                <form onSubmit={handleRegister} className="space-y-6">
                   <input
                     type="text"
-                    placeholder="Full Name"
+                    placeholder="Name"
                     required
                     disabled={isLoading}
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-4 py-4 bg-gray-100 border-0 text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6366f1] transition-all duration-300 rounded-lg"
                   />
-                </div>
-                <div>
+                  
                   <input
                     type="email"
-                    placeholder="Email Address"
+                    placeholder="Email"
                     required
                     disabled={isLoading}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-4 py-4 bg-gray-100 border-0 text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6366f1] transition-all duration-300 rounded-lg"
                   />
-                </div>
-                <div>
+                  
                   <input
                     type="password"
                     placeholder="Password"
@@ -270,21 +269,21 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                     disabled={isLoading}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-4 py-4 bg-gray-100 border-0 text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#6366f1] transition-all duration-300 rounded-lg"
                   />
-                </div>
-                
-                <Button 
-                  type="submit" 
-                  disabled={isLoading || !email.trim() || !password.trim() || !fullName.trim()}
-                  className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-4 rounded-2xl text-base font-medium shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-                >
-                  {isLoading ? "Creating account..." : "SIGN UP"}
-                </Button>
-              </form>
+                  
+                  <Button 
+                    type="submit" 
+                    disabled={isLoading || !email.trim() || !password.trim() || !fullName.trim()}
+                    className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-4 rounded-full text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  >
+                    {isLoading ? "Creating account..." : "SIGN UP"}
+                  </Button>
+                </form>
+              </>
             )}
           </div>
-        </Card>
+        </div>
       </div>
     </div>
   );
