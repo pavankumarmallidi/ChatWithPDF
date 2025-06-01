@@ -1,21 +1,22 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { uploadToWebhook } from "@/services/webhookService";
 import { insertPdfData, type PdfData } from "@/services/userTableService";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, FileText, Sparkles, Brain, Shield, Star } from "lucide-react";
+import { ArrowRight, FileText, Sparkles, Brain, Shield, Star, MessageSquare, LogOut } from "lucide-react";
 import AuthPage from "@/components/AuthPage";
 import LoadingState from "@/components/LoadingState";
 import UploadInterface from "@/components/UploadInterface";
 import PdfSelectionPage from "@/components/PdfSelectionPage";
 import ChatInterface from "@/components/ChatInterface";
+import { useNavigate } from "react-router-dom";
 
 type AppView = 'home' | 'auth' | 'selection' | 'upload' | 'chat';
 
 const Index = () => {
-  const { user, loading } = useAuth();
+  const { user, loading, signOut } = useAuth();
+  const navigate = useNavigate();
   const [currentView, setCurrentView] = useState<AppView>('home');
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -27,6 +28,24 @@ const Index = () => {
       setCurrentView('selection');
     } else {
       setCurrentView('auth');
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      setCurrentView('home');
+      toast({
+        title: "Signed out",
+        description: "You've been successfully signed out.",
+      });
+    } catch (error) {
+      console.error('Sign out error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to sign out. Please try again.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -192,13 +211,35 @@ const Index = () => {
             </div>
             <span className="text-2xl font-bold text-white">PDFChat AI</span>
           </div>
-          <Button 
-            onClick={handleGetStarted}
-            className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white px-6 py-2 rounded-xl transition-all duration-300 hover:scale-105"
-          >
-            Get Started
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
+          
+          <div className="flex items-center gap-3">
+            {user ? (
+              <>
+                <Button 
+                  onClick={() => navigate('/chat-history')}
+                  className="bg-[#1a1a2e] border border-[#2d3748] text-white hover:bg-[#2a2a3e] rounded-xl transition-all duration-300"
+                >
+                  <MessageSquare className="w-4 h-4 mr-2" />
+                  Chat History
+                </Button>
+                <Button 
+                  onClick={handleSignOut}
+                  className="bg-[#1a1a2e] border border-[#2d3748] text-white hover:bg-[#2a2a3e] rounded-xl transition-all duration-300"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <Button 
+                onClick={handleGetStarted}
+                className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white px-6 py-2 rounded-xl transition-all duration-300 hover:scale-105"
+              >
+                Get Started
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            )}
+          </div>
         </div>
       </nav>
 
