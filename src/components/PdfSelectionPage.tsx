@@ -1,11 +1,11 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Search, FileText, Power, User, MessageCircle, BookOpen, Hash } from "lucide-react";
+import { Search, FileText, Power, User, MessageCircle, BookOpen, Hash, History } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { getUserPdfs, type PdfData } from "@/services/userTableService";
 import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 interface PdfSelectionPageProps {
   userEmail: string;
@@ -21,6 +21,7 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPdfs = async () => {
@@ -119,6 +120,13 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
             </div>
             
             <div className="flex items-center gap-3">
+              <Button
+                onClick={() => navigate('/chat-history')}
+                className="bg-[#232347] border border-[#2d3748] text-white hover:bg-[#2a2a3e] rounded-xl transition-all duration-300"
+              >
+                <History className="w-4 h-4 mr-2" />
+                Chat History
+              </Button>
               <Button
                 onClick={onUploadNew}
                 className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white rounded-xl transition-all duration-300"
