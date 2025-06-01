@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { ArrowLeft, Sparkles, FileText } from "lucide-react";
@@ -144,6 +143,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
       <div className="flex items-center justify-center min-h-screen p-6">
         <Card className="w-full max-w-md bg-[#1e1e2e] border-[#2d3748] shadow-2xl rounded-3xl overflow-hidden animate-fade-in">
           <div className="p-8">
+            {/* Header */}
             <div className="text-center mb-8">
               <div className="flex items-center justify-center gap-3 mb-6">
                 <div className="w-16 h-16 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-3xl flex items-center justify-center shadow-lg">
@@ -160,103 +160,112 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
               <p className="text-gray-300 text-sm">Transform your documents with intelligent conversation</p>
             </div>
 
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8 rounded-2xl p-1 bg-[#1a1a2e]">
-                <TabsTrigger 
-                  value="login" 
-                  className="text-gray-400 data-[state=active]:text-white rounded-xl font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#6366f1] data-[state=active]:to-[#8b5cf6]"
-                >
-                  LOGIN
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="register" 
-                  className="text-gray-400 data-[state=active]:text-white rounded-xl font-medium transition-all duration-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#6366f1] data-[state=active]:to-[#8b5cf6]"
-                >
-                  SIGN UP
-                </TabsTrigger>
-              </TabsList>
+            {/* Tab Toggle */}
+            <div className="flex bg-[#1a1a2e] rounded-full p-1 mb-8">
+              <button
+                onClick={() => setActiveTab("login")}
+                className={`flex-1 py-3 text-sm font-medium rounded-full transition-all duration-300 ${
+                  activeTab === "login"
+                    ? "bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white shadow-lg"
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                LOGIN
+              </button>
+              <button
+                onClick={() => setActiveTab("signup")}
+                className={`flex-1 py-3 text-sm font-medium rounded-full transition-all duration-300 ${
+                  activeTab === "signup"
+                    ? "bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white shadow-lg"
+                    : "text-gray-400 hover:text-white"
+                }`}
+              >
+                SIGN UP
+              </button>
+            </div>
 
-              <TabsContent value="login" className="mt-0">
-                <form onSubmit={handleLogin} className="space-y-6">
-                  <div>
-                    <input
-                      type="email"
-                      placeholder="Email Address"
-                      required
-                      disabled={isLoading}
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="password"
-                      placeholder="Password"
-                      required
-                      disabled={isLoading}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
-                    />
-                  </div>
-
-                  <Button 
-                    type="submit" 
+            {/* Login Form */}
+            {activeTab === "login" && (
+              <form onSubmit={handleLogin} className="space-y-6">
+                <div>
+                  <input
+                    type="email"
+                    placeholder="Email Address"
+                    required
                     disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-4 rounded-2xl text-base font-medium mt-8 shadow-lg transition-all duration-300 hover:scale-105"
-                  >
-                    {isLoading ? "Signing in..." : "LOGIN"}
-                  </Button>
-                </form>
-              </TabsContent>
-
-              <TabsContent value="register" className="mt-0">
-                <form onSubmit={handleRegister} className="space-y-6">
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Full Name"
-                      required
-                      disabled={isLoading}
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="email"
-                      placeholder="Email Address"
-                      required
-                      disabled={isLoading}
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="password"
-                      placeholder="Password"
-                      required
-                      disabled={isLoading}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
-                    />
-                  </div>
-                  
-                  <Button 
-                    type="submit" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                  />
+                </div>
+                <div>
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    required
                     disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-4 rounded-2xl text-base font-medium mt-8 shadow-lg transition-all duration-300 hover:scale-105"
-                  >
-                    {isLoading ? "Creating account..." : "SIGN UP"}
-                  </Button>
-                </form>
-              </TabsContent>
-            </Tabs>
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                  />
+                </div>
+
+                <Button 
+                  type="submit" 
+                  disabled={isLoading}
+                  className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-4 rounded-2xl text-base font-medium shadow-lg transition-all duration-300 hover:scale-105"
+                >
+                  {isLoading ? "Signing in..." : "LOGIN"}
+                </Button>
+              </form>
+            )}
+
+            {/* Signup Form */}
+            {activeTab === "signup" && (
+              <form onSubmit={handleRegister} className="space-y-6">
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    required
+                    disabled={isLoading}
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                  />
+                </div>
+                <div>
+                  <input
+                    type="email"
+                    placeholder="Email Address"
+                    required
+                    disabled={isLoading}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                  />
+                </div>
+                <div>
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    required
+                    disabled={isLoading}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                  />
+                </div>
+                
+                <Button 
+                  type="submit" 
+                  disabled={isLoading}
+                  className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-4 rounded-2xl text-base font-medium shadow-lg transition-all duration-300 hover:scale-105"
+                >
+                  {isLoading ? "Creating account..." : "SIGN UP"}
+                </Button>
+              </form>
+            )}
           </div>
         </Card>
       </div>

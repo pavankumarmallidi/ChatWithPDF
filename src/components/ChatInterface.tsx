@@ -36,7 +36,7 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
   }, [messages]);
 
   const sendToWebhook = async (message: string, pdfIds: number[]) => {
-    const webhookUrl = "https://pavankumarmallidi.app.n8n.cloud/webhook/a88a8171-43a6-4a0a-b351-669b761c4f80";
+    const webhookUrl = "https://pavankumarmallidi.app.n8n.cloud/webhook/5221a79c-7222-4245-98ec-01d6b56d20c7";
     
     try {
       const response = await fetch(webhookUrl, {
@@ -190,10 +190,10 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
                     <FileText className="w-4 h-4 text-white" />
                   )}
                 </div>
-                <div className={`rounded-2xl p-4 ${
+                <div className={`rounded-2xl p-4 bg-[#1a1a2e] border border-[#2d3748] ${
                   message.sender === 'user'
-                    ? 'bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white'
-                    : 'bg-[#1a1a2e] border border-[#2d3748] text-white'
+                    ? 'bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white border-none'
+                    : 'text-white'
                 }`}>
                   <p className="whitespace-pre-wrap">{message.content}</p>
                   <p className={`text-xs mt-2 ${

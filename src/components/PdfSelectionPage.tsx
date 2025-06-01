@@ -152,10 +152,10 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
           </div>
         </div>
 
-        {/* PDF Cards Grid */}
+        {/* PDF Cards Container */}
         {filteredPdfs.length > 0 ? (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <div className="bg-[#1e1e2e] border border-[#2d3748] rounded-3xl p-8 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredPdfs.map((pdf) => (
                 <Card
                   key={pdf.id}
@@ -214,23 +214,7 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
                 </Card>
               ))}
             </div>
-
-            {/* Start Chat Button */}
-            <div className="text-center">
-              <Button
-                onClick={handleStartChat}
-                disabled={selectedPdfs.length === 0}
-                className={`px-8 py-4 text-lg font-medium rounded-2xl transition-all duration-300 ${
-                  selectedPdfs.length > 0
-                    ? 'bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white shadow-lg hover:scale-105'
-                    : 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                }`}
-              >
-                <MessageCircle className="w-5 h-5 mr-2" />
-                Ask questions about {selectedPdfs.length > 0 ? `${selectedPdfs.length} PDF${selectedPdfs.length > 1 ? 's' : ''}` : 'these PDFs'}
-              </Button>
-            </div>
-          </>
+          </div>
         ) : (
           <div className="text-center py-16">
             <div className="w-24 h-24 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-3xl flex items-center justify-center mx-auto mb-6">
@@ -247,6 +231,24 @@ const PdfSelectionPage = ({ userEmail, onStartChat, onUploadNew }: PdfSelectionP
               className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white shadow-lg hover:scale-105 rounded-2xl"
             >
               Upload Your First PDF
+            </Button>
+          </div>
+        )}
+
+        {/* Start Chat Button */}
+        {filteredPdfs.length > 0 && (
+          <div className="text-center">
+            <Button
+              onClick={handleStartChat}
+              disabled={selectedPdfs.length === 0}
+              className={`px-8 py-4 text-lg font-medium rounded-2xl transition-all duration-300 ${
+                selectedPdfs.length > 0
+                  ? 'bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white shadow-lg hover:scale-105'
+                  : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+              }`}
+            >
+              <MessageCircle className="w-5 h-5 mr-2" />
+              Ask questions about {selectedPdfs.length > 0 ? `${selectedPdfs.length} PDF${selectedPdfs.length > 1 ? 's' : ''}` : 'these PDFs'}
             </Button>
           </div>
         )}
