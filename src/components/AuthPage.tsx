@@ -126,20 +126,17 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
-      <div 
-        className="absolute inset-0 opacity-30"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-        }}
-      ></div>
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 opacity-5" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.4'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+      }}></div>
       
       {onBackToHome && (
         <div className="absolute top-6 left-6 z-20">
           <Button
             onClick={onBackToHome}
-            className="bg-[#1a1a2e] border border-[#2d3748] text-white hover:bg-[#2a2a3e] rounded-2xl transition-all duration-300"
+            variant="outline"
+            className="bg-black/20 border-white/10 text-white hover:bg-black/30 backdrop-blur-sm rounded-xl"
             disabled={isLoading}
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -152,25 +149,25 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
         <div className="w-full max-w-md">
           {/* Logo */}
           <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-2xl flex items-center justify-center">
-                <FileText className="w-6 h-6 text-white" />
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="w-14 h-14 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-2xl flex items-center justify-center shadow-lg">
+                <FileText className="w-7 h-7 text-white" />
               </div>
-              <span className="text-2xl font-bold text-white">PDFChat AI</span>
+              <span className="text-3xl font-bold text-white">PDFChat AI</span>
             </div>
-            <p className="text-gray-400">Your AI-powered document assistant</p>
+            <p className="text-gray-400 text-lg">Your intelligent document companion</p>
           </div>
 
           {/* Auth Card */}
-          <div className="bg-[#1a1a2e] border border-[#2d3748] rounded-3xl p-8 shadow-2xl">
+          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
             {/* Tab Switcher */}
-            <div className="flex mb-8 bg-[#0a0a0f] rounded-2xl p-1">
+            <div className="flex mb-8 bg-black/30 rounded-2xl p-1 backdrop-blur-sm">
               <button
                 onClick={() => setActiveTab("login")}
                 disabled={isLoading}
-                className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all duration-300 ${
+                className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 ${
                   activeTab === "login"
-                    ? "bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white shadow-lg"
+                    ? "bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white shadow-lg transform scale-[1.02]"
                     : "text-gray-400 hover:text-white"
                 }`}
               >
@@ -179,9 +176,9 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
               <button
                 onClick={() => setActiveTab("signup")}
                 disabled={isLoading}
-                className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all duration-300 ${
+                className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 ${
                   activeTab === "signup"
-                    ? "bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white shadow-lg"
+                    ? "bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white shadow-lg transform scale-[1.02]"
                     : "text-gray-400 hover:text-white"
                 }`}
               >
@@ -192,11 +189,11 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
             {activeTab === "login" ? (
               <form onSubmit={handleLogin} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-gray-200 mb-3">
                     Email Address
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <input
                       type="email"
                       placeholder="Enter your email"
@@ -204,17 +201,17 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                       disabled={isLoading}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-[#0a0a0f] border border-[#2d3748] text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-300 rounded-xl"
+                      className="w-full pl-12 pr-4 py-4 bg-black/30 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-300 rounded-xl backdrop-blur-sm"
                     />
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-gray-200 mb-3">
                     Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <input
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
@@ -222,12 +219,12 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                       disabled={isLoading}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full pl-10 pr-12 py-3 bg-[#0a0a0f] border border-[#2d3748] text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-300 rounded-xl"
+                      className="w-full pl-12 pr-14 py-4 bg-black/30 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-300 rounded-xl backdrop-blur-sm"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
                     >
                       {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
@@ -237,11 +234,11 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                 <Button 
                   type="submit" 
                   disabled={isLoading || !email.trim() || !password.trim()}
-                  className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-3 rounded-xl text-base font-semibold shadow-lg transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-4 rounded-xl text-base font-semibold shadow-lg transition-all duration-300 hover:shadow-purple-500/25 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                   {isLoading ? (
-                    <div className="flex items-center justify-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <div className="flex items-center justify-center gap-3">
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                       Signing in...
                     </div>
                   ) : (
@@ -252,11 +249,11 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
             ) : (
               <form onSubmit={handleRegister} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-gray-200 mb-3">
                     Full Name
                   </label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <input
                       type="text"
                       placeholder="Enter your full name"
@@ -264,17 +261,17 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                       disabled={isLoading}
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-[#0a0a0f] border border-[#2d3748] text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-300 rounded-xl"
+                      className="w-full pl-12 pr-4 py-4 bg-black/30 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-300 rounded-xl backdrop-blur-sm"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-gray-200 mb-3">
                     Email Address
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <input
                       type="email"
                       placeholder="Enter your email"
@@ -282,17 +279,17 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                       disabled={isLoading}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-[#0a0a0f] border border-[#2d3748] text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-300 rounded-xl"
+                      className="w-full pl-12 pr-4 py-4 bg-black/30 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-300 rounded-xl backdrop-blur-sm"
                     />
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-gray-200 mb-3">
                     Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <input
                       type={showPassword ? "text" : "password"}
                       placeholder="Create a password"
@@ -300,12 +297,12 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                       disabled={isLoading}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full pl-10 pr-12 py-3 bg-[#0a0a0f] border border-[#2d3748] text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-300 rounded-xl"
+                      className="w-full pl-12 pr-14 py-4 bg-black/30 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent transition-all duration-300 rounded-xl backdrop-blur-sm"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
                     >
                       {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
@@ -315,11 +312,11 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                 <Button 
                   type="submit" 
                   disabled={isLoading || !email.trim() || !password.trim() || !fullName.trim()}
-                  className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-3 rounded-xl text-base font-semibold shadow-lg transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-4 rounded-xl text-base font-semibold shadow-lg transition-all duration-300 hover:shadow-purple-500/25 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                   {isLoading ? (
-                    <div className="flex items-center justify-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <div className="flex items-center justify-center gap-3">
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                       Creating account...
                     </div>
                   ) : (
@@ -330,7 +327,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
             )}
 
             {/* Additional Info */}
-            <div className="mt-6 text-center">
+            <div className="mt-8 text-center">
               <p className="text-sm text-gray-400">
                 {activeTab === "login" 
                   ? "Don't have an account? " 
@@ -339,7 +336,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                 <button
                   onClick={() => setActiveTab(activeTab === "login" ? "signup" : "login")}
                   disabled={isLoading}
-                  className="text-purple-400 hover:text-purple-300 font-medium transition-colors"
+                  className="text-purple-400 hover:text-purple-300 font-medium transition-colors ml-1"
                 >
                   {activeTab === "login" ? "Sign up" : "Sign in"}
                 </button>

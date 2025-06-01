@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Send, User, Bot } from "lucide-react";
+import { ArrowLeft, Send, User, Bot, FileText } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -24,6 +24,8 @@ const ChatThread = () => {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [loadingHistory, setLoadingHistory] = useState(true);
+  const [pdfIds, setPdfIds] = useState<number[]>([]);
+  const [pdfNames, setPdfNames] = useState<string[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -61,6 +63,22 @@ const ChatThread = () => {
         timestamp: msg.created_at
       })) || [];
 
+      // Get PDF IDs from the first message (they should be consistent across the chat)
+      if (data && data.length > 0) {
+        const chatPdfIds = data[0].pdf_ids || [];
+        setPdfIds(chatPdfIds);
+        
+        // Fetch PDF names
+        if (chatPdfIds.length > 0) {
+          const { data: pdfData } = await supabase
+            .from('PDF_DATA_INFO')
+            .select('PDF NAME')
+            .in('id', chatPdfIds);
+          
+          setPdfNames(pdfData?.map(pdf => pdf['PDF NAME']) || []);
+        }
+      }
+
       setMessages(formattedMessages);
     } catch (error) {
       console.error('Error loading chat messages:', error);
@@ -85,7 +103,8 @@ const ChatThread = () => {
           EMAIL_ID: user.email,
           SENDER: sender,
           RECIVER: sender === 'user' ? 'ai' : 'user',
-          MESSAGE: message
+          MESSAGE: message,
+          pdf_ids: pdfIds
         });
 
       if (error) throw error;
@@ -110,7 +129,7 @@ const ChatThread = () => {
         },
         body: JSON.stringify({
           message,
-          pdfIds: [], // No specific PDFs for general chat
+          pdfIds: pdfIds, // Send the actual PDF IDs from this chat
           userEmail: user?.email,
           timestamp: new Date().toISOString(),
         }),
@@ -154,7 +173,7 @@ const ChatThread = () => {
       
       let aiMessageContent = "I received your message and I'm processing it.";
 
-      // Handle the webhook response format
+      // Handle the webhook response format: array with output object
       if (Array.isArray(response) && response.length > 0) {
         const firstResult = response[0];
         if (firstResult.output && firstResult.output.answer) {
@@ -237,6 +256,23 @@ const ChatThread = () => {
         </div>
       </div>
 
+      {/* Associated PDFs */}
+      {pdfNames.length > 0 && (
+        <div className="bg-[#1e1e2e] border-b border-[#2d3748] p-4">
+          <div className="max-w-4xl mx-auto">
+            <p className="text-sm text-gray-400 mb-2">Chatting with PDFs:</p>
+            <div className="flex flex-wrap gap-2">
+              {pdfNames.map((pdfName, index) => (
+                <div key={index} className="flex items-center gap-2 bg-[#232347] border border-[#2d3748] rounded-xl px-3 py-2">
+                  <FileText className="w-4 h-4 text-purple-400" />
+                  <span className="text-sm text-white truncate max-w-48">{pdfName}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p-4">
         <div className="max-w-4xl mx-auto space-y-4">
@@ -250,8 +286,8 @@ const ChatThread = () => {
               <div className="w-16 h-16 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-3xl flex items-center justify-center mx-auto mb-4">
                 <Bot className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-medium text-white mb-2">Start your conversation</h3>
-              <p className="text-gray-400">Ask me anything!</p>
+              <h3 className="text-lg font-medium text-white mb-2">Continue your conversation</h3>
+              <p className="text-gray-400">Ask me anything about your PDFs!</p>
             </div>
           ) : (
             messages.map((message) => (

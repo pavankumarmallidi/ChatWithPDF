@@ -16,6 +16,7 @@ export type Database = {
           EMAIL_ID: string
           id: number
           MESSAGE: string | null
+          pdf_ids: Json[]
           RECIVER: string
           SENDER: string
         }
@@ -25,6 +26,7 @@ export type Database = {
           EMAIL_ID: string
           id?: number
           MESSAGE?: string | null
+          pdf_ids: Json[]
           RECIVER: string
           SENDER: string
         }
@@ -34,6 +36,7 @@ export type Database = {
           EMAIL_ID?: string
           id?: number
           MESSAGE?: string | null
+          pdf_ids?: Json[]
           RECIVER?: string
           SENDER?: string
         }
