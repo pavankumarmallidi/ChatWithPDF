@@ -27,6 +27,11 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
+  // Deduplicate selected PDFs based on ID
+  const uniqueSelectedPdfs = selectedPdfs.filter((pdf, index, self) => 
+    index === self.findIndex(p => p.id === pdf.id)
+  );
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -79,7 +84,7 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
     setIsLoading(true);
 
     try {
-      const pdfIds = selectedPdfs.map(pdf => pdf.id);
+      const pdfIds = uniqueSelectedPdfs.map(pdf => pdf.id);
       const response = await sendToWebhook(userMessage.content, pdfIds);
       
       const aiMessage: Message = {
@@ -131,11 +136,11 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
             Back to Selection
           </Button>
           <h2 className="text-lg font-semibold text-white mb-2">Selected PDFs</h2>
-          <p className="text-sm text-gray-400">{selectedPdfs.length} document{selectedPdfs.length > 1 ? 's' : ''} selected</p>
+          <p className="text-sm text-gray-400">{uniqueSelectedPdfs.length} document{uniqueSelectedPdfs.length > 1 ? 's' : ''} selected</p>
         </div>
         
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
-          {selectedPdfs.map((pdf) => (
+          {uniqueSelectedPdfs.map((pdf) => (
             <Card key={pdf.id} className="bg-[#232347] border-[#2d3748] rounded-2xl p-4">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-xl flex items-center justify-center flex-shrink-0">
@@ -190,10 +195,10 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
                     <FileText className="w-4 h-4 text-white" />
                   )}
                 </div>
-                <div className={`rounded-2xl p-4 bg-[#1a1a2e] border border-[#2d3748] ${
+                <div className={`rounded-2xl p-4 ${
                   message.sender === 'user'
-                    ? 'bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white border-none'
-                    : 'text-white'
+                    ? 'bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white'
+                    : 'bg-[#1a1a2e] border border-[#2d3748] text-white'
                 }`}>
                   <p className="whitespace-pre-wrap">{message.content}</p>
                   <p className={`text-xs mt-2 ${

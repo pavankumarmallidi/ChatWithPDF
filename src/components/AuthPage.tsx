@@ -124,6 +124,13 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
     }
   };
 
+  const handleTabClick = (tab: string) => {
+    if (!isLoading) {
+      setActiveTab(tab);
+      resetForm();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
@@ -133,6 +140,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
           <Button
             onClick={onBackToHome}
             className="bg-[#1a1a2e] border border-[#2d3748] text-white hover:bg-[#2a2a3e] rounded-2xl transition-all duration-300"
+            disabled={isLoading}
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
@@ -140,7 +148,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
         </div>
       )}
 
-      <div className="flex items-center justify-center min-h-screen p-6">
+      <div className="flex items-center justify-center min-h-screen p-6 relative z-10">
         <Card className="w-full max-w-md bg-[#1e1e2e] border-[#2d3748] shadow-2xl rounded-3xl overflow-hidden animate-fade-in">
           <div className="p-8">
             {/* Header */}
@@ -161,27 +169,36 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
             </div>
 
             {/* Tab Toggle */}
-            <div className="flex bg-[#1a1a2e] rounded-full p-1 mb-8">
+            <div className="flex bg-[#1a1a2e] rounded-full p-1 mb-8 relative">
               <button
-                onClick={() => setActiveTab("login")}
-                className={`flex-1 py-3 text-sm font-medium rounded-full transition-all duration-300 ${
+                type="button"
+                onClick={() => handleTabClick("login")}
+                disabled={isLoading}
+                className={`flex-1 py-3 text-sm font-medium rounded-full transition-all duration-300 relative z-10 ${
                   activeTab === "login"
-                    ? "bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white shadow-lg"
+                    ? "text-white"
                     : "text-gray-400 hover:text-white"
-                }`}
+                } ${isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
               >
                 LOGIN
               </button>
               <button
-                onClick={() => setActiveTab("signup")}
-                className={`flex-1 py-3 text-sm font-medium rounded-full transition-all duration-300 ${
+                type="button"
+                onClick={() => handleTabClick("signup")}
+                disabled={isLoading}
+                className={`flex-1 py-3 text-sm font-medium rounded-full transition-all duration-300 relative z-10 ${
                   activeTab === "signup"
-                    ? "bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] text-white shadow-lg"
+                    ? "text-white"
                     : "text-gray-400 hover:text-white"
-                }`}
+                } ${isLoading ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
               >
                 SIGN UP
               </button>
+              <div 
+                className={`absolute top-1 bottom-1 w-1/2 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-full transition-transform duration-300 ${
+                  activeTab === "signup" ? "transform translate-x-full" : ""
+                }`}
+              />
             </div>
 
             {/* Login Form */}
@@ -195,7 +212,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                     disabled={isLoading}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
                 <div>
@@ -206,14 +223,14 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                     disabled={isLoading}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
 
                 <Button 
                   type="submit" 
-                  disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-4 rounded-2xl text-base font-medium shadow-lg transition-all duration-300 hover:scale-105"
+                  disabled={isLoading || !email.trim() || !password.trim()}
+                  className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-4 rounded-2xl text-base font-medium shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                   {isLoading ? "Signing in..." : "LOGIN"}
                 </Button>
@@ -231,7 +248,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                     disabled={isLoading}
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
                 <div>
@@ -242,7 +259,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                     disabled={isLoading}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
                 <div>
@@ -253,14 +270,14 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
                     disabled={isLoading}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl"
+                    className="w-full px-4 py-4 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
                 
                 <Button 
                   type="submit" 
-                  disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-4 rounded-2xl text-base font-medium shadow-lg transition-all duration-300 hover:scale-105"
+                  disabled={isLoading || !email.trim() || !password.trim() || !fullName.trim()}
+                  className="w-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] hover:to-[#7c3aed] text-white py-4 rounded-2xl text-base font-medium shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                   {isLoading ? "Creating account..." : "SIGN UP"}
                 </Button>
