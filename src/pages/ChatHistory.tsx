@@ -80,7 +80,7 @@ const ChatHistory = () => {
           if (thread.pdfIds.length > 0) {
             const { data: pdfData } = await supabase
               .from('PDF_DATA_INFO')
-              .select('PDF NAME')
+              .select('"PDF NAME"')
               .in('id', thread.pdfIds);
             
             thread.pdfNames = pdfData?.map(pdf => pdf['PDF NAME']) || [];

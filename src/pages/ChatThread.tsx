@@ -74,7 +74,7 @@ const ChatThread = () => {
         if (chatPdfIds.length > 0) {
           const { data: pdfData } = await supabase
             .from('PDF_DATA_INFO')
-            .select('PDF NAME')
+            .select('"PDF NAME"')
             .in('id', chatPdfIds);
           
           setPdfNames(pdfData?.map(pdf => pdf['PDF NAME']) || []);
