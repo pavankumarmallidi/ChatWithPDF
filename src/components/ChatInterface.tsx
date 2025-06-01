@@ -18,6 +18,7 @@ interface Message {
   sender: 'user' | 'ai';
   timestamp: Date;
   pdfIds?: number[];
+  relevanceScore?: number;
 }
 
 const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInterfaceProps) => {
@@ -87,12 +88,31 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
       const pdfIds = uniqueSelectedPdfs.map(pdf => pdf.id);
       const response = await sendToWebhook(userMessage.content, pdfIds);
       
+      console.log('Webhook response:', response);
+      
+      let aiMessageContent = "I received your message and I'm processing it.";
+      let relevanceScore: number | undefined;
+
+      // Handle the new response format: array with output object
+      if (Array.isArray(response) && response.length > 0) {
+        const firstResult = response[0];
+        if (firstResult.output) {
+          if (firstResult.output.answer) {
+            aiMessageContent = firstResult.output.answer;
+          }
+          if (firstResult.output.relevanceScore !== undefined) {
+            relevanceScore = firstResult.output.relevanceScore;
+          }
+        }
+      }
+
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: response.message || response.response || "I received your message and I'm processing it.",
+        content: aiMessageContent,
         sender: 'ai',
         timestamp: new Date(),
-        pdfIds: response.pdfIds || pdfIds,
+        pdfIds: pdfIds,
+        relevanceScore: relevanceScore,
       };
 
       setMessages(prev => [...prev, aiMessage]);
@@ -201,11 +221,21 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
                     : 'bg-[#1a1a2e] border border-[#2d3748] text-white'
                 }`}>
                   <p className="whitespace-pre-wrap">{message.content}</p>
-                  <p className={`text-xs mt-2 ${
-                    message.sender === 'user' ? 'text-white/70' : 'text-gray-400'
-                  }`}>
-                    {message.timestamp.toLocaleTimeString()}
-                  </p>
+                  <div className="flex items-center justify-between mt-2">
+                    <p className={`text-xs ${
+                      message.sender === 'user' ? 'text-white/70' : 'text-gray-400'
+                    }`}>
+                      {message.timestamp.toLocaleTimeString()}
+                    </p>
+                    {message.relevanceScore !== undefined && (
+                      <div className="flex items-center gap-1">
+                        <span className="text-xs text-purple-400">Score:</span>
+                        <span className="text-xs text-purple-300 font-medium">
+                          {message.relevanceScore.toFixed(1)}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

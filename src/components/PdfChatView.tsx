@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, FileText, Send, User, Hash, BookOpen, Sparkles } from "lucide-react";
@@ -96,13 +95,19 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
     try {
       const response = await sendChatMessage(messageToSend, pdfId);
       
+      console.log('Chat response:', response);
+      
       let botMessageText = "I understand you'd like to know more about your PDF. Could you be more specific about what aspect you'd like me to elaborate on?";
 
-      if (response && Array.isArray(response) && response.length > 0 && response[0].output) {
-        const output = response[0].output;
-        if (output.answer) {
-          botMessageText = output.answer;
+      // Handle the new response format: array with output object
+      if (Array.isArray(response) && response.length > 0) {
+        const firstResult = response[0];
+        if (firstResult.output && firstResult.output.answer) {
+          botMessageText = firstResult.output.answer;
         }
+      } else if (response && response.output && response.output.answer) {
+        // Handle single object response format
+        botMessageText = response.output.answer;
       }
 
       const botResponse: ChatMessage = {
