@@ -313,15 +313,15 @@ input:focus, textarea:focus, button:focus {
 @layer utilities {
   /* Device-specific layouts */
   .mobile-layout {
-    @apply p-4 space-y-4;
-  }
-  
-  .tablet-layout {
     @apply p-6 space-y-6;
   }
   
-  .desktop-layout {
+  .tablet-layout {
     @apply p-8 space-y-8;
+  }
+  
+  .desktop-layout {
+    @apply p-10 space-y-10;
   }
 
   /* Touch-friendly interactions */
@@ -386,35 +386,36 @@ input:focus, textarea:focus, button:focus {
 
   /* Mobile-friendly card styles */
   .mobile-card {
-    @apply bg-purple-900/40 border-purple-700/50 backdrop-blur-sm p-4 rounded-2xl shadow-lg;
+    @apply bg-gradient-to-r from-purple-800/50 to-indigo-800/50 backdrop-blur-sm border-purple-600/40 rounded-3xl shadow-2xl;
     transition: all 0.3s ease;
   }
   
   .tablet-card {
-    @apply bg-purple-900/30 border-purple-700/50 backdrop-blur-sm p-6 rounded-2xl shadow-xl;
+    @apply bg-gradient-to-r from-purple-800/40 to-indigo-800/40 backdrop-blur-sm border-purple-600/30 rounded-3xl shadow-2xl;
     transition: all 0.3s ease;
   }
   
   .desktop-card {
-    @apply bg-purple-900/25 border-purple-700/40 backdrop-blur-sm p-8 rounded-2xl shadow-2xl;
+    @apply bg-gradient-to-r from-purple-800/30 to-indigo-800/30 backdrop-blur-sm border-purple-600/25 rounded-3xl shadow-2xl;
     transition: all 0.3s ease;
   }
 
   /* Mobile navigation styles */
   .mobile-nav {
-    @apply bg-purple-950/90 backdrop-blur-xl border-b border-purple-800/50;
+    @apply bg-gradient-to-r from-purple-950/95 to-indigo-950/95 backdrop-blur-xl border-b border-purple-700/40;
+    border-radius: 0 0 2rem 2rem;
   }
   
   .mobile-nav-item {
-    @apply flex-1 flex flex-col items-center justify-center py-2 px-3 rounded-xl transition-all duration-200;
+    @apply flex-1 flex flex-col items-center justify-center py-3 px-4 rounded-2xl transition-all duration-300;
   }
   
   .mobile-nav-item.active {
-    @apply bg-purple-800/60 text-white;
+    @apply bg-gradient-to-r from-purple-700/80 to-indigo-700/80 text-white shadow-lg;
   }
   
   .mobile-nav-item:not(.active) {
-    @apply text-purple-400 hover:text-purple-300 hover:bg-purple-800/30;
+    @apply text-purple-300 hover:text-purple-200 hover:bg-purple-800/40;
   }
 
   /* Responsive button styles */
@@ -585,56 +586,61 @@ input:focus, textarea:focus, button:focus {
 
 /* Enhanced Mobile Design */
 .mobile-layout {
-  @apply p-4 space-y-4;
+  @apply p-6 space-y-6;
 }
 
 .mobile-card {
-  @apply bg-purple-900/40 border-purple-700/50 backdrop-blur-sm p-4 rounded-2xl shadow-lg;
+  @apply bg-gradient-to-r from-purple-800/50 to-indigo-800/50 backdrop-blur-sm border-purple-600/40 rounded-3xl shadow-2xl;
   transition: all 0.3s ease;
 }
 
 .mobile-card:hover {
-  @apply bg-purple-800/50 scale-[1.02];
+  @apply shadow-purple-500/25 scale-[1.02];
+  box-shadow: 0 25px 50px -12px rgba(147, 51, 234, 0.25);
 }
 
 .tablet-layout {
-  @apply p-6 space-y-6;
+  @apply p-8 space-y-8;
 }
 
 .tablet-card {
-  @apply bg-purple-900/30 border-purple-700/50 backdrop-blur-sm p-6 rounded-2xl shadow-xl;
+  @apply bg-gradient-to-r from-purple-800/40 to-indigo-800/40 backdrop-blur-sm border-purple-600/30 rounded-3xl shadow-2xl;
   transition: all 0.3s ease;
 }
 
 .tablet-card:hover {
-  @apply bg-purple-800/40 scale-[1.01];
+  @apply shadow-purple-500/20 scale-[1.01];
+  box-shadow: 0 25px 50px -12px rgba(147, 51, 234, 0.2);
 }
 
 .desktop-layout {
-  @apply p-8 space-y-8;
+  @apply p-10 space-y-10;
 }
 
 .desktop-card {
-  @apply bg-purple-900/25 border-purple-700/40 backdrop-blur-sm p-8 rounded-2xl shadow-2xl;
+  @apply bg-gradient-to-r from-purple-800/30 to-indigo-800/30 backdrop-blur-sm border-purple-600/25 rounded-3xl shadow-2xl;
   transition: all 0.3s ease;
 }
 
 .desktop-card:hover {
-  @apply bg-purple-800/35 scale-[1.005];
+  @apply shadow-purple-500/15 scale-[1.005];
+  box-shadow: 0 25px 50px -12px rgba(147, 51, 234, 0.15);
 }
 
-/* PDF Chat Cards */
+/* Enhanced PDF Chat Cards */
 .pdf-card {
-  @apply bg-purple-900/40 border-purple-600/30 rounded-2xl p-4 shadow-lg;
-  transition: all 0.3s ease;
+  @apply bg-gradient-to-r from-purple-800/50 to-indigo-800/50 backdrop-blur-sm border-purple-600/40 rounded-3xl shadow-lg;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .pdf-card:hover {
-  @apply bg-purple-800/50 border-purple-500/50 shadow-xl scale-[1.02];
+  @apply shadow-2xl shadow-purple-500/25 scale-[1.02];
+  box-shadow: 0 25px 50px -12px rgba(147, 51, 234, 0.25);
 }
 
 .pdf-card-active {
-  @apply bg-purple-700/50 border-purple-500/70 shadow-purple-500/25;
+  @apply bg-gradient-to-r from-purple-700/60 to-indigo-700/60 border-purple-500/60;
+  box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.5), 0 25px 50px -12px rgba(147, 51, 234, 0.4);
 }
 
 /* Touch-friendly elements */
@@ -678,7 +684,8 @@ input:focus, textarea:focus, button:focus {
 
 /* Enhanced Navigation */
 .mobile-nav {
-  @apply bg-purple-950/90 backdrop-blur-xl border-b border-purple-800/50;
+  @apply bg-gradient-to-r from-purple-950/95 to-indigo-950/95 backdrop-blur-xl border-b border-purple-700/40;
+  border-radius: 0 0 2rem 2rem;
 }
 
 .sidebar-nav {

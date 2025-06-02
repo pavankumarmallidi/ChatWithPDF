@@ -162,7 +162,7 @@ const TabletHomePage = () => {
             Transform Your Document Experience
           </h2>
           <p className="text-purple-300 responsive-text-xl font-light leading-relaxed max-w-3xl mx-auto mb-8">
-            Log in to chat with your PDFs — 100% free, always. Upload, analyze, and have intelligent conversations with multiple documents using advanced AI technology.
+            Chat with multiple PDFs simultaneously — 100% free forever! Upload, analyze, and have intelligent conversations with multiple documents using advanced AI technology.
           </p>
           
           {/* Supportive Bullet Points */}
@@ -205,8 +205,8 @@ const TabletHomePage = () => {
                       <User className="w-8 h-8 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-semibold text-white mb-2">Login Required</h3>
-                      <p className="text-purple-300 text-lg">Sign in or create an account to start chatting with your PDFs — completely free!</p>
+                      <h3 className="text-2xl font-semibold text-white mb-2">Start Free Forever</h3>
+                      <p className="text-purple-300 text-lg">Sign in to chat with multiple PDFs simultaneously — no trial period, completely free forever!</p>
                     </div>
                   </div>
                   <ArrowRight className="w-6 h-6 text-purple-400" />
@@ -331,7 +331,7 @@ const TabletHomePage = () => {
               <div className="p-12">
                 <h3 className="text-3xl font-bold text-white mb-4">Ready to Get Started?</h3>
                 <p className="text-purple-300 text-xl mb-8 max-w-2xl mx-auto">
-                  Join thousands of users who are already transforming how they work with documents — completely free, always!
+                  Join thousands of users chatting with multiple PDFs simultaneously — completely free forever, no limits!
                 </p>
                 <Button
                   onClick={() => setCurrentView('auth')}
