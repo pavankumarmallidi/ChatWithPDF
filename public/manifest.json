@@ -1,0 +1,25 @@
+{
+  "name": "PDFOCREXTRACTOR",
+  "short_name": "PDF OCR",
+  "description": "AI-powered PDF text extraction and analysis tool",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1e3a8a",
+  "theme_color": "#1e3a8a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["productivity", "utilities", "business"],
+  "lang": "en"
+} 
