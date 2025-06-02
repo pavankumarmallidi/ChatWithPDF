@@ -12,10 +12,28 @@ import ChatLayout from "@/components/ChatLayout";
 import ChatSummary from "@/components/ChatSummary";
 import { type PdfData } from "@/services/userTableService";
 
+interface PdfAnalysisData {
+  pdfData: {
+    pdfName: string;
+    summary: string;
+    pages: number;
+    words: number;
+    language: string;
+    ocrText: string;
+  };
+  webhookData: {
+    Summary?: string;
+    totalPages?: number;
+    totalWords?: number;
+    language?: string;
+    ocr?: string;
+  };
+}
+
 const TabletHomePage = () => {
   const [currentView, setCurrentView] = useState<'home' | 'auth' | 'upload' | 'chat' | 'pdf-analysis'>('home');
   const [selectedPdf, setSelectedPdf] = useState<PdfData | null>(null);
-  const [pdfAnalysisData, setPdfAnalysisData] = useState<any>(null);
+  const [pdfAnalysisData, setPdfAnalysisData] = useState<PdfAnalysisData | null>(null);
   const [initialPdfId, setInitialPdfId] = useState<number | null>(null);
   const { user, signOut } = useAuth();
   const { toast } = useToast();
@@ -26,7 +44,7 @@ const TabletHomePage = () => {
     setCurrentView('chat');
   };
 
-  const handleUploadSuccess = (analysisData: any) => {
+  const handleUploadSuccess = (analysisData: PdfAnalysisData) => {
     setPdfAnalysisData(analysisData);
     setCurrentView('pdf-analysis');
   };
