@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Upload, FileText, MessageCircle, Sparkles, User, Menu, X, Zap, Shield, Cpu } from "lucide-react";
+import { Upload, FileText, MessageCircle, Sparkles, User, Menu, X, Zap, Shield, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import AuthPage from "@/components/AuthPage";
@@ -86,7 +86,7 @@ const MobileHomePage = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-gray-950/95 backdrop-blur-sm"
+          className="fixed inset-0 z-50 bg-purple-950/95 backdrop-blur-sm"
           onClick={() => setIsMenuOpen(false)}
         >
           <motion.div
@@ -94,12 +94,12 @@ const MobileHomePage = () => {
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="h-full w-80 bg-gray-900 border-r border-gray-800/50 p-6"
+            className="h-full w-80 bg-purple-900 border-r border-purple-800/50 p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-r from-gray-700 to-gray-600 rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center">
                   <FileText className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-lg font-bold text-white">PDFOCREXTRACTOR</span>
@@ -108,21 +108,21 @@ const MobileHomePage = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsMenuOpen(false)}
-                className="text-gray-400 hover:text-white"
+                className="text-purple-400 hover:text-white"
               >
                 <X className="w-5 h-5" />
               </Button>
             </div>
 
             {user && (
-              <div className="mb-8 p-4 bg-gray-800/50 rounded-xl">
+              <div className="mb-8 p-4 purple-card">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-gray-700 to-gray-600 rounded-lg flex items-center justify-center">
+                  <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
                     <User className="w-4 h-4 text-white" />
                   </div>
                   <div>
                     <p className="text-white font-medium text-sm">{getUserDisplayName()}</p>
-                    <p className="text-gray-400 text-xs">{user.email}</p>
+                    <p className="text-purple-300 text-xs">{user.email}</p>
                   </div>
                 </div>
               </div>
@@ -135,7 +135,7 @@ const MobileHomePage = () => {
                     setCurrentView('auth');
                     setIsMenuOpen(false);
                   }}
-                  className="w-full justify-start bg-gray-800/50 hover:bg-gray-700/50 text-white border-gray-700/50"
+                  className="w-full justify-start purple-button"
                 >
                   <User className="w-4 h-4 mr-3" />
                   Sign In / Sign Up
@@ -147,20 +147,20 @@ const MobileHomePage = () => {
                       setCurrentView('upload');
                       setIsMenuOpen(false);
                     }}
-                    className="w-full justify-start bg-gray-800/50 hover:bg-gray-700/50 text-white border-gray-700/50"
+                    className="w-full justify-start purple-button"
                   >
                     <Upload className="w-4 h-4 mr-3" />
-                    Upload PDF
+                    Upload PDFs
                   </Button>
                   <Button
                     onClick={() => {
                       setCurrentView('chat');
                       setIsMenuOpen(false);
                     }}
-                    className="w-full justify-start bg-gray-800/50 hover:bg-gray-700/50 text-white border-gray-700/50"
+                    className="w-full justify-start purple-button"
                   >
                     <MessageCircle className="w-4 h-4 mr-3" />
-                    My Documents
+                    Chat with PDFs
                   </Button>
                   <Button
                     onClick={handleLogout}
@@ -181,26 +181,26 @@ const MobileHomePage = () => {
 
   // Mobile Header
   const MobileHeader = () => (
-    <div className="sticky top-0 z-40 bg-gray-950/90 backdrop-blur-xl border-b border-gray-800/50 px-4 py-3">
+    <div className="sticky top-0 z-40 bg-purple-950/90 backdrop-blur-xl border-b border-purple-800/50 px-4 py-3 safe-area-top">
       <div className="flex items-center justify-between">
         <Button
           variant="ghost"
           size="icon"
           onClick={() => setIsMenuOpen(true)}
-          className="text-gray-400 hover:text-white"
+          className="text-purple-400 hover:text-white touch-target"
         >
           <Menu className="w-5 h-5" />
         </Button>
         
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-gray-700 to-gray-600 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
             <FileText className="w-4 h-4 text-white" />
           </div>
           <span className="text-white font-semibold text-sm">PDFOCREXTRACTOR</span>
         </div>
 
         {user && (
-          <div className="w-8 h-8 bg-gradient-to-r from-gray-700 to-gray-600 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
             <User className="w-4 h-4 text-white" />
           </div>
         )}
@@ -238,7 +238,7 @@ const MobileHomePage = () => {
 
   // Mobile Home View
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-purple-950 via-purple-900 to-indigo-950 text-white">
       <MobileMenu />
       <MobileHeader />
       
@@ -249,15 +249,35 @@ const MobileHomePage = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <div className="w-20 h-20 bg-gradient-to-r from-gray-700 to-gray-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+          <div className="w-20 h-20 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg purple-glow">
             <FileText className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-3xl font-bold mb-3 tracking-tight">
+          <h1 className="responsive-text-2xl font-bold mb-3 tracking-tight">
             AI-Powered PDF Analysis
           </h1>
-          <p className="text-gray-400 text-lg font-light leading-relaxed">
-            Upload, analyze, and chat with your documents using advanced AI technology
+          <p className="text-purple-300 responsive-text-base font-light leading-relaxed mb-6">
+            Log in to chat with your PDFs — 100% free, always
           </p>
+          
+          {/* Supportive Bullet Points */}
+          <div className="space-y-3 mb-8">
+            <div className="flex items-center justify-center gap-3 text-purple-200">
+              <CheckCircle className="w-5 h-5 text-purple-400" />
+              <span className="text-sm font-medium">Supports multiple PDFs</span>
+            </div>
+            <div className="flex items-center justify-center gap-3 text-purple-200">
+              <Zap className="w-5 h-5 text-purple-400" />
+              <span className="text-sm font-medium">Accurate, fast answers</span>
+            </div>
+            <div className="flex items-center justify-center gap-3 text-purple-200">
+              <Shield className="w-5 h-5 text-purple-400" />
+              <span className="text-sm font-medium">Secure & private</span>
+            </div>
+            <div className="flex items-center justify-center gap-3 text-purple-200">
+              <Sparkles className="w-5 h-5 text-purple-400" />
+              <span className="text-sm font-medium">No cost, ever</span>
+            </div>
+          </div>
         </motion.div>
 
         {/* Action Cards */}
@@ -270,15 +290,15 @@ const MobileHomePage = () => {
             >
               <Card
                 onClick={() => setCurrentView('auth')}
-                className="bg-gray-900/60 border-gray-800/50 p-6 cursor-pointer hover:bg-gray-800/60 transition-all duration-300 active:scale-95"
+                className="purple-card mobile-bounce cursor-pointer hover:purple-glow"
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-gray-700 to-gray-600 rounded-xl flex items-center justify-center">
+                <div className="flex items-center gap-4 p-6">
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl flex items-center justify-center touch-target">
                     <User className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-white mb-1">Get Started</h3>
-                    <p className="text-gray-400 text-sm">Sign in or create an account to begin</p>
+                    <h3 className="text-lg font-semibold text-white mb-1">Login Required</h3>
+                    <p className="text-purple-300 text-sm">Sign in or create an account to start chatting with your PDFs</p>
                   </div>
                 </div>
               </Card>
@@ -292,15 +312,15 @@ const MobileHomePage = () => {
               >
                 <Card
                   onClick={() => setCurrentView('upload')}
-                  className="bg-gray-900/60 border-gray-800/50 p-6 cursor-pointer hover:bg-gray-800/60 transition-all duration-300 active:scale-95"
+                  className="purple-card mobile-bounce cursor-pointer hover:purple-glow"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-gray-700 to-gray-600 rounded-xl flex items-center justify-center">
+                  <div className="flex items-center gap-4 p-6">
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl flex items-center justify-center touch-target">
                       <Upload className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-white mb-1">Upload PDF</h3>
-                      <p className="text-gray-400 text-sm">Add a new document for analysis</p>
+                      <h3 className="text-lg font-semibold text-white mb-1">Upload PDFs</h3>
+                      <p className="text-purple-300 text-sm">Add multiple documents for analysis</p>
                     </div>
                   </div>
                 </Card>
@@ -313,15 +333,15 @@ const MobileHomePage = () => {
               >
                 <Card
                   onClick={() => setCurrentView('chat')}
-                  className="bg-gray-900/60 border-gray-800/50 p-6 cursor-pointer hover:bg-gray-800/60 transition-all duration-300 active:scale-95"
+                  className="purple-card mobile-bounce cursor-pointer hover:purple-glow"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-gray-700 to-gray-600 rounded-xl flex items-center justify-center">
+                  <div className="flex items-center gap-4 p-6">
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl flex items-center justify-center touch-target">
                       <MessageCircle className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-white mb-1">My Documents</h3>
-                      <p className="text-gray-400 text-sm">View and chat with uploaded PDFs</p>
+                      <h3 className="text-lg font-semibold text-white mb-1">Chat with PDFs</h3>
+                      <p className="text-purple-300 text-sm">Ask questions across multiple documents</p>
                     </div>
                   </div>
                 </Card>
@@ -330,38 +350,50 @@ const MobileHomePage = () => {
           )}
         </div>
 
-        {/* Features */}
+        {/* Features Grid */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           className="space-y-4"
         >
-          <h2 className="text-xl font-semibold text-white mb-4">Key Features</h2>
+          <h2 className="responsive-text-lg font-semibold text-white mb-4 text-center">Why Choose Our Platform</h2>
           
           <div className="grid gap-4">
-            <div className="bg-gray-900/40 border border-gray-800/50 rounded-xl p-4">
-              <div className="flex items-center gap-3 mb-2">
-                <Sparkles className="w-5 h-5 text-gray-400" />
-                <h3 className="text-white font-medium">AI-Powered Analysis</h3>
+            <div className="purple-card">
+              <div className="flex items-center gap-3 mb-2 p-4">
+                <div className="w-10 h-10 bg-purple-600/20 rounded-xl flex items-center justify-center">
+                  <CheckCircle className="w-5 h-5 text-purple-400" />
+                </div>
+                <div>
+                  <h3 className="text-white font-medium">Multiple PDF Support</h3>
+                  <p className="text-purple-300 text-sm">Chat with several documents simultaneously</p>
+                </div>
               </div>
-              <p className="text-gray-400 text-sm">Advanced OCR and content understanding</p>
             </div>
 
-            <div className="bg-gray-900/40 border border-gray-800/50 rounded-xl p-4">
-              <div className="flex items-center gap-3 mb-2">
-                <Zap className="w-5 h-5 text-gray-400" />
-                <h3 className="text-white font-medium">Instant Processing</h3>
+            <div className="purple-card">
+              <div className="flex items-center gap-3 mb-2 p-4">
+                <div className="w-10 h-10 bg-purple-600/20 rounded-xl flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-purple-400" />
+                </div>
+                <div>
+                  <h3 className="text-white font-medium">Lightning Fast</h3>
+                  <p className="text-purple-300 text-sm">Get accurate answers in seconds</p>
+                </div>
               </div>
-              <p className="text-gray-400 text-sm">Fast document processing and analysis</p>
             </div>
 
-            <div className="bg-gray-900/40 border border-gray-800/50 rounded-xl p-4">
-              <div className="flex items-center gap-3 mb-2">
-                <Shield className="w-5 h-5 text-gray-400" />
-                <h3 className="text-white font-medium">Secure & Private</h3>
+            <div className="purple-card">
+              <div className="flex items-center gap-3 mb-2 p-4">
+                <div className="w-10 h-10 bg-purple-600/20 rounded-xl flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-purple-400" />
+                </div>
+                <div>
+                  <h3 className="text-white font-medium">Completely Secure</h3>
+                  <p className="text-purple-300 text-sm">Your documents stay private and protected</p>
+                </div>
               </div>
-              <p className="text-gray-400 text-sm">Your documents are protected and private</p>
             </div>
           </div>
         </motion.div>

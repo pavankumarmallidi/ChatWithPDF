@@ -4,31 +4,32 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
+    /* Dark Purple Theme */
+    --background: 240 10% 8%; /* Very dark purple-gray */
+    --foreground: 270 20% 98%; /* Light purple-white */
+    --card: 240 15% 12%; /* Dark purple card background */
+    --card-foreground: 270 15% 95%; /* Light card text */
+    --popover: 240 15% 12%;
+    --popover-foreground: 270 15% 95%;
+    --primary: 270 60% 55%; /* Purple primary */
+    --primary-foreground: 270 20% 98%;
+    --secondary: 240 20% 16%; /* Darker purple secondary */
+    --secondary-foreground: 270 15% 90%;
+    --muted: 240 15% 14%;
+    --muted-foreground: 270 10% 65%;
+    --accent: 270 50% 22%; /* Purple accent */
+    --accent-foreground: 270 15% 95%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    --border: 240 20% 18%; /* Purple border */
+    --input: 240 20% 18%;
+    --ring: 270 60% 55%;
+    --radius: 0.75rem; /* Increased border radius for more rounded look */
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
   }
 
   .dark {
@@ -63,8 +64,9 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
     min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 }
 
@@ -311,20 +313,20 @@ input:focus, textarea:focus, button:focus {
 @layer utilities {
   /* Device-specific layouts */
   .mobile-layout {
-    @apply block;
+    @apply p-4 space-y-4;
   }
   
   .tablet-layout {
-    @apply block;
+    @apply p-6 space-y-6;
   }
   
   .desktop-layout {
-    @apply block;
+    @apply p-8 space-y-8;
   }
 
   /* Touch-friendly interactions */
   .touch-target {
-    @apply min-h-[44px] min-w-[44px];
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
   }
 
   /* Mobile-first responsive text sizes */
@@ -358,7 +360,7 @@ input:focus, textarea:focus, button:focus {
 
   /* Responsive spacing */
   .responsive-p-sm {
-    @apply p-3 sm:p-4 md:p-6;
+    @apply p-2 sm:p-3 md:p-4;
   }
   
   .responsive-p-md {
@@ -384,20 +386,23 @@ input:focus, textarea:focus, button:focus {
 
   /* Mobile-friendly card styles */
   .mobile-card {
-    @apply bg-gray-900/60 backdrop-blur-sm border border-gray-800/50 rounded-2xl p-4 sm:p-6 transition-all duration-300;
+    @apply bg-purple-900/40 border-purple-700/50 backdrop-blur-sm p-4 rounded-2xl shadow-lg;
+    transition: all 0.3s ease;
   }
   
   .tablet-card {
-    @apply bg-gray-900/60 backdrop-blur-xl border border-gray-800/50 rounded-3xl p-6 sm:p-8 transition-all duration-300;
+    @apply bg-purple-900/30 border-purple-700/50 backdrop-blur-sm p-6 rounded-2xl shadow-xl;
+    transition: all 0.3s ease;
   }
   
   .desktop-card {
-    @apply bg-gray-900/60 backdrop-blur-xl border border-gray-800/50 rounded-3xl p-8 sm:p-10 transition-all duration-300;
+    @apply bg-purple-900/25 border-purple-700/40 backdrop-blur-sm p-8 rounded-2xl shadow-2xl;
+    transition: all 0.3s ease;
   }
 
   /* Mobile navigation styles */
   .mobile-nav {
-    @apply fixed bottom-0 left-0 right-0 bg-gray-900/90 backdrop-blur-xl border-t border-gray-800/50 p-4;
+    @apply bg-purple-950/90 backdrop-blur-xl border-b border-purple-800/50;
   }
   
   .mobile-nav-item {
@@ -405,11 +410,11 @@ input:focus, textarea:focus, button:focus {
   }
   
   .mobile-nav-item.active {
-    @apply bg-gray-800/60 text-white;
+    @apply bg-purple-800/60 text-white;
   }
   
   .mobile-nav-item:not(.active) {
-    @apply text-gray-400 hover:text-gray-300 hover:bg-gray-800/30;
+    @apply text-purple-400 hover:text-purple-300 hover:bg-purple-800/30;
   }
 
   /* Responsive button styles */
@@ -418,11 +423,11 @@ input:focus, textarea:focus, button:focus {
   }
   
   .responsive-btn-primary {
-    @apply responsive-btn bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white shadow-lg hover:shadow-xl;
+    @apply responsive-btn bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-600 hover:to-purple-500 text-white shadow-lg hover:shadow-xl;
   }
   
   .responsive-btn-secondary {
-    @apply responsive-btn bg-gray-800/60 border border-gray-700/50 text-gray-300 hover:bg-gray-700/80 hover:text-white backdrop-blur-sm;
+    @apply responsive-btn bg-purple-800/60 border border-purple-700/50 text-purple-300 hover:bg-purple-700/80 hover:text-white backdrop-blur-sm;
   }
 
   /* Responsive grid systems */
@@ -471,7 +476,11 @@ input:focus, textarea:focus, button:focus {
 
   /* Mobile-friendly animations */
   .mobile-bounce {
-    @apply active:scale-95 transition-transform duration-150;
+    transition: transform 0.1s ease;
+  }
+  
+  .mobile-bounce:active {
+    transform: scale(0.98);
   }
   
   .mobile-fade-in {
@@ -491,7 +500,7 @@ input:focus, textarea:focus, button:focus {
 
   /* Loading states */
   .skeleton {
-    @apply animate-pulse bg-gray-800/40 rounded;
+    @apply animate-pulse bg-purple-800/40 rounded;
   }
   
   .shimmer {
@@ -499,7 +508,7 @@ input:focus, textarea:focus, button:focus {
   }
   
   .shimmer::after {
-    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent;
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-purple-100/10 to-transparent;
     content: '';
     animation: shimmer 2s infinite;
   }
@@ -515,7 +524,7 @@ input:focus, textarea:focus, button:focus {
 
   /* Accessibility improvements for mobile */
   .focus-visible-mobile {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-purple-950;
   }
   
   .reduced-motion {
@@ -531,7 +540,13 @@ input:focus, textarea:focus, button:focus {
   .mobile-card,
   .tablet-card,
   .desktop-card {
-    @apply border-2 border-white/30;
+    @apply border-purple-400 bg-purple-950;
+  }
+  
+  .mobile-card:hover,
+  .tablet-card:hover,
+  .desktop-card:hover {
+    @apply bg-purple-800/50 scale-[1.02];
   }
 }
 
@@ -546,4 +561,168 @@ input:focus, textarea:focus, button:focus {
   .no-print {
     @apply hidden !important;
   }
+}
+
+/* Purple Theme Components */
+.purple-gradient {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+}
+
+.purple-card {
+  @apply bg-purple-900/30 border-purple-700/50 backdrop-blur-sm;
+  border-radius: 1rem; /* More rounded */
+}
+
+.purple-button {
+  @apply bg-purple-600 hover:bg-purple-500 text-white;
+  border-radius: 0.75rem; /* Rounded buttons */
+}
+
+.purple-input {
+  @apply bg-purple-900/20 border-purple-700/50 text-purple-100 placeholder:text-purple-400;
+  border-radius: 0.75rem; /* Rounded inputs */
+}
+
+/* Enhanced Mobile Design */
+.mobile-layout {
+  @apply p-4 space-y-4;
+}
+
+.mobile-card {
+  @apply bg-purple-900/40 border-purple-700/50 backdrop-blur-sm p-4 rounded-2xl shadow-lg;
+  transition: all 0.3s ease;
+}
+
+.mobile-card:hover {
+  @apply bg-purple-800/50 scale-[1.02];
+}
+
+.tablet-layout {
+  @apply p-6 space-y-6;
+}
+
+.tablet-card {
+  @apply bg-purple-900/30 border-purple-700/50 backdrop-blur-sm p-6 rounded-2xl shadow-xl;
+  transition: all 0.3s ease;
+}
+
+.tablet-card:hover {
+  @apply bg-purple-800/40 scale-[1.01];
+}
+
+.desktop-layout {
+  @apply p-8 space-y-8;
+}
+
+.desktop-card {
+  @apply bg-purple-900/25 border-purple-700/40 backdrop-blur-sm p-8 rounded-2xl shadow-2xl;
+  transition: all 0.3s ease;
+}
+
+.desktop-card:hover {
+  @apply bg-purple-800/35 scale-[1.005];
+}
+
+/* PDF Chat Cards */
+.pdf-card {
+  @apply bg-purple-900/40 border-purple-600/30 rounded-2xl p-4 shadow-lg;
+  transition: all 0.3s ease;
+}
+
+.pdf-card:hover {
+  @apply bg-purple-800/50 border-purple-500/50 shadow-xl scale-[1.02];
+}
+
+.pdf-card-active {
+  @apply bg-purple-700/50 border-purple-500/70 shadow-purple-500/25;
+}
+
+/* Touch-friendly elements */
+.touch-target {
+  @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+}
+
+.mobile-bounce {
+  transition: transform 0.1s ease;
+}
+
+.mobile-bounce:active {
+  transform: scale(0.98);
+}
+
+/* Premium Purple Animations */
+.purple-glow {
+  box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
+}
+
+.purple-glow:hover {
+  box-shadow: 0 0 30px rgba(147, 51, 234, 0.5);
+}
+
+/* Responsive Typography */
+.responsive-text-sm { @apply text-sm sm:text-base md:text-lg; }
+.responsive-text-base { @apply text-base sm:text-lg md:text-xl; }
+.responsive-text-lg { @apply text-lg sm:text-xl md:text-2xl; }
+.responsive-text-xl { @apply text-xl sm:text-2xl md:text-3xl; }
+.responsive-text-2xl { @apply text-2xl sm:text-3xl md:text-4xl; }
+.responsive-text-3xl { @apply text-3xl sm:text-4xl md:text-5xl; }
+
+/* Responsive Spacing */
+.responsive-p-sm { @apply p-2 sm:p-3 md:p-4; }
+.responsive-p-md { @apply p-4 sm:p-6 md:p-8; }
+.responsive-p-lg { @apply p-6 sm:p-8 md:p-12; }
+
+.responsive-gap-sm { @apply gap-2 sm:gap-3 md:gap-4; }
+.responsive-gap-md { @apply gap-4 sm:gap-6 md:gap-8; }
+.responsive-gap-lg { @apply gap-6 sm:gap-8 md:gap-12; }
+
+/* Enhanced Navigation */
+.mobile-nav {
+  @apply bg-purple-950/90 backdrop-blur-xl border-b border-purple-800/50;
+}
+
+.sidebar-nav {
+  @apply bg-purple-900/60 border-r border-purple-800/50;
+}
+
+/* Safe area support for mobile devices */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Accessibility improvements */
+.focus-visible {
+  @apply outline-none ring-2 ring-purple-500 ring-offset-2 ring-offset-purple-950;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-bounce,
+  .purple-card,
+  .tablet-card,
+  .desktop-card,
+  .pdf-card {
+    transition: none;
+  }
+}
+
+/* Custom scrollbar with purple theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-purple-950/50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-purple-600/60 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-purple-500/80;
 }
