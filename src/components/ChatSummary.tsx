@@ -17,6 +17,7 @@ interface Message {
 }
 
 interface PdfAnalysisData {
+  fileName: string;
   summary: string;
   totalPages: number;
   totalWords: number;
@@ -60,20 +61,20 @@ const ChatSummary = ({ onBackToHome, pdfAnalysisData }: ChatSummaryProps) => {
     setIsLoading(true);
 
     try {
-      // Note: Using a placeholder PDF ID since we don't have the actual PDF ID in this flow
-      const response = await sendChatMessage(messageToSend, 1);
+      const response = await sendChatMessage(messageToSend, 1); // Assuming pdfId = 1 for demo
+      
+      console.log('Chat response:', response);
       
       let botMessageText = "I understand you'd like to know more about your PDF. Could you be more specific about what aspect you'd like me to elaborate on?";
-      let relevanceScore: number | undefined;
 
-      if (response && Array.isArray(response) && response.length > 0 && response[0].output) {
-        const output = response[0].output;
-        if (output.answer) {
-          botMessageText = output.answer;
+      // Handle the response format
+      if (Array.isArray(response) && response.length > 0) {
+        const firstResult = response[0];
+        if (firstResult.output && firstResult.output.answer) {
+          botMessageText = firstResult.output.answer;
         }
-        if (output.relevanceScore !== undefined) {
-          relevanceScore = output.relevanceScore;
-        }
+      } else if (response && response.output && response.output.answer) {
+        botMessageText = response.output.answer;
       }
 
       const botResponse: Message = {
@@ -81,64 +82,59 @@ const ChatSummary = ({ onBackToHome, pdfAnalysisData }: ChatSummaryProps) => {
         text: botMessageText,
         isUser: false,
         timestamp: new Date(),
-        relevanceScore: relevanceScore,
       };
       
       setMessages(prev => [...prev, botResponse]);
     } catch (error) {
-      console.error("Chat message failed:", error);
-      
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-      
+      console.error("Error sending message:", error);
       toast({
         title: "Message failed",
-        description: errorMessage,
+        description: "Failed to send message. Please try again.",
         variant: "destructive",
       });
 
-      const errorResponse: Message = {
-        id: (Date.now() + 2).toString(),
-        text: `Sorry, I encountered an error: ${errorMessage}. Please try again.`,
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: "I'm sorry, I encountered an error while processing your message. Please try again.",
         isUser: false,
         timestamp: new Date(),
       };
-      
-      setMessages(prev => [...prev, errorResponse]);
+      setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f0f23] via-[#1a1a2e] to-[#16213e] relative overflow-hidden">
+    <div className="min-h-screen bg-gray-950 relative overflow-hidden">
       {/* Background effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900/40 to-gray-800/30"></div>
       <div 
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-20"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvv width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
         }}
       ></div>
 
       {/* Header */}
-      <div className="relative z-10 backdrop-blur-xl bg-white/5 border-b border-white/10">
+      <div className="relative z-10 backdrop-blur-xl bg-gray-900/60 border-b border-gray-800/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center gap-4">
             <Button
               onClick={onBackToHome}
               variant="outline"
-              className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/30 backdrop-blur-sm"
+              className="bg-gray-800/60 border-gray-700/50 text-white hover:bg-gray-700/80 hover:border-gray-600/70 backdrop-blur-sm rounded-xl"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Library
             </Button>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25">
+              <div className="w-10 h-10 bg-gradient-to-r from-gray-700 to-gray-600 rounded-2xl flex items-center justify-center shadow-lg shadow-gray-600/25 border border-gray-600/40">
                 <FileText className="w-5 h-5 text-white" />
               </div>
               <div>
                 <h1 className="text-xl font-bold text-white tracking-tight">PDF Analysis Complete</h1>
-                <p className="text-gray-300 text-sm">Chat with your document</p>
+                <p className="text-gray-300 text-sm font-light">Chat with your document</p>
               </div>
             </div>
           </div>
@@ -156,11 +152,11 @@ const ChatSummary = ({ onBackToHome, pdfAnalysisData }: ChatSummaryProps) => {
 
           {/* Right Panel - Chat Interface */}
           <div className="flex-1 min-w-0">
-            <Card className="h-full flex flex-col bg-white/5 backdrop-blur-xl border-white/10 shadow-2xl shadow-black/20 rounded-3xl overflow-hidden">
+            <Card className="h-full flex flex-col bg-gray-900/60 backdrop-blur-xl border-gray-800/50 shadow-2xl shadow-black/20 rounded-3xl overflow-hidden">
               {/* Chat Header */}
-              <div className="p-6 border-b border-white/10 bg-white/5 backdrop-blur-sm">
-                <h2 className="text-lg font-semibold text-white">Chat with your document</h2>
-                <p className="text-gray-400 text-sm">Ask questions about the content and get intelligent answers</p>
+              <div className="p-6 border-b border-gray-800/50 bg-gray-900/40 backdrop-blur-sm">
+                <h2 className="text-lg font-semibold text-white tracking-tight">Chat with your document</h2>
+                <p className="text-gray-400 text-sm font-light">Ask questions about the content and get intelligent answers</p>
               </div>
               
               {/* Chat Messages Area */}

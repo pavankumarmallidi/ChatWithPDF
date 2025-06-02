@@ -153,21 +153,21 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] flex flex-col">
+    <div className="min-h-screen bg-gray-950 flex flex-col">
       {/* Header */}
-      <div className="bg-[#1a1a2e] border-b border-[#2d3748] p-4">
+      <div className="bg-gray-900/60 border-b border-gray-800/50 p-6 backdrop-blur-sm">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button
               onClick={onBackToSelection}
-              className="bg-[#232347] border border-[#2d3748] text-white hover:bg-[#2a2a3e] rounded-xl"
+              className="bg-gray-800/60 border border-gray-700/50 text-gray-300 hover:bg-gray-700/80 hover:text-white rounded-xl backdrop-blur-sm transition-all duration-200"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Selection
             </Button>
             <div>
-              <h1 className="text-xl font-bold text-white">Chat with PDFs</h1>
-              <p className="text-sm text-gray-400">
+              <h1 className="text-2xl font-bold text-white tracking-tight">Chat with PDFs</h1>
+              <p className="text-base text-gray-400 font-light">
                 Chatting with {selectedPdfs.length} PDF{selectedPdfs.length > 1 ? 's' : ''}
               </p>
             </div>
@@ -176,13 +176,13 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
       </div>
 
       {/* Selected PDFs */}
-      <div className="bg-[#1e1e2e] border-b border-[#2d3748] p-4">
+      <div className="bg-gray-900/40 border-b border-gray-800/50 p-6 backdrop-blur-sm">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-wrap gap-3">
             {selectedPdfs.map((pdf) => (
-              <div key={pdf.id} className="flex items-center gap-2 bg-[#232347] border border-[#2d3748] rounded-xl px-3 py-2">
-                <FileText className="w-4 h-4 text-blue-400" />
-                <span className="text-sm text-white truncate max-w-48">{pdf["PDF NAME"]}</span>
+              <div key={pdf.id} className="flex items-center gap-2 bg-gray-800/60 border border-gray-700/50 rounded-xl px-4 py-2.5 backdrop-blur-sm">
+                <FileText className="w-4 h-4 text-gray-400" />
+                <span className="text-sm text-gray-300 truncate max-w-48 font-medium">{pdf["PDF NAME"]}</span>
               </div>
             ))}
           </div>
@@ -190,15 +190,15 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4">
-        <div className="max-w-4xl mx-auto space-y-4">
+      <div className="flex-1 overflow-y-auto p-6">
+        <div className="max-w-4xl mx-auto space-y-6">
           {messages.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-3xl flex items-center justify-center mx-auto mb-4">
-                <Bot className="w-8 h-8 text-white" />
+            <div className="text-center py-20">
+              <div className="w-20 h-20 bg-gradient-to-br from-gray-700/60 to-gray-800/40 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-gray-600/40">
+                <Bot className="w-10 h-10 text-gray-300" />
               </div>
-              <h3 className="text-lg font-medium text-white mb-2">Start your conversation</h3>
-              <p className="text-gray-400">Ask me anything about your selected PDFs!</p>
+              <h3 className="text-2xl font-medium text-white mb-3 tracking-tight">Start your conversation</h3>
+              <p className="text-gray-400 text-lg font-light">Ask me anything about your selected PDFs!</p>
             </div>
           ) : (
             messages.map((message) => (
@@ -206,26 +206,26 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
                 key={message.id}
                 className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
               >
-                <div className={`flex items-start gap-3 max-w-2xl ${message.isUser ? 'flex-row-reverse' : ''}`}>
-                  <div className={`w-8 h-8 rounded-2xl flex items-center justify-center flex-shrink-0 ${
+                <div className={`flex items-start gap-4 max-w-3xl ${message.isUser ? 'flex-row-reverse' : ''}`}>
+                  <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 border ${
                     message.isUser 
-                      ? 'bg-gradient-to-r from-[#4169E1] to-[#5578F0]' 
-                      : 'bg-[#232347]'
+                      ? 'bg-gradient-to-br from-gray-700 to-gray-800 border-gray-600/40' 
+                      : 'bg-gray-800/60 border-gray-700/50'
                   }`}>
                     {message.isUser ? (
-                      <User className="w-4 h-4 text-white" />
+                      <User className="w-5 h-5 text-gray-300" />
                     ) : (
-                      <Bot className="w-4 h-4 text-white" />
+                      <Bot className="w-5 h-5 text-gray-300" />
                     )}
                   </div>
-                  <div className={`rounded-2xl p-4 ${
+                  <div className={`rounded-2xl p-5 backdrop-blur-sm ${
                     message.isUser
-                      ? 'bg-gradient-to-r from-[#4169E1] to-[#5578F0] text-white'
-                      : 'bg-[#1a1a2e] border border-[#2d3748] text-white'
+                      ? 'bg-gray-700/60 border border-gray-600/50 text-white'
+                      : 'bg-gray-900/60 border border-gray-800/50 text-white'
                   }`}>
-                    <p className="whitespace-pre-wrap">{message.text}</p>
-                    <p className={`text-xs mt-2 ${
-                      message.isUser ? 'text-white/70' : 'text-gray-400'
+                    <p className="whitespace-pre-wrap leading-relaxed font-light">{message.text}</p>
+                    <p className={`text-xs mt-3 ${
+                      message.isUser ? 'text-gray-300' : 'text-gray-400'
                     }`}>
                       {message.timestamp.toLocaleTimeString()}
                     </p>
@@ -237,11 +237,11 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
 
           {isLoading && (
             <div className="flex justify-start">
-              <div className="flex items-start gap-3 max-w-2xl">
-                <div className="w-8 h-8 bg-[#232347] rounded-2xl flex items-center justify-center">
-                  <Bot className="w-4 h-4 text-white" />
+              <div className="flex items-start gap-4 max-w-3xl">
+                <div className="w-10 h-10 bg-gray-800/60 border border-gray-700/50 rounded-2xl flex items-center justify-center">
+                  <Bot className="w-5 h-5 text-gray-300" />
                 </div>
-                <div className="bg-[#1a1a2e] border border-[#2d3748] rounded-2xl p-4">
+                <div className="bg-gray-900/60 border border-gray-800/50 rounded-2xl p-5 backdrop-blur-sm">
                   <div className="flex space-x-1">
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -257,8 +257,8 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
       </div>
 
       {/* Message Input */}
-      <div className="border-t border-[#2d3748] p-4">
-        <div className="max-w-4xl mx-auto flex gap-3">
+      <div className="border-t border-gray-800/50 p-6 bg-gray-900/40 backdrop-blur-sm">
+        <div className="max-w-4xl mx-auto flex gap-4">
           <input
             type="text"
             value={inputMessage}
@@ -266,14 +266,14 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
             onKeyPress={handleKeyPress}
             placeholder="Ask a question about your PDFs..."
             disabled={isLoading}
-            className="flex-1 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500/50 rounded-2xl px-4 py-3 transition-all duration-300"
+            className="flex-1 bg-gray-800/60 border border-gray-700/50 text-white placeholder:text-gray-400 focus:ring-2 focus:ring-gray-600/50 focus:border-gray-600/50 rounded-2xl px-6 py-4 transition-all duration-200 backdrop-blur-sm hover:bg-gray-700/70 focus:bg-gray-700/80 text-lg"
           />
           <Button
             onClick={handleSendMessage}
             disabled={isLoading || !inputMessage.trim()}
-            className="bg-gradient-to-r from-[#4169E1] to-[#5578F0] hover:from-[#3457DA] hover:to-[#4E6EEF] text-white rounded-2xl px-6 transition-all duration-300 hover:scale-105"
+            className="bg-gray-700/60 hover:bg-gray-600/80 text-white rounded-2xl px-8 transition-all duration-200 hover:scale-105 border border-gray-600/50 backdrop-blur-sm disabled:opacity-50 disabled:hover:scale-100"
           >
-            <Send className="w-4 h-4" />
+            <Send className="w-5 h-5" />
           </Button>
         </div>
       </div>

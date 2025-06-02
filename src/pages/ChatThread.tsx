@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Send, User, Bot, FileText } from "lucide-react";
+import { ArrowLeft, Send, User, Bot, FileText, MessageCircle } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -237,21 +237,21 @@ const ChatThread = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] flex flex-col">
+    <div className="min-h-screen bg-gray-950 flex flex-col">
       {/* Header */}
-      <div className="bg-[#1a1a2e] border-b border-[#2d3748] p-4">
+      <div className="bg-gray-900/60 border-b border-gray-800/50 p-4 backdrop-blur-sm">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button
               onClick={() => navigate('/chat-history')}
-              className="bg-[#232347] border border-[#2d3748] text-white hover:bg-[#2a2a3e] rounded-xl"
+              className="bg-gray-800/60 border border-gray-700/50 text-gray-300 hover:bg-gray-700/80 hover:text-white rounded-xl backdrop-blur-sm transition-all duration-200"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to History
             </Button>
             <div>
-              <h1 className="text-xl font-bold text-white">Chat #{chatId}</h1>
-              <p className="text-sm text-gray-400">{user.email}</p>
+              <h1 className="text-xl font-bold text-white tracking-tight">Chat #{chatId}</h1>
+              <p className="text-sm text-gray-400 font-light">{user.email}</p>
             </div>
           </div>
         </div>
@@ -259,14 +259,14 @@ const ChatThread = () => {
 
       {/* Associated PDFs */}
       {pdfNames.length > 0 && (
-        <div className="bg-[#1e1e2e] border-b border-[#2d3748] p-4">
+        <div className="bg-gray-900/40 border-b border-gray-800/50 p-4 backdrop-blur-sm">
           <div className="max-w-4xl mx-auto">
-            <p className="text-sm text-gray-400 mb-2">Chatting with PDFs:</p>
+            <p className="text-sm text-gray-400 mb-2 font-medium">Chatting with PDFs:</p>
             <div className="flex flex-wrap gap-2">
               {pdfNames.map((pdfName, index) => (
-                <div key={index} className="flex items-center gap-2 bg-[#232347] border border-[#2d3748] rounded-xl px-3 py-2">
-                  <FileText className="w-4 h-4 text-blue-400" />
-                  <span className="text-sm text-white truncate max-w-48">{pdfName}</span>
+                <div key={index} className="flex items-center gap-2 bg-gray-800/60 border border-gray-700/50 rounded-xl px-3 py-2 backdrop-blur-sm">
+                  <FileText className="w-4 h-4 text-gray-400" />
+                  <span className="text-sm text-gray-300 truncate max-w-48 font-medium">{pdfName}</span>
                 </div>
               ))}
             </div>
@@ -275,68 +275,66 @@ const ChatThread = () => {
       )}
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4">
-        <div className="max-w-4xl mx-auto space-y-4">
+      <div className="flex-1 overflow-y-auto p-6">
+        <div className="max-w-4xl mx-auto space-y-6">
           {loadingHistory ? (
-            <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto"></div>
-              <p className="text-gray-400 mt-4">Loading messages...</p>
+            <div className="flex items-center justify-center py-20">
+              <div className="w-12 h-12 border-2 border-gray-600 border-t-gray-400 rounded-full animate-spin"></div>
             </div>
           ) : messages.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-3xl flex items-center justify-center mx-auto mb-4">
-                <Bot className="w-8 h-8 text-white" />
+            <div className="text-center py-20">
+              <div className="w-20 h-20 bg-gradient-to-br from-gray-700/60 to-gray-800/40 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-gray-600/40">
+                <MessageCircle className="w-10 h-10 text-gray-400" />
               </div>
-              <h3 className="text-lg font-medium text-white mb-2">Continue your conversation</h3>
-              <p className="text-gray-400">Ask me anything about your PDFs!</p>
+              <h3 className="text-2xl font-semibold text-white mb-3 tracking-tight">No messages found</h3>
+              <p className="text-gray-400 text-lg font-light">This chat thread appears to be empty</p>
             </div>
           ) : (
             messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} items-start gap-3`}
               >
-                <div className={`flex items-start gap-3 max-w-2xl ${message.sender === 'user' ? 'flex-row-reverse' : ''}`}>
-                  <div className={`w-8 h-8 rounded-2xl flex items-center justify-center flex-shrink-0 ${
-                    message.sender === 'user' 
-                      ? 'bg-gradient-to-r from-[#4169E1] to-[#5578F0]' 
-                      : 'bg-[#232347]'
-                  }`}>
-                    {message.sender === 'user' ? (
-                      <User className="w-4 h-4 text-white" />
-                    ) : (
-                      <Bot className="w-4 h-4 text-white" />
-                    )}
+                {message.sender !== 'user' && (
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-gray-700 to-gray-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-gray-600/25 border border-gray-600/40">
+                    <Bot className="w-5 h-5 text-white" />
                   </div>
-                  <div className={`rounded-2xl p-4 ${
+                )}
+                
+                <div className={`max-w-[70%] ${message.sender === 'user' ? 'text-right' : ''}`}>
+                  <div className={`inline-block px-4 py-3 shadow-lg transition-all duration-300 rounded-2xl ${
                     message.sender === 'user'
-                      ? 'bg-gradient-to-r from-[#4169E1] to-[#5578F0] text-white'
-                      : 'bg-[#1a1a2e] border border-[#2d3748] text-white'
+                      ? 'bg-gradient-to-r from-gray-700 to-gray-600 text-white border border-gray-600/30'
+                      : 'bg-gray-800/60 border border-gray-700/50 text-white backdrop-blur-sm'
                   }`}>
-                    <p className="whitespace-pre-wrap">{message.message}</p>
-                    <p className={`text-xs mt-2 ${
-                      message.sender === 'user' ? 'text-white/70' : 'text-gray-400'
-                    }`}>
-                      {new Date(message.timestamp).toLocaleTimeString()}
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap break-words font-light">
+                      {message.message}
                     </p>
                   </div>
+                  <p className="text-xs text-gray-500 mt-2 px-2 font-medium">
+                    {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </p>
                 </div>
+                
+                {message.sender === 'user' && (
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-gray-700 to-gray-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-gray-600/25 border border-gray-600/40">
+                    <User className="w-5 h-5 text-white" />
+                  </div>
+                )}
               </div>
             ))
           )}
 
           {isLoading && (
-            <div className="flex justify-start">
-              <div className="flex items-start gap-3 max-w-2xl">
-                <div className="w-8 h-8 bg-[#232347] rounded-2xl flex items-center justify-center">
-                  <Bot className="w-4 h-4 text-white" />
-                </div>
-                <div className="bg-[#1a1a2e] border border-[#2d3748] rounded-2xl p-4">
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  </div>
+            <div className="flex justify-start items-start gap-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-gray-700 to-gray-600 flex items-center justify-center shadow-lg shadow-gray-600/25 border border-gray-600/40">
+                <Bot className="w-5 h-5 text-white" />
+              </div>
+              <div className="bg-gray-800/60 backdrop-blur-sm border border-gray-700/50 px-4 py-3 rounded-2xl shadow-lg">
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                 </div>
               </div>
             </div>
@@ -347,23 +345,23 @@ const ChatThread = () => {
       </div>
 
       {/* Message Input */}
-      <div className="border-t border-[#2d3748] p-4">
-        <div className="max-w-4xl mx-auto flex gap-3">
+      <div className="border-t border-gray-800/50 p-6 bg-gray-900/40 backdrop-blur-sm">
+        <div className="max-w-4xl mx-auto flex gap-4">
           <input
             type="text"
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Type your message..."
+            placeholder="Continue the conversation..."
             disabled={isLoading}
-            className="flex-1 bg-[#1a1a2e] border border-[#2d3748] text-white placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500/50 rounded-2xl px-4 py-3 transition-all duration-300"
+            className="flex-1 bg-gray-800/60 border border-gray-700/50 text-white placeholder:text-gray-400 focus:ring-2 focus:ring-gray-600/50 focus:border-gray-600/50 rounded-2xl px-6 py-4 transition-all duration-200 backdrop-blur-sm hover:bg-gray-700/70 focus:bg-gray-700/80 text-lg font-light"
           />
           <Button
             onClick={handleSendMessage}
             disabled={isLoading || !inputMessage.trim()}
-            className="bg-gradient-to-r from-[#4169E1] to-[#5578F0] hover:from-[#3457DA] hover:to-[#4E6EEF] text-white rounded-2xl px-6 transition-all duration-300 hover:scale-105"
+            className="bg-gray-700/60 hover:bg-gray-600/80 text-white rounded-2xl px-8 transition-all duration-200 hover:scale-105 border border-gray-600/50 backdrop-blur-sm disabled:opacity-50 disabled:hover:scale-100"
           >
-            <Send className="w-4 h-4" />
+            <Send className="w-5 h-5" />
           </Button>
         </div>
       </div>

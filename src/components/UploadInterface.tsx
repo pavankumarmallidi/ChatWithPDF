@@ -8,57 +8,65 @@ interface UploadInterfaceProps {
 
 const UploadInterface = ({ onFileUpload }: UploadInterfaceProps) => {
   return (
-    <div className="relative z-10 flex items-center justify-center p-4 sm:p-6" style={{ minHeight: 'calc(100vh - 120px)' }}>
-      <Card className="w-full max-w-sm sm:max-w-lg card-base shadow-2xl animate-fade-in rounded-2xl">
-        <div className="p-6 sm:p-8 text-center">
-          <div className="mb-6 sm:mb-8">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 btn-primary rounded-2xl flex items-center justify-center shadow-lg animate-glow">
-              <FileText className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+    <div className="relative z-10 flex items-center justify-center p-6 sm:p-8" style={{ minHeight: 'calc(100vh - 120px)' }}>
+      <Card className="w-full max-w-lg bg-gray-900/60 border-gray-800/50 backdrop-blur-sm shadow-2xl animate-fade-in rounded-2xl">
+        <div className="p-8 sm:p-10 text-center">
+          <div className="mb-8 sm:mb-10">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-6 bg-gradient-to-br from-gray-700/60 to-gray-800/40 rounded-2xl flex items-center justify-center shadow-lg border border-gray-600/40 hover:scale-105 transition-transform duration-200">
+              <FileText className="w-10 h-10 sm:w-12 sm:h-12 text-gray-300" />
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-primary mb-2">Upload Your PDF</h2>
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Sparkles className="w-4 h-4 text-blue-400" />
-              <p className="text-secondary text-sm sm:text-base">AI-powered document analysis</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 tracking-tight">Upload Your PDF</h2>
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <Sparkles className="w-5 h-5 text-gray-400" />
+              <p className="text-gray-400 text-lg font-light">AI-powered document analysis</p>
             </div>
-            <p className="text-muted text-xs sm:text-sm">Select a PDF file to extract and analyze its content</p>
+            <p className="text-gray-500 text-base font-light">Select a PDF file to extract and analyze its content with advanced AI</p>
           </div>
 
-          <div className="space-y-4">
-            <div 
-              className="border-2 border-dashed rounded-xl p-6 sm:p-8 transition-all duration-300 hover:border-blue-500 hover:bg-blue-500/5 cursor-pointer group"
-              style={{ 
-                borderColor: 'var(--border-color)',
-                backgroundColor: 'var(--bg-secondary)'
-              }}
+          <div className="relative">
+            <input
+              type="file"
+              accept=".pdf"
+              onChange={onFileUpload}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+              id="pdf-upload"
+            />
+            <label 
+              htmlFor="pdf-upload" 
+              className="block w-full p-8 border-2 border-dashed border-gray-700/60 rounded-2xl hover:border-gray-600/80 transition-all duration-200 cursor-pointer bg-gray-800/30 hover:bg-gray-700/40 backdrop-blur-sm group"
             >
-              <input
-                type="file"
-                accept=".pdf"
-                onChange={onFileUpload}
-                className="hidden"
-                id="pdf-upload"
-              />
-              <label
-                htmlFor="pdf-upload"
-                className="cursor-pointer flex flex-col items-center gap-3"
-              >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-blue-500/20 rounded-xl flex items-center justify-center group-hover:bg-blue-500/30 transition-all duration-300">
-                  <Upload className="w-6 h-6 sm:w-7 sm:h-7 text-blue-400 group-hover:text-blue-300" />
+              <div className="flex flex-col items-center space-y-4">
+                <div className="w-16 h-16 bg-gray-700/60 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200 border border-gray-600/40">
+                  <Upload className="w-8 h-8 text-gray-300" />
                 </div>
-                <div className="text-primary">
-                  <p className="font-medium text-sm sm:text-base">Click to upload PDF</p>
-                  <p className="text-xs sm:text-sm text-secondary">or drag and drop</p>
+                <div>
+                  <p className="text-lg font-medium text-white mb-1">Click to upload or drag and drop</p>
+                  <p className="text-gray-400 text-sm font-light">PDF files only • Max size: 10MB</p>
                 </div>
-                <p className="text-xs text-muted">Supports PDF files up to 10MB</p>
-              </label>
-            </div>
+              </div>
+            </label>
           </div>
 
-          <div className="mt-6 pt-4 border-t border-color">
-            <div className="flex items-center justify-center gap-4 text-xs text-muted">
-              <span>✓ Secure processing</span>
-              <span>✓ AI analysis</span>
-              <span>✓ Instant results</span>
+          <div className="mt-8 pt-6 border-t border-gray-800/50">
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div className="space-y-2">
+                <div className="w-8 h-8 bg-gray-700/40 rounded-lg flex items-center justify-center mx-auto border border-gray-600/30">
+                  <FileText className="w-4 h-4 text-gray-400" />
+                </div>
+                <p className="text-xs text-gray-400 font-medium">Extract Text</p>
+              </div>
+              <div className="space-y-2">
+                <div className="w-8 h-8 bg-gray-700/40 rounded-lg flex items-center justify-center mx-auto border border-gray-600/30">
+                  <Sparkles className="w-4 h-4 text-gray-400" />
+                </div>
+                <p className="text-xs text-gray-400 font-medium">AI Analysis</p>
+              </div>
+              <div className="space-y-2">
+                <div className="w-8 h-8 bg-gray-700/40 rounded-lg flex items-center justify-center mx-auto border border-gray-600/30">
+                  <Upload className="w-4 h-4 text-gray-400" />
+                </div>
+                <p className="text-xs text-gray-400 font-medium">Fast Upload</p>
+              </div>
             </div>
           </div>
         </div>

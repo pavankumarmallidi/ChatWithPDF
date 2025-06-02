@@ -73,28 +73,31 @@ const ChatHistory = () => {
         }
       });
 
-      // Fetch PDF names for each thread
-      const threadsWithPdfNames = await Promise.all(
-        Array.from(threadsMap.values()).map(async (thread) => {
-          if (thread.pdfIds.length > 0) {
-            const { data: pdfData } = await supabase
-              .from('PDF_DATA_INFO')
-              .select('"PDF NAME"')
-              .in('id', thread.pdfIds);
-            
-            thread.pdfNames = pdfData?.map(pdf => pdf['PDF NAME']) || [];
-          }
-          return thread;
-        })
+      // Convert to array and sort by last message time
+      const threads = Array.from(threadsMap.values()).sort(
+        (a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime()
       );
 
-      setChatThreads(threadsWithPdfNames
-        .sort((a, b) => new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime()));
+      // Fetch PDF names for each thread
+      for (const thread of threads) {
+        if (thread.pdfIds.length > 0) {
+          const { data: pdfData, error: pdfError } = await supabase
+            .from('PDF_DATA_INFO')
+            .select('PDF NAME')
+            .in('id', thread.pdfIds);
+
+          if (!pdfError && pdfData) {
+            thread.pdfNames = pdfData.map(pdf => pdf['PDF NAME']);
+          }
+        }
+      }
+
+      setChatThreads(threads);
     } catch (error) {
       console.error('Error loading chat history:', error);
       toast({
-        title: "Error",
-        description: "Failed to load chat history",
+        title: "Error loading chat history",
+        description: "Failed to load your chat history. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -102,129 +105,131 @@ const ChatHistory = () => {
     }
   };
 
-  const continueChat = (chatId: number) => {
-    navigate(`/chat/${chatId}`);
-  };
-
-  const formatTime = (timeString: string) => {
-    const date = new Date(timeString);
+  const formatTimeAgo = (dateString: string) => {
+    const date = new Date(dateString);
     const now = new Date();
-    const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
-
-    if (diffInHours < 24) {
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    } else if (diffInHours < 168) { // 7 days
-      return date.toLocaleDateString([], { weekday: 'short', hour: '2-digit', minute: '2-digit' });
-    } else {
-      return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+    const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
+    
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes}m ago`;
     }
+    
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) {
+      return `${diffInHours}h ago`;
+    }
+    
+    const diffInDays = Math.floor(diffInHours / 24);
+    if (diffInDays < 7) {
+      return `${diffInDays}d ago`;
+    }
+    
+    return date.toLocaleDateString();
   };
 
   if (!user) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e] flex items-center justify-center">
-        <div className="text-white text-center">
-          <h2 className="text-2xl font-bold mb-4">Please log in</h2>
-          <Button onClick={() => navigate('/auth')} className="bg-gradient-to-r from-[#4169E1] to-[#5578F0]">
-            Go to Login
-          </Button>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0f] via-[#1a1a2e] to-[#16213e]">
+    <div className="min-h-screen bg-gray-950 flex flex-col">
       {/* Header */}
-      <div className="bg-[#1a1a2e] border-b border-[#2d3748]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4">
+      <div className="bg-gray-900/60 border-b border-gray-800/50 p-4 backdrop-blur-sm">
+        <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button
               onClick={() => navigate('/')}
-              className="bg-[#232347] border border-[#2d3748] text-white hover:bg-[#2a2a3e] rounded-xl"
+              className="bg-gray-800/60 border border-gray-700/50 text-gray-300 hover:bg-gray-700/80 hover:text-white rounded-xl backdrop-blur-sm transition-all duration-200"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Home
             </Button>
             <div>
-              <h1 className="text-2xl font-bold text-white">Chat History</h1>
-              <p className="text-gray-400 text-sm">{user.email}</p>
+              <h1 className="text-xl font-bold text-white tracking-tight">Chat History</h1>
+              <p className="text-sm text-gray-400 font-light">{user.email}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-        {loading ? (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto"></div>
-            <p className="text-gray-400 mt-4">Loading chat history...</p>
-          </div>
-        ) : chatThreads.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="w-16 h-16 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-3xl flex items-center justify-center mx-auto mb-4">
-              <MessageSquare className="w-8 h-8 text-white" />
+      <div className="flex-1 p-6">
+        <div className="max-w-4xl mx-auto">
+          {loading ? (
+            <div className="flex items-center justify-center py-20">
+              <div className="w-12 h-12 border-2 border-gray-600 border-t-gray-400 rounded-full animate-spin"></div>
             </div>
-            <h3 className="text-lg font-medium text-white mb-2">No chat history yet</h3>
-            <p className="text-gray-400 mb-6">Start your first conversation with AI by selecting PDFs</p>
-            <Button
-              onClick={() => navigate('/')}
-              className="bg-gradient-to-r from-[#4169E1] to-[#5578F0] hover:from-[#3457DA] hover:to-[#4E6EEF] text-white rounded-xl"
-            >
-              Select PDFs to Chat
-            </Button>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {chatThreads.map((thread) => (
-              <Card key={thread.chatId} className="bg-[#1a1a2e] border-[#2d3748] rounded-2xl p-6 hover:bg-[#232347] transition-all duration-300 cursor-pointer">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-[#4169E1] to-[#5578F0] rounded-xl flex items-center justify-center">
-                        <MessageSquare className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-white">Chat #{thread.chatId}</h3>
-                        <div className="flex items-center gap-2 text-sm text-gray-400">
-                          <Clock className="w-4 h-4" />
-                          <span>{formatTime(thread.lastMessageTime)}</span>
-                          <span>•</span>
-                          <span>{thread.messageCount} messages</span>
+          ) : chatThreads.length === 0 ? (
+            <div className="text-center py-20">
+              <div className="w-20 h-20 bg-gradient-to-br from-gray-700/60 to-gray-800/40 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-gray-600/40">
+                <MessageSquare className="w-10 h-10 text-gray-400" />
+              </div>
+              <h3 className="text-2xl font-semibold text-white mb-3 tracking-tight">No chat history yet</h3>
+              <p className="text-gray-400 text-lg font-light">Start chatting with your PDFs to see your conversation history here</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {chatThreads.map((thread) => (
+                <Card
+                  key={thread.chatId}
+                  className="bg-gray-900/60 border-gray-800/50 backdrop-blur-sm hover:bg-gray-800/70 transition-all duration-300 cursor-pointer p-6 rounded-2xl hover:scale-[1.01] hover:shadow-lg group"
+                  onClick={() => navigate(`/chat/${thread.chatId}`)}
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-gray-700 to-gray-600 rounded-xl flex items-center justify-center border border-gray-600/40 group-hover:scale-105 transition-transform duration-200">
+                          <MessageSquare className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-white tracking-tight">Chat #{thread.chatId}</h3>
+                          <div className="flex items-center gap-2 text-sm text-gray-400">
+                            <Clock className="w-3 h-3" />
+                            <span className="font-medium">{formatTimeAgo(thread.lastMessageTime)}</span>
+                            <span>•</span>
+                            <span className="font-medium">{thread.messageCount} messages</span>
+                          </div>
                         </div>
                       </div>
+
+                      {/* Associated PDFs */}
+                      {thread.pdfNames.length > 0 && (
+                        <div className="mb-3">
+                          <p className="text-xs text-gray-500 mb-2 uppercase tracking-wide font-medium">PDFs in this chat:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {thread.pdfNames.map((pdfName, index) => (
+                              <div key={index} className="flex items-center gap-2 bg-gray-800/60 border border-gray-700/50 rounded-lg px-3 py-1.5 backdrop-blur-sm">
+                                <FileText className="w-3 h-3 text-gray-400" />
+                                <span className="text-xs text-gray-300 truncate max-w-32 font-medium">{pdfName}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Last message preview */}
+                      <p className="text-sm text-gray-400 line-clamp-2 leading-relaxed font-light">
+                        {thread.lastMessage.length > 150 
+                          ? thread.lastMessage.substring(0, 150) + "..." 
+                          : thread.lastMessage}
+                      </p>
                     </div>
-                    
-                    {/* PDF Names */}
-                    {thread.pdfNames.length > 0 && (
-                      <div className="mb-3">
-                        <div className="flex flex-wrap gap-2">
-                          {thread.pdfNames.map((pdfName, index) => (
-                            <div key={index} className="flex items-center gap-1 bg-[#232347] border border-[#2d3748] rounded-lg px-2 py-1">
-                              <FileText className="w-3 h-3 text-blue-400" />
-                              <span className="text-xs text-gray-300 truncate max-w-32">{pdfName}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    
-                    <p className="text-gray-300 text-sm line-clamp-2">
-                      {thread.lastMessage}
-                    </p>
+
+                    <Button
+                      className="bg-gray-700/60 hover:bg-gray-600/80 text-white rounded-xl transition-all duration-200 border border-gray-600/50 backdrop-blur-sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/chat/${thread.chatId}`);
+                      }}
+                    >
+                      View Chat
+                    </Button>
                   </div>
-                  <Button
-                    onClick={() => continueChat(thread.chatId)}
-                    className="bg-[#232347] border border-[#2d3748] text-white hover:bg-[#2a2a3e] rounded-xl ml-4"
-                  >
-                    Continue Chat
-                  </Button>
-                </div>
-              </Card>
-            ))}
-          </div>
-        )}
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
