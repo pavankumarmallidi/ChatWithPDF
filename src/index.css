@@ -2,41 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* Dark mode only - inspired by the provided image */
-  --bg-primary: #0a0a0f;
-  --bg-secondary: #1a1a2e;
-  --bg-tertiary: #16213e;
-  --text-primary: #ffffff;
-  --text-secondary: #b8b9ba;
-  --text-muted: #8a8b8c;
-  --accent-primary: #4169E1;
-  --accent-secondary: #5578F0;
-  --accent-royal-blue: #4169E1;
-  --border-color: #2d3748;
-  --hover-bg: #2a2a3e;
-  --card-bg: #1e1e2e;
-  --input-bg: #2d2d3d;
-  --shadow-color: rgba(0, 0, 0, 0.5);
-  
-  /* Rounded corners system */
-  --border-radius-sm: 8px;
-  --border-radius-md: 12px;
-  --border-radius-lg: 16px;
-  --border-radius-xl: 20px;
-  --border-radius-2xl: 24px;
-  --border-radius-3xl: 28px;
-  --border-radius-full: 50%;
-}
-
 @layer base {
-  * {
-    border-color: var(--border-color);
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
   }
 
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+
+  * {
+    @apply border-border;
+  }
   body {
-    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
-    color: var(--text-primary);
+    @apply bg-background text-foreground;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     min-height: 100vh;
   }
@@ -279,4 +305,245 @@ button:hover {
 input:focus, textarea:focus, button:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(69, 120, 240, 0.3);
+}
+
+/* Responsive Design Utilities */
+@layer utilities {
+  /* Device-specific layouts */
+  .mobile-layout {
+    @apply block;
+  }
+  
+  .tablet-layout {
+    @apply block;
+  }
+  
+  .desktop-layout {
+    @apply block;
+  }
+
+  /* Touch-friendly interactions */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Mobile-first responsive text sizes */
+  .responsive-text-xs {
+    @apply text-xs sm:text-sm md:text-base;
+  }
+  
+  .responsive-text-sm {
+    @apply text-sm sm:text-base md:text-lg;
+  }
+  
+  .responsive-text-base {
+    @apply text-base sm:text-lg md:text-xl;
+  }
+  
+  .responsive-text-lg {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+  
+  .responsive-text-xl {
+    @apply text-xl sm:text-2xl md:text-3xl;
+  }
+  
+  .responsive-text-2xl {
+    @apply text-2xl sm:text-3xl md:text-4xl;
+  }
+  
+  .responsive-text-3xl {
+    @apply text-3xl sm:text-4xl md:text-5xl;
+  }
+
+  /* Responsive spacing */
+  .responsive-p-sm {
+    @apply p-3 sm:p-4 md:p-6;
+  }
+  
+  .responsive-p-md {
+    @apply p-4 sm:p-6 md:p-8;
+  }
+  
+  .responsive-p-lg {
+    @apply p-6 sm:p-8 md:p-12;
+  }
+
+  /* Responsive margins */
+  .responsive-m-sm {
+    @apply m-2 sm:m-3 md:m-4;
+  }
+  
+  .responsive-m-md {
+    @apply m-4 sm:m-6 md:m-8;
+  }
+  
+  .responsive-m-lg {
+    @apply m-6 sm:m-8 md:m-12;
+  }
+
+  /* Mobile-friendly card styles */
+  .mobile-card {
+    @apply bg-gray-900/60 backdrop-blur-sm border border-gray-800/50 rounded-2xl p-4 sm:p-6 transition-all duration-300;
+  }
+  
+  .tablet-card {
+    @apply bg-gray-900/60 backdrop-blur-xl border border-gray-800/50 rounded-3xl p-6 sm:p-8 transition-all duration-300;
+  }
+  
+  .desktop-card {
+    @apply bg-gray-900/60 backdrop-blur-xl border border-gray-800/50 rounded-3xl p-8 sm:p-10 transition-all duration-300;
+  }
+
+  /* Mobile navigation styles */
+  .mobile-nav {
+    @apply fixed bottom-0 left-0 right-0 bg-gray-900/90 backdrop-blur-xl border-t border-gray-800/50 p-4;
+  }
+  
+  .mobile-nav-item {
+    @apply flex-1 flex flex-col items-center justify-center py-2 px-3 rounded-xl transition-all duration-200;
+  }
+  
+  .mobile-nav-item.active {
+    @apply bg-gray-800/60 text-white;
+  }
+  
+  .mobile-nav-item:not(.active) {
+    @apply text-gray-400 hover:text-gray-300 hover:bg-gray-800/30;
+  }
+
+  /* Responsive button styles */
+  .responsive-btn {
+    @apply px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 text-sm sm:text-base md:text-lg font-medium rounded-xl transition-all duration-300;
+  }
+  
+  .responsive-btn-primary {
+    @apply responsive-btn bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white shadow-lg hover:shadow-xl;
+  }
+  
+  .responsive-btn-secondary {
+    @apply responsive-btn bg-gray-800/60 border border-gray-700/50 text-gray-300 hover:bg-gray-700/80 hover:text-white backdrop-blur-sm;
+  }
+
+  /* Responsive grid systems */
+  .responsive-grid-1 {
+    @apply grid grid-cols-1 gap-4 sm:gap-6;
+  }
+  
+  .responsive-grid-2 {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6;
+  }
+  
+  .responsive-grid-3 {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6;
+  }
+  
+  .responsive-grid-4 {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6;
+  }
+
+  /* Mobile-specific utilities */
+  .safe-area-inset {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Scroll snap for mobile */
+  .snap-scroll {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .snap-item {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* Mobile-friendly animations */
+  .mobile-bounce {
+    @apply active:scale-95 transition-transform duration-150;
+  }
+  
+  .mobile-fade-in {
+    animation: mobile-fade-in 0.3s ease-out;
+  }
+  
+  @keyframes mobile-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Loading states */
+  .skeleton {
+    @apply animate-pulse bg-gray-800/40 rounded;
+  }
+  
+  .shimmer {
+    @apply relative overflow-hidden;
+  }
+  
+  .shimmer::after {
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent;
+    content: '';
+    animation: shimmer 2s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Accessibility improvements for mobile */
+  .focus-visible-mobile {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-950;
+  }
+  
+  .reduced-motion {
+    @media (prefers-reduced-motion: reduce) {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .mobile-card,
+  .tablet-card,
+  .desktop-card {
+    @apply border-2 border-white/30;
+  }
+}
+
+/* Print styles */
+@media print {
+  .mobile-layout,
+  .tablet-layout,
+  .desktop-layout {
+    @apply block !important;
+  }
+  
+  .no-print {
+    @apply hidden !important;
+  }
 }
