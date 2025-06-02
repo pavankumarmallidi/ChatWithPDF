@@ -14,8 +14,7 @@ import {
   Clock,
   Target,
   Menu,
-  X,
-  Play
+  X
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -33,20 +32,20 @@ function HeroBackground() {
       height: '100vh',
       overflow: 'hidden',
     }}>
-      {/* Animated gradient background */}
+      {/* Premium dark black gradient background */}
       <div 
         className="absolute inset-0"
         style={{
           background: `
-            radial-gradient(circle at 20% 20%, rgba(30, 30, 40, 0.8) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(25, 25, 35, 0.6) 0%, transparent 50%),
-            radial-gradient(circle at 40% 60%, rgba(20, 20, 30, 0.7) 0%, transparent 50%),
-            linear-gradient(135deg, #0d0d0f 0%, #161618 50%, #1a1a1c 100%)
+            radial-gradient(circle at 20% 20%, rgba(0, 0, 0, 0.9) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(10, 10, 15, 0.8) 0%, transparent 50%),
+            radial-gradient(circle at 40% 60%, rgba(15, 15, 20, 0.9) 0%, transparent 50%),
+            linear-gradient(135deg, #000000 0%, #0a0a0f 50%, #111111 100%)
           `
         }}
       />
       
-      {/* Animated particles */}
+      {/* Animated dark particles */}
       <div className="absolute inset-0">
         {[...Array(30)].map((_, i) => (
           <motion.div
@@ -69,7 +68,7 @@ function HeroBackground() {
         ))}
       </div>
 
-      {/* Overlay gradients */}
+      {/* Dark overlay gradients */}
       <div
         style={{
           position: 'absolute',
@@ -78,8 +77,8 @@ function HeroBackground() {
           width: '100%',
           height: '100vh',
           background: `
-            linear-gradient(to right, rgba(13, 13, 15, 0.9), transparent 30%, transparent 70%, rgba(13, 13, 15, 0.9)),
-            linear-gradient(to bottom, transparent 40%, rgba(13, 13, 15, 0.95))
+            linear-gradient(to right, rgba(0, 0, 0, 0.95), transparent 30%, transparent 70%, rgba(0, 0, 0, 0.95)),
+            linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.98))
           `,
           pointerEvents: 'none',
         }}
@@ -104,7 +103,7 @@ function Navbar({ onGetStarted }: { onGetStarted: () => void }) {
       ? 'text-white'
       : isAnotherItemHovered
         ? 'text-gray-600'
-        : 'text-gray-400';
+        : 'text-gray-300';
 
     return `text-sm font-medium transition duration-200 ${colorClass} ${extraClasses}`;
   };
@@ -113,7 +112,7 @@ function Navbar({ onGetStarted }: { onGetStarted: () => void }) {
     <nav 
       className="fixed top-0 left-0 right-0 z-20" 
       style={{ 
-        backgroundColor: 'rgba(13, 13, 15, 0.8)', 
+        backgroundColor: 'rgba(0, 0, 0, 0.9)', 
         backdropFilter: 'blur(20px)', 
         WebkitBackdropFilter: 'blur(20px)', 
         borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
@@ -126,8 +125,8 @@ function Navbar({ onGetStarted }: { onGetStarted: () => void }) {
             whileHover={{ scale: 1.03 }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
           >
-            <div className="w-9 h-9 bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg flex items-center justify-center shadow-lg border border-gray-700/50">
-              <FileText className="w-5 h-5 text-gray-300" />
+            <div className="w-9 h-9 bg-gradient-to-br from-gray-800 to-black rounded-2xl flex items-center justify-center shadow-lg border border-gray-700/50">
+              <FileText className="w-5 h-5 text-white" />
             </div>
             <span className="text-lg font-semibold text-white tracking-tight">PDFOCREXTRACTOR</span>
           </motion.div>
@@ -140,11 +139,11 @@ function Navbar({ onGetStarted }: { onGetStarted: () => void }) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </a>
-              <div className="absolute left-0 mt-2 w-48 bg-black/80 rounded-lg shadow-xl py-2 border border-gray-800/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-30" 
+              <div className="absolute left-0 mt-2 w-48 bg-black/90 rounded-2xl shadow-xl py-2 border border-gray-800/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-30" 
                 style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
-                <a href="#features" className="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800/30 transition duration-150">AI Analysis</a>
-                <a href="#features" className="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800/30 transition duration-150">OCR Technology</a>
-                <a href="#features" className="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800/30 transition duration-150">Chat Interface</a>
+                <a href="#features" className="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-800/30 transition duration-150 rounded-xl mx-1">AI Analysis</a>
+                <a href="#features" className="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-800/30 transition duration-150 rounded-xl mx-1">OCR Technology</a>
+                <a href="#features" className="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-800/30 transition duration-150 rounded-xl mx-1">Chat Interface</a>
               </div>
             </div>
 
@@ -159,18 +158,18 @@ function Navbar({ onGetStarted }: { onGetStarted: () => void }) {
         </div>
 
         <div className="flex items-center space-x-4 md:space-x-6">
-          <a href="#" className="hidden md:block text-gray-400 hover:text-white text-sm font-medium transition duration-200">Support</a>
+          <a href="#" className="hidden md:block text-gray-300 hover:text-white text-sm font-medium transition duration-200">Support</a>
           <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <Button
               onClick={onGetStarted}
-              className="bg-gray-800/60 hover:bg-gray-700/80 text-white font-medium py-2.5 px-6 rounded-lg text-sm border border-gray-700/50 transition-all duration-200 backdrop-blur-sm"
+              className="bg-gray-800/80 hover:bg-gray-700/90 text-white font-medium py-2.5 px-6 rounded-2xl text-sm border border-gray-700/50 transition-all duration-200 backdrop-blur-sm"
             >
-              {user ? "Go to App" : "Start Free Trial"}
+              {user ? "Go to App" : "Start Free"}
             </Button>
           </motion.div>
           
           <button 
-            className="lg:hidden text-gray-400 hover:text-white p-2 transition duration-200" 
+            className="lg:hidden text-gray-300 hover:text-white p-2 transition duration-200" 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
             aria-label="Toggle mobile menu"
           >
@@ -190,14 +189,14 @@ function Navbar({ onGetStarted }: { onGetStarted: () => void }) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-black/80 border-t border-gray-800/50"
+            className="lg:hidden bg-black/90 border-t border-gray-800/50"
             style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
           >
             <div className="px-6 py-6 flex flex-col space-y-4">
-              <a href="#features" className="text-gray-400 hover:text-white text-sm py-2 transition duration-200 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Features</a>
-              <a href="#how-it-works" className="text-gray-400 hover:text-white text-sm py-2 transition duration-200 font-medium" onClick={() => setIsMobileMenuOpen(false)}>How it works</a>
-              <a href="#benefits" className="text-gray-400 hover:text-white text-sm py-2 transition duration-200 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Benefits</a>
-              <a href="#" className="text-gray-400 hover:text-white text-sm py-2 transition duration-200 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Support</a>
+              <a href="#features" className="text-gray-300 hover:text-white text-sm py-2 transition duration-200 font-medium rounded-xl hover:bg-gray-800/30 px-2" onClick={() => setIsMobileMenuOpen(false)}>Features</a>
+              <a href="#how-it-works" className="text-gray-300 hover:text-white text-sm py-2 transition duration-200 font-medium rounded-xl hover:bg-gray-800/30 px-2" onClick={() => setIsMobileMenuOpen(false)}>How it works</a>
+              <a href="#benefits" className="text-gray-300 hover:text-white text-sm py-2 transition duration-200 font-medium rounded-xl hover:bg-gray-800/30 px-2" onClick={() => setIsMobileMenuOpen(false)}>Benefits</a>
+              <a href="#" className="text-gray-300 hover:text-white text-sm py-2 transition duration-200 font-medium rounded-xl hover:bg-gray-800/30 px-2" onClick={() => setIsMobileMenuOpen(false)}>Support</a>
             </div>
           </motion.div>
         )}
@@ -221,7 +220,7 @@ function HeroContent({ onGetStarted }: { onGetStarted: () => void }) {
         transition={{ delay: 0.2 }}
       >
         <Sparkles className="w-4 h-4 text-gray-400" />
-        <span className="text-gray-300 text-sm font-medium">AI vs. Manual: Find out who wins during live analysis</span>
+        <span className="text-gray-200 text-sm font-medium">100% Free Forever • AI-powered document analysis</span>
       </motion.div>
       
       <motion.h1 
@@ -240,7 +239,7 @@ function HeroContent({ onGetStarted }: { onGetStarted: () => void }) {
       </motion.h1>
       
       <motion.p 
-        className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-10 text-gray-400 max-w-3xl leading-relaxed font-light"
+        className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-10 text-gray-300 max-w-3xl leading-relaxed font-light"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
@@ -258,19 +257,9 @@ function HeroContent({ onGetStarted }: { onGetStarted: () => void }) {
         <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
           <Button
             onClick={onGetStarted}
-            className="bg-gray-800/60 hover:bg-gray-700/80 text-white font-medium py-4 px-8 rounded-lg transition duration-200 w-full sm:w-auto border border-gray-700/30 text-base backdrop-blur-sm"
+            className="bg-gradient-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900 text-white font-medium py-4 px-8 rounded-2xl transition duration-200 w-full sm:w-auto border border-gray-700/30 text-base backdrop-blur-sm shadow-lg hover:shadow-black/25"
           >
-            Start Free Trial
-          </Button>
-        </motion.div>
-        
-        <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-          <Button
-            variant="outline"
-            className="bg-transparent border-2 border-gray-700/50 hover:border-gray-600/70 text-gray-300 hover:text-white font-medium py-4 px-8 rounded-lg transition duration-200 flex items-center justify-center w-full sm:w-auto backdrop-blur-sm text-base"
-          >
-            <Play className="w-5 h-5 mr-2 fill-current" />
-            Watch Demo
+            Start Free Forever
           </Button>
         </motion.div>
       </motion.div>
@@ -283,17 +272,17 @@ function ScreenshotSection({ screenshotRef }: { screenshotRef: React.RefObject<H
     <section className="relative z-10 container mx-auto px-6 md:px-8 lg:px-12 mt-16 md:mt-20">
       <motion.div 
         ref={screenshotRef} 
-        className="bg-gray-900/30 rounded-2xl overflow-hidden shadow-2xl border border-gray-800/30 w-full md:w-[85%] lg:w-[75%] mx-auto backdrop-blur-sm"
+        className="bg-gray-900/30 rounded-3xl overflow-hidden shadow-2xl border border-gray-800/30 w-full md:w-[85%] lg:w-[75%] mx-auto backdrop-blur-sm"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.6 }}
       >
         <div className="p-6">
-          <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/60 rounded-xl p-8 relative overflow-hidden border border-gray-700/30">
+          <div className="bg-gradient-to-br from-gray-900/80 to-black/80 rounded-2xl p-8 relative overflow-hidden border border-gray-700/30">
             {/* Mock PDF interface */}
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-gray-700/60 rounded-lg flex items-center justify-center border border-gray-600/40">
-                <FileText className="w-6 h-6 text-gray-300" />
+              <div className="w-12 h-12 bg-gray-800/60 rounded-2xl flex items-center justify-center border border-gray-600/40">
+                <FileText className="w-6 h-6 text-gray-200" />
               </div>
               <div>
                 <h3 className="text-white font-semibold text-lg">Sample_Document.pdf</h3>
@@ -302,7 +291,7 @@ function ScreenshotSection({ screenshotRef }: { screenshotRef: React.RefObject<H
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-gray-800/40 rounded-lg p-5 border border-gray-700/30">
+              <div className="bg-gray-800/40 rounded-2xl p-5 border border-gray-700/30">
                 <h4 className="text-white font-medium mb-3 flex items-center gap-2">
                   <Brain className="w-4 h-4 text-gray-400" />
                   AI Summary
@@ -313,18 +302,18 @@ function ScreenshotSection({ screenshotRef }: { screenshotRef: React.RefObject<H
                 </p>
               </div>
               
-              <div className="bg-gray-800/40 rounded-lg p-5 border border-gray-700/30">
+              <div className="bg-gray-800/40 rounded-2xl p-5 border border-gray-700/30">
                 <h4 className="text-white font-medium mb-3 flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-gray-400" />
                   Key Insights
                 </h4>
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-sm text-gray-300">
-                    <CheckCircle className="w-3 h-3 text-green-500/80" />
+                    <CheckCircle className="w-3 h-3 text-green-400/80" />
                     Revenue growth projected at 23%
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-300">
-                    <CheckCircle className="w-3 h-3 text-green-500/80" />
+                    <CheckCircle className="w-3 h-3 text-green-400/80" />
                     Market expansion opportunities identified
                   </div>
                 </div>
@@ -334,7 +323,7 @@ function ScreenshotSection({ screenshotRef }: { screenshotRef: React.RefObject<H
             <div className="flex gap-2 mt-6">
               <span className="bg-gray-700/40 text-gray-300 px-3 py-1.5 rounded-full text-sm border border-gray-600/30">Business Report</span>
               <span className="bg-gray-700/40 text-gray-300 px-3 py-1.5 rounded-full text-sm border border-gray-600/30">English</span>
-              <span className="bg-green-900/40 text-green-400 px-3 py-1.5 rounded-full text-sm border border-green-800/30">✓ Analyzed</span>
+              <span className="bg-green-900/40 text-green-300 px-3 py-1.5 rounded-full text-sm border border-green-800/30">✓ Analyzed</span>
             </div>
           </div>
         </div>
@@ -412,7 +401,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
   }, []);
 
   return (
-    <div className="relative bg-gray-950">
+    <div className="relative bg-gradient-to-br from-black via-gray-900 to-gray-950">
       <Navbar onGetStarted={onGetStarted} />
 
       {/* Hero Section */}
@@ -443,7 +432,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
       </div>
 
       {/* Content sections */}
-      <div className="bg-gray-950/90 relative z-10 backdrop-blur-sm" style={{ marginTop: '-10vh' }}>
+      <div className="bg-black/90 relative z-10 backdrop-blur-sm" style={{ marginTop: '-10vh' }}>
         <ScreenshotSection screenshotRef={screenshotRef} />
 
         {/* Features Section */}
@@ -472,9 +461,9 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.02, y: -8 }}
                 >
-                  <Card className="bg-gray-900/50 border-gray-800/50 backdrop-blur-sm hover:bg-gray-900/70 transition-all duration-300 h-full p-8 rounded-xl">
-                    <div className="w-14 h-14 bg-gradient-to-br from-gray-700/80 to-gray-800/60 rounded-xl flex items-center justify-center mb-6 border border-gray-600/30">
-                      <feature.icon className="w-7 h-7 text-gray-300" />
+                  <Card className="bg-gray-900/50 border-gray-800/50 backdrop-blur-sm hover:bg-gray-900/70 transition-all duration-300 h-full p-8 rounded-3xl">
+                    <div className="w-14 h-14 bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl flex items-center justify-center mb-6 border border-gray-600/30 shadow-lg">
+                      <feature.icon className="w-7 h-7 text-white" />
                     </div>
                     <h3 className="text-2xl font-semibold text-white mb-4 tracking-tight">{feature.title}</h3>
                     <p className="text-gray-400 leading-relaxed text-lg font-light">{feature.description}</p>
@@ -514,10 +503,10 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
                   viewport={{ once: true }}
                 >
                   <div className="relative mb-8">
-                    <div className="w-24 h-24 bg-gradient-to-br from-gray-700/60 to-gray-800/40 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-gray-600/30">
+                    <div className="w-24 h-24 bg-gradient-to-br from-gray-700 to-gray-900 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-gray-600/30 shadow-2xl">
                       <span className="text-white font-bold text-xl">{item.step}</span>
                     </div>
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-gray-600/20 to-gray-700/10 blur-xl mx-auto w-24 h-24" />
+                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-gray-600/20 to-gray-800/10 blur-xl mx-auto w-24 h-24" />
                   </div>
                   <item.icon className="w-10 h-10 text-gray-400 mx-auto mb-6" />
                   <h3 className="text-2xl font-semibold text-white mb-4 tracking-tight">{item.title}</h3>
@@ -554,7 +543,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
                       transition={{ duration: 0.4, delay: index * 0.1 }}
                       viewport={{ once: true }}
                     >
-                      <CheckCircle className="w-6 h-6 text-green-500/80 flex-shrink-0" />
+                      <CheckCircle className="w-6 h-6 text-green-400/80 flex-shrink-0" />
                       <span className="text-gray-300 text-lg font-light">{benefit}</span>
                     </motion.div>
                   ))}
@@ -563,7 +552,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                   <Button 
                     onClick={onGetStarted}
-                    className="bg-gray-800/60 hover:bg-gray-700/80 text-white border border-gray-700/30 px-10 py-4 text-lg font-medium rounded-lg transition-all duration-200 backdrop-blur-sm"
+                    className="bg-gradient-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900 text-white border border-gray-700/30 px-10 py-4 text-lg font-medium rounded-2xl transition-all duration-200 backdrop-blur-sm shadow-lg hover:shadow-black/25"
                   >
                     Get Started Free <ArrowRight className="w-5 h-5 ml-3" />
                   </Button>
@@ -576,10 +565,10 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <Card className="bg-gray-900/50 border-gray-800/50 backdrop-blur-sm p-10 rounded-2xl">
+                <Card className="bg-gray-900/50 border-gray-800/50 backdrop-blur-sm p-10 rounded-3xl">
                   <div className="space-y-8">
                     <div className="flex items-center gap-5">
-                      <div className="w-14 h-14 bg-gray-700/60 rounded-xl flex items-center justify-center border border-gray-600/40">
+                      <div className="w-14 h-14 bg-gray-700/60 rounded-2xl flex items-center justify-center border border-gray-600/40">
                         <FileText className="w-7 h-7 text-gray-300" />
                       </div>
                       <div>
@@ -588,7 +577,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
                       </div>
                     </div>
                     
-                    <div className="bg-gray-800/40 rounded-xl p-6 border border-gray-700/30">
+                    <div className="bg-gray-800/40 rounded-2xl p-6 border border-gray-700/30">
                       <h4 className="text-white font-medium mb-3 text-lg">AI Summary</h4>
                       <p className="text-gray-300 leading-relaxed">
                         This document contains a comprehensive analysis of market trends, 
@@ -608,7 +597,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
         </section>
 
         {/* CTA Section */}
-        <section className="py-32 px-6 text-center bg-gradient-to-br from-gray-900/40 to-gray-800/30">
+        <section className="py-32 px-6 text-center bg-gradient-to-br from-gray-900/40 to-black/30">
           <motion.div 
             className="max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
@@ -624,7 +613,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
               <Button 
                 onClick={onGetStarted}
                 size="lg"
-                className="bg-gray-800/60 hover:bg-gray-700/80 text-white border border-gray-700/30 px-12 py-5 text-xl font-medium rounded-lg transition-all duration-200 backdrop-blur-sm"
+                className="bg-gradient-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900 text-white border border-gray-700/30 px-12 py-5 text-xl font-medium rounded-2xl transition-all duration-200 backdrop-blur-sm shadow-lg hover:shadow-black/25"
               >
                 Start Analyzing Now <ArrowRight className="w-6 h-6 ml-3" />
               </Button>

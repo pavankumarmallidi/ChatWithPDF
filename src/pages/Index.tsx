@@ -123,7 +123,7 @@ const Index = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-950 flex items-center justify-center">
         <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-400"></div>
       </div>
     );
@@ -155,13 +155,13 @@ const Index = () => {
 
   if (currentView === 'upload' && user) {
     return (
-      <div className="min-h-screen bg-gray-950">
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-950">
         <div className="bg-gray-900/60 border-b border-gray-800/50 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-800 rounded-2xl flex items-center justify-center shadow-lg border border-gray-600/40">
-                  <FileText className="w-6 h-6 text-gray-300" />
+                <div className="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-900 rounded-3xl flex items-center justify-center shadow-lg border border-gray-600/40">
+                  <FileText className="w-6 h-6 text-white" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-white tracking-tight">PDF Upload</h2>
@@ -171,7 +171,7 @@ const Index = () => {
               
               <Button
                 onClick={() => setCurrentView('selection')}
-                className="bg-gray-800/60 border border-gray-700/50 text-gray-300 hover:bg-gray-700/80 hover:text-white rounded-xl backdrop-blur-sm transition-all duration-200"
+                className="bg-gray-800/60 border border-gray-700/50 text-gray-300 hover:bg-gray-700/80 hover:text-white rounded-2xl backdrop-blur-sm transition-all duration-200"
               >
                 Back to Selection
               </Button>

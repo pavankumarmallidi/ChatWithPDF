@@ -16,7 +16,9 @@ import {
   Users,
   BookOpen,
   Hash,
-  Clock
+  Clock,
+  Upload,
+  Sparkles
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { getUserPdfs, type PdfData } from '@/services/userTableService';
@@ -24,6 +26,7 @@ import PdfList from '@/components/PdfList';
 import MessageInput from '@/components/MessageInput';
 import MessageList from '@/components/MessageList';
 import PdfChatView from '@/components/PdfChatView';
+import { useAuth } from "@/hooks/useAuth";
 
 interface MobileChatLayoutProps {
   userEmail: string;
@@ -32,6 +35,7 @@ interface MobileChatLayoutProps {
 }
 
 const MobileChatLayout = ({ userEmail, onBackToUpload, initialPdfId }: MobileChatLayoutProps) => {
+  const { user } = useAuth();
   const [pdfs, setPdfs] = useState<PdfData[]>([]);
   const [selectedPdf, setSelectedPdf] = useState<PdfData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -99,35 +103,66 @@ const MobileChatLayout = ({ userEmail, onBackToUpload, initialPdfId }: MobileCha
 
   // Mobile Header Component
   const MobileHeader = () => (
-    <div className="sticky top-0 z-40 bg-gradient-to-r from-purple-950/95 to-indigo-950/95 backdrop-blur-xl border-b border-purple-700/30 px-4 py-3 safe-area-top">
+    <div className="sticky top-0 z-40 bg-gradient-to-r from-gray-950/95 to-gray-950/95 backdrop-blur-xl border-b border-gray-700/30 px-4 py-3 safe-area-top">
       <div className="flex items-center justify-between">
         <Button
           variant="ghost"
           size="icon"
           onClick={currentView === 'chat' ? handleBackToList : onBackToUpload}
-          className="text-purple-300 hover:text-white hover:bg-purple-800/50 rounded-2xl touch-target"
+          className="text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-2xl touch-target"
         >
           <ArrowLeft className="w-5 h-5" />
         </Button>
         
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-            <FileText className="w-4 h-4 text-white" />
+        <div className="flex items-center gap-3 flex-1 mx-4">
+          <div className="w-10 h-10 bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl flex items-center justify-center shadow-lg">
+            <FileText className="w-5 h-5 text-white" />
           </div>
-          <span className="text-white font-bold text-sm">
-            {currentView === 'chat' && selectedPdf ? selectedPdf["PDF NAME"] : 'Chat with PDFs'}
-          </span>
+          <div className="flex-1 min-w-0">
+            {currentView === 'chat' && selectedPdf ? (
+              <>
+                <span className="text-white font-bold text-sm block truncate">
+                  {selectedPdf["PDF NAME"]}
+                </span>
+                <div className="flex items-center gap-3 text-xs text-gray-400 mt-0.5">
+                  <span>{selectedPdf["PAGES"]} pages</span>
+                  <span>•</span>
+                  <span>{selectedPdf["WORDS"]?.toLocaleString()} words</span>
+                  <span>•</span>
+                  <span>{selectedPdf["LANGUAGE"] || 'Unknown'}</span>
+                </div>
+              </>
+            ) : (
+              <span className="text-white font-bold text-sm">Chat with PDFs</span>
+            )}
+          </div>
         </div>
 
         <Button
           variant="ghost"
           size="icon"
           onClick={() => setIsSidebarOpen(true)}
-          className="text-purple-300 hover:text-white hover:bg-purple-800/50 rounded-2xl touch-target"
+          className="text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-2xl touch-target"
         >
           <Menu className="w-5 h-5" />
         </Button>
       </div>
+
+      {/* Enhanced PDF Status Bar for Chat Mode */}
+      {currentView === 'chat' && selectedPdf && (
+        <div className="mt-3 bg-gray-800/40 backdrop-blur-sm border border-gray-700/40 rounded-2xl px-3 py-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-gray-300 text-xs font-medium">Ready to chat</span>
+            </div>
+            <div className="flex items-center gap-2 text-gray-400 text-xs">
+              <Sparkles className="w-3 h-3" />
+              <span>AI analyzed</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 
@@ -206,125 +241,142 @@ const MobileChatLayout = ({ userEmail, onBackToUpload, initialPdfId }: MobileCha
 
   // PDF List View
   const PdfListView = () => (
-    <div className="flex-1 bg-gradient-to-br from-purple-950 via-purple-900 to-indigo-950 text-white">
+    <div className="h-screen bg-gradient-to-br from-black via-gray-900 to-gray-950">
       <MobileHeader />
       
-      <div className="px-6 py-6 space-y-6">
-        {/* Multiple PDF Instructions */}
+      <div className="px-6 py-8 space-y-6">
+        {/* User Welcome - Name First */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-purple-800/60 to-indigo-800/60 backdrop-blur-sm rounded-3xl p-6 border border-purple-600/40"
+          className="text-center"
         >
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-              <Users className="w-6 h-6 text-white" />
+          <div className="w-20 h-20 bg-gradient-to-br from-gray-700 to-gray-900 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-2xl">
+            <User className="w-10 h-10 text-white" />
+          </div>
+          <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">
+            Welcome back,
+          </h1>
+          <h2 className="text-2xl font-semibold text-gray-300 mb-6">
+            {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'}!
+          </h2>
+        </motion.div>
+
+        {/* PDF Selection Instructions */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="bg-gradient-to-r from-gray-800/60 to-gray-900/60 backdrop-blur-sm rounded-3xl p-6 border border-gray-600/40"
+        >
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-900 rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg">
+              <MessageCircle className="w-6 h-6 text-white" />
             </div>
-            <div>
-              <h3 className="text-white font-bold text-lg mb-2">Chat with Multiple PDFs</h3>
-              <p className="text-purple-200 text-sm leading-relaxed mb-4">
-                You can chat with multiple PDFs at once! Select any document below to start asking questions across all your uploaded files simultaneously.
-              </p>
-              <Button
-                onClick={onBackToUpload}
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-2xl px-4 py-2 text-sm font-medium shadow-lg"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Upload More PDFs
-              </Button>
+            <h3 className="text-xl font-bold text-white">How to Start Chatting</h3>
+          </div>
+          <div className="space-y-3 text-gray-300 text-sm leading-relaxed">
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 bg-gray-700/50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="text-white text-xs font-bold">1</span>
+              </div>
+              <p><span className="font-semibold text-white">Select your PDFs:</span> Choose one or multiple documents from the list below</p>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 bg-gray-700/50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="text-white text-xs font-bold">2</span>
+              </div>
+              <p><span className="font-semibold text-white">Start chatting:</span> Click "Start Chatting" button to enter the chat system</p>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 bg-gray-700/50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span className="text-white text-xs font-bold">3</span>
+              </div>
+              <p><span className="font-semibold text-white">Ask questions:</span> Chat with multiple PDFs simultaneously for comprehensive answers</p>
             </div>
           </div>
         </motion.div>
 
-        {/* PDF Cards */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-white">Your Documents ({pdfs.length})</h2>
+        {/* Navigation Options */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="grid grid-cols-2 gap-4"
+        >
+          <Button
+            onClick={onBackToUpload}
+            className="bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-600 hover:to-gray-800 text-white rounded-3xl py-4 font-medium shadow-lg transition-all duration-200"
+          >
+            <Upload className="w-5 h-5 mb-2" />
+            <span className="text-sm">Upload New PDF</span>
+          </Button>
           
-          {isLoading ? (
-            <div className="flex items-center justify-center py-12">
-              <div className="w-8 h-8 border-2 border-purple-600 border-t-purple-400 rounded-full animate-spin"></div>
-            </div>
-          ) : pdfs.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center py-12"
-            >
-              <div className="w-20 h-20 bg-purple-800/30 rounded-3xl flex items-center justify-center mx-auto mb-4">
-                <FileText className="w-10 h-10 text-purple-400" />
-              </div>
-              <h3 className="text-white font-semibold mb-2">No PDFs uploaded yet</h3>
-              <p className="text-purple-300 text-sm mb-6">
-                Upload your first PDF to start chatting with multiple documents
-              </p>
-              <Button
-                onClick={onBackToUpload}
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-2xl px-6 py-3 font-medium shadow-lg"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Upload PDFs
-              </Button>
-            </motion.div>
-          ) : (
-            <div className="space-y-4">
-              {pdfs.map((pdf, index) => (
-                <motion.div
-                  key={pdf.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Card
-                    onClick={() => handlePdfSelect(pdf)}
-                    className="bg-gradient-to-r from-purple-800/50 to-indigo-800/50 backdrop-blur-sm border-purple-600/40 rounded-3xl p-5 cursor-pointer hover:shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 active:scale-95"
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="w-14 h-14 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                        <FileText className="w-7 h-7 text-white" />
-                      </div>
-                      
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-white font-bold text-lg mb-2 truncate">
-                          {pdf["PDF NAME"]}
-                        </h3>
-                        
-                        <div className="flex items-center gap-4 text-sm text-purple-300 mb-3">
-                          <div className="flex items-center gap-1">
-                            <BookOpen className="w-4 h-4" />
-                            <span>{pdf["PAGES"]} pages</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Hash className="w-4 h-4" />
-                            <span>{pdf["WORDS"]} words</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Clock className="w-4 h-4" />
-                            <span>{formatTimeAgo(pdf.created_at)}</span>
-                          </div>
-                        </div>
+          <Button
+            onClick={() => setIsSidebarOpen(true)}
+            className="bg-gray-800/60 border border-gray-700/50 text-gray-300 hover:bg-gray-700/80 hover:text-white rounded-3xl py-4 font-medium transition-all duration-200"
+          >
+            <Settings className="w-5 h-5 mb-2" />
+            <span className="text-sm">Settings</span>
+          </Button>
+        </motion.div>
 
-                        {pdf["PDF SUMMARY"] && (
-                          <p className="text-purple-200 text-sm line-clamp-2 leading-relaxed mb-3">
-                            {pdf["PDF SUMMARY"]}
-                          </p>
-                        )}
-                        
-                        <div className="flex items-center justify-between">
-                          <span className="text-purple-400 text-xs font-medium">
-                            Tap to start chatting →
-                          </span>
-                          <div className="w-6 h-6 bg-purple-600/30 rounded-lg flex items-center justify-center">
-                            <MessageCircle className="w-3 h-3 text-purple-300" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                </motion.div>
-              ))}
+        {/* PDF Selection */}
+        {isLoading ? (
+          <div className="flex items-center justify-center py-16">
+            <div className="w-8 h-8 border-2 border-gray-600 border-t-gray-400 rounded-full animate-spin"></div>
+          </div>
+        ) : pdfs.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-center py-16"
+          >
+            <div className="w-20 h-20 bg-gray-800/30 rounded-3xl flex items-center justify-center mx-auto mb-4">
+              <FileText className="w-10 h-10 text-gray-400" />
             </div>
-          )}
-        </div>
+            <h3 className="text-xl font-semibold text-white mb-3">No PDFs uploaded yet</h3>
+            <p className="text-gray-400 text-sm mb-6">
+              Upload your first PDF to start chatting with documents
+            </p>
+            <Button
+              onClick={onBackToUpload}
+              className="bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-600 hover:to-gray-800 text-white rounded-3xl px-6 py-3 font-medium shadow-lg"
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              Upload First PDF
+            </Button>
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <div className="bg-gradient-to-r from-gray-800/40 to-gray-900/40 backdrop-blur-sm rounded-3xl p-4 border border-gray-600/30 mb-6">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-8 h-8 bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl flex items-center justify-center">
+                  <FileText className="w-4 h-4 text-white" />
+                </div>
+                <h4 className="text-lg font-semibold text-white">Select PDFs to Chat</h4>
+              </div>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                Tap on the PDFs below to select them, then click "Start Chatting" to enter the chat system. You can select multiple documents to ask questions across all of them.
+              </p>
+            </div>
+            
+            <PdfSelectionComponent 
+              pdfs={pdfs} 
+              onStartChat={(pdfs) => {
+                setSelectedPdf(pdfs[0]);
+                setCurrentView('chat');
+              }}
+              selectedPdfs={selectedPdf ? [selectedPdf] : []}
+              setSelectedPdfs={(pdfs) => setSelectedPdf(pdfs[0])}
+            />
+          </motion.div>
+        )}
       </div>
     </div>
   );
@@ -332,7 +384,7 @@ const MobileChatLayout = ({ userEmail, onBackToUpload, initialPdfId }: MobileCha
   // Chat View
   if (currentView === 'chat' && selectedPdf) {
     return (
-      <div className="h-screen bg-gradient-to-br from-purple-950 via-purple-900 to-indigo-950">
+      <div className="h-screen bg-gradient-to-br from-black via-gray-900 to-gray-950">
         <MobileHeader />
         <PdfChatView
           userEmail={userEmail}
@@ -345,6 +397,155 @@ const MobileChatLayout = ({ userEmail, onBackToUpload, initialPdfId }: MobileCha
   }
 
   return <PdfListView />;
+};
+
+// PDF Selection Component
+interface PdfSelectionComponentProps {
+  pdfs: PdfData[];
+  onStartChat: (pdfs: PdfData[]) => void;
+  selectedPdfs: PdfData[];
+  setSelectedPdfs: (pdfs: PdfData[]) => void;
+}
+
+const PdfSelectionComponent = ({ pdfs, onStartChat, selectedPdfs, setSelectedPdfs }: PdfSelectionComponentProps) => {
+  const togglePdfSelection = (pdf: PdfData) => {
+    const isSelected = selectedPdfs.some(p => p.id === pdf.id);
+    if (isSelected) {
+      setSelectedPdfs(selectedPdfs.filter(p => p.id !== pdf.id));
+    } else {
+      setSelectedPdfs([...selectedPdfs, pdf]);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Selection Status */}
+      {selectedPdfs.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-gradient-to-r from-gray-700/60 to-gray-800/60 backdrop-blur-sm rounded-3xl p-4 border border-gray-600/50"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-gray-600 to-gray-800 rounded-2xl flex items-center justify-center">
+                <Users className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h4 className="text-white font-semibold">
+                  {selectedPdfs.length} PDF{selectedPdfs.length > 1 ? 's' : ''} Selected
+                </h4>
+                <p className="text-gray-300 text-sm">Ready to start chatting</p>
+              </div>
+            </div>
+            <Button
+              onClick={() => onStartChat(selectedPdfs)}
+              className="bg-gradient-to-r from-gray-600 to-gray-800 hover:from-gray-500 hover:to-gray-700 text-white rounded-2xl px-4 py-2 text-sm font-medium shadow-lg"
+            >
+              <MessageCircle className="w-4 h-4 mr-2" />
+              Chat Now
+            </Button>
+          </div>
+        </motion.div>
+      )}
+
+      {/* PDF List */}
+      <div className="space-y-4">
+        {pdfs.map((pdf) => {
+          const isSelected = selectedPdfs.some(p => p.id === pdf.id);
+          return (
+            <motion.div
+              key={pdf.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: pdf.id * 0.1 }}
+            >
+              <Card
+                onClick={() => togglePdfSelection(pdf)}
+                className={`bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm border-gray-600/40 rounded-3xl p-5 cursor-pointer hover:shadow-2xl hover:shadow-black/25 transition-all duration-300 active:scale-95 ${isSelected ? 'ring-2 ring-gray-600/50 bg-gradient-to-r from-gray-700/60 to-gray-800/60' : ''}`}
+              >
+                <div className="flex items-start gap-4">
+                  {/* Selection Indicator */}
+                  <div className="flex-shrink-0 pt-1">
+                    <div className={`w-6 h-6 rounded-xl border-2 flex items-center justify-center transition-all duration-200 ${
+                      isSelected 
+                        ? 'bg-gray-600/50 border-gray-400' 
+                        : 'border-gray-600 hover:border-gray-500'
+                    }`}>
+                      {isSelected && (
+                        <div className="w-3 h-3 bg-white rounded-lg" />
+                      )}
+                    </div>
+                  </div>
+
+                  {/* PDF Icon */}
+                  <div className="w-14 h-14 bg-gradient-to-br from-gray-700 to-gray-900 rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                    <FileText className="w-7 h-7 text-white" />
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-white font-semibold text-lg truncate pr-2">{pdf["PDF NAME"]}</h3>
+                      {isSelected && (
+                        <div className="px-2 py-1 bg-gray-600/30 rounded-xl">
+                          <span className="text-white text-xs font-medium">Selected</span>
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="flex items-center gap-4 text-sm text-gray-400 mb-3">
+                      <span className="flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 bg-gray-500 rounded-full"></span>
+                        {pdf["PAGES"]} pages
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 bg-gray-500 rounded-full"></span>
+                        {pdf["WORDS"]?.toLocaleString()} words
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 bg-gray-500 rounded-full"></span>
+                        {pdf["LANGUAGE"] || 'Unknown'}
+                      </span>
+                    </div>
+                    
+                    <p className="text-gray-300 text-sm line-clamp-2 leading-relaxed mb-3">
+                      {pdf["PDF SUMMARY"] || 'No summary available for this document.'}
+                    </p>
+                    
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-500 text-xs">
+                        {isSelected ? 'Tap to deselect' : 'Tap to select'}
+                      </span>
+                      <span className="text-gray-500 text-xs font-medium">
+                        {new Date(pdf.created_at || '').toLocaleDateString()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Start Chat Button (fixed at bottom if pdfs selected) */}
+      {selectedPdfs.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="sticky bottom-6 z-30"
+        >
+          <Button
+            onClick={() => onStartChat(selectedPdfs)}
+            className="w-full bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-600 hover:to-gray-800 text-white rounded-3xl py-4 text-lg font-medium shadow-2xl"
+          >
+            <MessageCircle className="w-5 h-5 mr-3" />
+            Start Chatting with {selectedPdfs.length} PDF{selectedPdfs.length > 1 ? 's' : ''}
+          </Button>
+        </motion.div>
+      )}
+    </div>
+  );
 };
 
 export default MobileChatLayout; 

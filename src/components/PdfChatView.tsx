@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, FileText, Send, User, Hash, BookOpen, Sparkles } from "lucide-react";
+import { ArrowLeft, FileText, Send, User, Hash, BookOpen, Sparkles, Globe, Clock, Calendar, Layers } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { getPdfById, type PdfData } from "@/services/userTableService";
 import { sendChatMessage } from "@/services/chatService";
@@ -156,8 +156,8 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
 
   return (
     <div className="h-full flex flex-col bg-gray-950">
-      {/* Header */}
-      <div className="bg-gray-900/60 border-b border-gray-800/50 px-6 py-4 rounded-none backdrop-blur-sm">
+      {/* Enhanced PDF Header */}
+      <div className="bg-gradient-to-r from-gray-900/80 to-gray-900/60 border-b border-gray-800/50 px-6 py-6 backdrop-blur-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             {showBackButton && (
@@ -169,127 +169,210 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
               </Button>
             )}
             
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-600 rounded-2xl flex items-center justify-center shadow-lg border border-gray-600/40">
-                <FileText className="w-6 h-6 text-white" />
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-600 rounded-3xl flex items-center justify-center shadow-lg border border-gray-600/40">
+                <FileText className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-semibold text-white tracking-tight">
+                <h1 className="text-2xl font-bold text-white tracking-tight mb-2">
                   {pdf["PDF NAME"]}
                 </h1>
-                <div className="flex items-center gap-4 mt-1">
-                  <div className="flex items-center gap-1 text-gray-400">
-                    <Hash className="w-3 h-3" />
-                    <span className="text-sm font-medium">{pdf["PAGES"]} pages</span>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <Hash className="w-4 h-4" />
+                    <span className="font-medium">{pdf["PAGES"]} pages</span>
                   </div>
-                  <div className="flex items-center gap-1 text-gray-400">
-                    <BookOpen className="w-3 h-3" />
-                    <span className="text-sm font-medium">{pdf["WORDS"]?.toLocaleString() || 0} words</span>
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <BookOpen className="w-4 h-4" />
+                    <span className="font-medium">{pdf["WORDS"]?.toLocaleString() || 0} words</span>
                   </div>
-                  <span className="text-gray-500 text-sm">•</span>
-                  <span className="text-gray-500 text-sm font-light">Ready to chat</span>
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <Globe className="w-4 h-4" />
+                    <span className="font-medium">{pdf["LANGUAGE"] || 'Unknown'}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <Calendar className="w-4 h-4" />
+                    <span className="font-medium">
+                      {pdf.created_at ? new Date(pdf.created_at).toLocaleDateString() : 'Recently'}
+                    </span>
+                  </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Chat Status */}
+          <div className="flex items-center gap-3">
+            <div className="bg-gray-700/40 border border-gray-600/50 rounded-2xl px-4 py-2 backdrop-blur-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-gray-300 text-sm font-medium">Ready to chat</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* AI Summary Section */}
+      {/* Enhanced AI Summary Section */}
       {pdf["PDF SUMMARY"] && (
-        <div className="bg-gray-800/40 border-b border-gray-800/50 px-6 py-4 rounded-none backdrop-blur-sm">
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-gray-700 to-gray-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg border border-gray-600/40">
-              <Sparkles className="w-5 h-5 text-white" />
+        <div className="bg-gradient-to-r from-gray-800/60 to-gray-800/40 border-b border-gray-700/50 px-6 py-5 backdrop-blur-sm">
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-700 rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg border border-gray-600/40">
+              <Sparkles className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-gray-300 font-semibold text-sm tracking-wide">AI SUMMARY</h3>
-                <div className="h-1 w-8 bg-gray-400 rounded-full"></div>
+              <div className="flex items-center gap-3 mb-3">
+                <h3 className="text-white font-bold text-lg tracking-wide">AI-Generated Summary</h3>
+                <div className="h-1 w-12 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full"></div>
+                <span className="text-gray-400 text-xs bg-gray-700/40 px-3 py-1 rounded-xl border border-gray-600/30">
+                  Auto-analyzed
+                </span>
               </div>
-              <p className="text-gray-300 text-sm leading-relaxed font-light">
-                {pdf["PDF SUMMARY"]}
-              </p>
+              <div className="bg-gray-900/40 border border-gray-700/40 rounded-2xl p-4 backdrop-blur-sm">
+                <p className="text-gray-200 text-sm leading-relaxed font-light">
+                  {pdf["PDF SUMMARY"]}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      {/* Document Metadata Section */}
+      <div className="bg-gray-900/40 border-b border-gray-800/40 px-6 py-4 backdrop-blur-sm">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2 text-gray-400">
+              <Layers className="w-4 h-4" />
+              <span className="text-sm font-medium">Document Analysis Complete</span>
+            </div>
+            <div className="flex items-center gap-2 text-gray-400">
+              <Clock className="w-4 h-4" />
+              <span className="text-sm font-medium">
+                Processed {pdf.created_at ? new Date(pdf.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'recently'}
+              </span>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-2 text-gray-400">
+            <span className="text-sm">Ready for intelligent conversation</span>
+            <div className="w-6 h-6 bg-gray-600/30 rounded-xl flex items-center justify-center">
+              <Sparkles className="w-3 h-3 text-gray-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Messages Area with enhanced styling */}
+      <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gradient-to-b from-gray-950/90 to-gray-950">
+        {messages.length === 0 && (
+          <div className="text-center py-12">
+            <div className="w-20 h-20 bg-gradient-to-br from-gray-700 to-gray-900 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl">
+              <Sparkles className="w-10 h-10 text-white" />
+            </div>
+            <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">Start Your Conversation</h3>
+            <p className="text-gray-400 text-lg max-w-md mx-auto leading-relaxed">
+              Ask me anything about "<span className="font-medium text-gray-300">{pdf["PDF NAME"]}</span>". I've analyzed all {pdf["PAGES"]} pages and {pdf["WORDS"]?.toLocaleString()} words.
+            </p>
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg mx-auto">
+              <div className="bg-gray-800/40 border border-gray-700/40 rounded-2xl p-3 backdrop-blur-sm">
+                <p className="text-gray-300 text-sm font-medium">Try asking:</p>
+                <p className="text-gray-400 text-xs mt-1">"Summarize the main points"</p>
+              </div>
+              <div className="bg-gray-800/40 border border-gray-700/40 rounded-2xl p-3 backdrop-blur-sm">
+                <p className="text-gray-300 text-sm font-medium">Or ask:</p>
+                <p className="text-gray-400 text-xs mt-1">"What are the key topics?"</p>
+              </div>
+            </div>
+          </div>
+        )}
+        
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex items-start gap-3 ${message.isUser ? 'flex-row-reverse' : ''}`}
+            className={`flex items-start gap-4 ${message.isUser ? 'flex-row-reverse' : ''}`}
           >
-            <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg border ${
+            <div className={`w-12 h-12 rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg border ${
               message.isUser 
                 ? 'bg-gradient-to-r from-gray-700 to-gray-600 border-gray-600/40' 
-                : 'bg-gray-800/60 border-gray-700/50'
+                : 'bg-gradient-to-r from-gray-800/80 to-gray-900/80 border-gray-700/50'
             }`}>
               {message.isUser ? (
-                <User className="w-5 h-5 text-white" />
+                <User className="w-6 h-6 text-white" />
               ) : (
-                <Sparkles className="w-5 h-5 text-white" />
+                <Sparkles className="w-6 h-6 text-white" />
               )}
             </div>
             
-            <div className={`max-w-[70%] ${message.isUser ? 'text-right' : ''}`}>
-              <div className={`inline-block px-4 py-3 shadow-lg transition-all duration-300 rounded-2xl ${
+            <div className={`max-w-[75%] ${message.isUser ? 'text-right' : ''}`}>
+              <div className={`inline-block px-5 py-4 shadow-xl transition-all duration-300 rounded-3xl ${
                 message.isUser
                   ? 'bg-gradient-to-r from-gray-700 to-gray-600 text-white border border-gray-600/30'
-                  : 'bg-gray-800/60 border border-gray-700/50 text-white backdrop-blur-sm'
+                  : 'bg-gradient-to-r from-gray-800/80 to-gray-900/80 border border-gray-700/50 text-white backdrop-blur-sm'
               }`}>
                 <p className="text-sm leading-relaxed whitespace-pre-wrap break-words font-light">
                   {message.text}
                 </p>
               </div>
-              <p className="text-xs text-gray-500 mt-2 px-2 font-medium">
-                {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </p>
+              <div className={`mt-2 px-2 ${message.isUser ? 'text-right' : 'text-left'}`}>
+                <p className="text-xs text-gray-500 font-medium">
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </p>
+              </div>
             </div>
           </div>
         ))}
         
-        {/* Loading indicator */}
+        {/* Enhanced Loading indicator */}
         {isSending && (
-          <div className="flex justify-start items-start gap-3">
-            <div className="w-10 h-10 bg-gray-800/60 border border-gray-700/50 rounded-2xl flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 bg-gradient-to-r from-gray-800/80 to-gray-900/80 border border-gray-700/50 rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg">
+              <Sparkles className="w-6 h-6 text-white animate-pulse" />
             </div>
-            <div className="bg-gray-800/60 border border-gray-700/50 rounded-2xl px-4 py-3 backdrop-blur-sm">
-              <div className="flex space-x-1">
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+            <div className="bg-gradient-to-r from-gray-800/80 to-gray-900/80 border border-gray-700/50 rounded-3xl px-5 py-4 shadow-xl backdrop-blur-sm">
+              <div className="flex items-center gap-2">
+                <div className="flex space-x-1">
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                </div>
+                <span className="text-gray-300 text-sm font-light ml-2">AI is analyzing your question...</span>
               </div>
             </div>
           </div>
         )}
-
+        
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Message Input */}
-      <div className="bg-gray-900/40 border-t border-gray-800/50 px-6 py-4 backdrop-blur-sm">
-        <form onSubmit={handleSendMessage} className="flex gap-3 items-end">
+      {/* Enhanced Input Area */}
+      <div className="bg-gradient-to-r from-gray-900/80 to-gray-900/60 border-t border-gray-800/50 px-6 py-5 backdrop-blur-sm">
+        <form onSubmit={handleSendMessage} className="flex gap-4 items-end">
           <div className="flex-1">
-            <input
-              type="text"
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              placeholder="Ask anything about your document..."
-              className="w-full bg-gray-800/60 border border-gray-700/50 text-white placeholder:text-gray-400 focus:ring-2 focus:ring-gray-600/50 focus:border-gray-600/50 rounded-2xl px-4 py-3 text-sm transition-all duration-200 backdrop-blur-sm hover:bg-gray-700/70 focus:bg-gray-700/80 font-light"
-              disabled={isSending}
-            />
+            <div className="relative">
+              <input
+                type="text"
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                placeholder={`Ask anything about "${pdf["PDF NAME"]}"...`}
+                className="w-full bg-gray-800/60 border border-gray-700/50 text-white placeholder:text-gray-400 focus:ring-2 focus:ring-gray-600/50 focus:border-gray-600/50 rounded-3xl px-5 py-4 text-sm transition-all duration-200 backdrop-blur-sm hover:bg-gray-700/70 focus:bg-gray-700/80 font-light pr-12"
+                disabled={isSending}
+              />
+              <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                <FileText className="w-4 h-4 text-gray-500" />
+              </div>
+            </div>
+            <p className="text-xs text-gray-500 mt-2 px-2">
+              Press Enter to send • AI will analyze {pdf["WORDS"]?.toLocaleString()} words for context
+            </p>
           </div>
           
           <Button
             type="submit"
             disabled={isSending || !inputMessage.trim()}
-            className="bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white border-0 rounded-2xl px-4 py-3 shadow-lg transition-all duration-200 disabled:opacity-50 min-w-[44px] h-11 border border-gray-600/30"
+            className="bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white border-0 rounded-3xl px-6 py-4 shadow-lg transition-all duration-200 disabled:opacity-50 min-w-[56px] h-14 border border-gray-600/30"
           >
-            <Send className="w-4 h-4" />
+            <Send className="w-5 h-5" />
           </Button>
         </form>
       </div>
