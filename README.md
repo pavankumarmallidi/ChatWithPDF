@@ -1,73 +1,66 @@
-# Welcome to your Lovable project
+# PDFOCREXTRACTOR
 
-## Project info
+An AI-powered PDF text extraction and analysis tool that allows you to upload PDF documents, extract text using OCR technology, and interact with your documents through an intelligent chat interface.
 
-**URL**: https://lovable.dev/projects/ac564bbe-a0fd-4364-8b4d-9329d93d341c
+## Features
 
-## How can I edit this code?
+**Use PDFOCREXTRACTOR**
 
-There are several ways of editing your application.
+Upload your PDF documents and start analyzing them with AI-powered text extraction and chat functionality.
 
-**Use Lovable**
+**Local Development**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/ac564bbe-a0fd-4364-8b4d-9329d93d341c) and start prompting.
+If you want to work locally using your own IDE, you can clone this repo and push changes.
 
-Changes made via Lovable will be committed automatically to this repo.
+## Local Development
 
-**Use your preferred IDE**
+To run the application locally:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+1. **Setup and Installation**
+   ```bash
+   npm install
+   npm run dev
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+2. **Database Setup**
+   - Set up your Supabase project
+   - Configure environment variables
+   - Run migrations if needed
 
-Follow these steps:
+3. **Environment Variables**
+   Create a `.env.local` file with the following variables:
+   ```
+   VITE_SUPABASE_URL=your_supabase_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Key Features
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- **AI-Powered Analysis**: Advanced OCR and text extraction
+- **Interactive Chat**: Ask questions about your PDF content
+- **Secure Processing**: Your documents are processed securely
+- **Multi-format Support**: Supports various PDF formats
+- **Real-time Processing**: Fast and efficient document analysis
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Deployment
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+The application can be deployed to various platforms that support Node.js applications.
 
-**Edit a file directly in GitHub**
+## Technology Stack
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
+- React + TypeScript
 - Vite
-- TypeScript
-- React
-- shadcn-ui
+- Supabase (Database & Auth)
 - Tailwind CSS
+- AI/ML APIs for text extraction
 
-## How can I deploy this project?
+## Contributing
 
-Simply open [Lovable](https://lovable.dev/projects/ac564bbe-a0fd-4364-8b4d-9329d93d341c) and click on Share -> Publish.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
-## Can I connect a custom domain to my Lovable project?
+## License
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+This project is open source and available under the MIT License.
