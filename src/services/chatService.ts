@@ -6,7 +6,7 @@ export const sendChatMessage = async (
   message: string,
   pdfId: number
 ): Promise<any> => {
-  const webhookUrl = "https://pavan.every-ai.com/webhook-test/message-receive";
+  const webhookUrl = "https://pavan.every-ai.com/webhook/message-receive";
   
   const payload = {
     message: message,

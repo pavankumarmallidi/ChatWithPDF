@@ -11,7 +11,7 @@ export const uploadToWebhook = async (
     formData.append('pdf', file);
     formData.append('userEmail', userEmail);
 
-    const webhookUrl = "https://pavan.every-ai.com/webhook-test/receive-pdf";
+    const webhookUrl = "https://pavan.every-ai.com/webhook/receive-pdf";
 
     fetch(webhookUrl, {
       method: 'POST',

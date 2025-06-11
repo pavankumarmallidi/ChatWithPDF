@@ -79,7 +79,7 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
 
     try {
       // Send to webhook
-      const webhookUrl = "https://pavan.every-ai.com/webhook-test/message-receive";
+      const webhookUrl = "https://pavan.every-ai.com/webhook/message-receive";
       const pdfIds = selectedPdfs.map(pdf => pdf.id);
 
       const response = await fetch(webhookUrl, {

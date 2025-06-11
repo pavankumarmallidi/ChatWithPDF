@@ -120,7 +120,7 @@ const ChatThread = () => {
   };
 
   const sendToWebhook = async (message: string) => {
-    const webhookUrl = "https://pavan.every-ai.com/webhook-test/message-receive";
+    const webhookUrl = "https://pavan.every-ai.com/webhook/message-receive";
     
     try {
       const response = await fetch(webhookUrl, {
