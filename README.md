@@ -4,11 +4,24 @@
 
 Transform your PDF documents into intelligent, searchable, and interactive content with advanced OCR technology, AI-powered analysis, and seamless multi-device experiences.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![React](https://img.shields.io/badge/react-18.3.1-blue.svg)
-![TypeScript](https://img.shields.io/badge/typescript-5.5.3-blue.svg)
-![Supabase](https://img.shields.io/badge/supabase-latest-green.svg)
-![Responsive](https://img.shields.io/badge/responsive-design-brightgreen.svg)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![React](https://img.shields.io/badge/react-18.3.1-blue.svg)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/typescript-5.5.3-blue.svg)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/vite-6.3.5-purple.svg)](https://vitejs.dev/)
+[![Supabase](https://img.shields.io/badge/supabase-latest-green.svg)](https://supabase.com/)
+[![Responsive](https://img.shields.io/badge/responsive-design-brightgreen.svg)](RESPONSIVE_SYSTEM.md)
+[![Deploy on Vercel](https://img.shields.io/badge/deploy-vercel-black.svg)](https://vercel.com/)
+
+## 📸 Demo
+
+**Live Demo**: [Coming Soon]
+
+**Features Preview**:
+- 📱 **Mobile-First Design**: Touch-optimized interface for smartphones
+- 💻 **Tablet Experience**: Enhanced layouts for iPad and tablets  
+- 🖥️ **Desktop Power**: Full-featured interface with advanced tools
+- 🤖 **AI Chat**: Interactive conversations with your PDF content
+- ⚡ **Real-time Processing**: Instant OCR and text extraction
 
 ## ✨ Features
 
@@ -17,51 +30,52 @@ Transform your PDF documents into intelligent, searchable, and interactive conte
 - Intelligent document structure recognition
 - Multi-language support for global documents
 - Content summarization and key insights
-- Context-aware question answering
+- Context-aware question answering with chat interface
 
 ### 💬 **Interactive Chat Interface**
-- Ask questions about your PDF content
-- Get instant answers from extracted text
+- Ask questions about your PDF content in natural language
+- Get instant answers from extracted text with AI assistance
 - Contextual search within documents
 - Smart suggestions and recommendations
-- Real-time conversation history
+- Real-time conversation history with persistent storage
 
 ### ⚡ **Lightning-Fast Processing**
-- Real-time PDF analysis
-- Efficient text extraction algorithms
-- Optimized for large documents
-- Background processing capabilities
-- Progress tracking with visual feedback
+- Real-time PDF analysis with progress tracking
+- Efficient text extraction algorithms optimized for performance
+- Support for large documents with background processing
+- Visual feedback during extraction process
+- Optimized for various PDF formats and quality levels
 
 ### 🔒 **Secure & Private**
-- End-to-end encryption
-- Local processing options
+- End-to-end encryption for document processing
 - Secure cloud storage with Supabase
 - GDPR compliant data handling
 - User authentication and authorization
+- Optional local processing for privacy-focused deployments
 
 ### 📱 **Responsive Multi-Device Experience**
 - **Automatic Device Detection**: Smart detection of mobile, tablet, and desktop devices
-- **Mobile-Optimized UI**: Touch-friendly interfaces with proper touch targets
+- **Mobile-Optimized UI**: Touch-friendly interfaces with proper touch targets (44px minimum)
 - **Tablet-Enhanced Layout**: Optimized for larger screens with better content organization
 - **Desktop Full-Featured**: Complete experience with mouse interactions and keyboard shortcuts
 - **Adaptive Components**: UI automatically adjusts based on screen size and device capabilities
 - **Cross-Platform Compatibility**: Seamless experience across iOS, Android, and desktop browsers
 
 ### 🎨 **Modern Design System**
-- Dark theme with sophisticated gray color palette
-- Smooth animations and transitions
-- Intuitive drag-and-drop interface
-- Consistent typography and spacing
-- Accessibility-focused design
+- Sophisticated dark theme with gray color palette
+- Smooth animations and transitions powered by Framer Motion
+- Intuitive drag-and-drop interface for file uploads
+- Consistent typography and spacing using Tailwind CSS
+- Accessibility-focused design following WCAG 2.1 AA guidelines
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ and npm
-- A Supabase account (for database and authentication)
-- Modern web browser with JavaScript enabled
+- **Node.js 18+** and npm (or yarn)
+- **Supabase account** for database and authentication
+- **Modern web browser** with JavaScript enabled
+- **Git** for version control
 
 ### Installation
 
@@ -74,12 +88,15 @@ Transform your PDF documents into intelligent, searchable, and interactive conte
 2. **Install dependencies**
    ```bash
    npm install
+   # or
+   yarn install
    ```
 
 3. **Environment Setup**
    
    Create a `.env.local` file in the root directory:
    ```env
+   # Required: Supabase Configuration
    VITE_SUPABASE_URL=your_supabase_project_url
    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
    
@@ -98,9 +115,36 @@ Transform your PDF documents into intelligent, searchable, and interactive conte
 5. **Start Development Server**
    ```bash
    npm run dev
+   # or
+   yarn dev
    ```
 
    The application will be available at `http://localhost:8080`
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **React 18.3.1** - Modern React with hooks and concurrent features
+- **TypeScript 5.5.3** - Type-safe development
+- **Vite 6.3.5** - Lightning-fast build tool and dev server
+- **Tailwind CSS 3.4.11** - Utility-first CSS framework
+- **Framer Motion 12.15.0** - Smooth animations and transitions
+
+### UI Components
+- **Radix UI** - Accessible, unstyled UI primitives
+- **Lucide React** - Beautiful and consistent icons
+- **React Hook Form** - Performant forms with validation
+- **Zod** - TypeScript-first schema validation
+
+### Backend & Database
+- **Supabase** - Backend-as-a-Service with PostgreSQL
+- **React Query (TanStack Query)** - Server state management
+- **React Router DOM** - Client-side routing
+
+### Development Tools
+- **ESLint** - Code linting and consistency
+- **PostCSS** - CSS processing
+- **Autoprefixer** - CSS vendor prefixing
 
 ## 📱 Responsive Design System
 
@@ -167,7 +211,7 @@ src/
 │   ├── mobile/         # Mobile-specific components
 │   ├── tablet/         # Tablet-optimized components
 │   ├── demo/           # Demo and testing components
-│   └── ui/             # Base UI components
+│   └── ui/             # Base UI components (shadcn/ui)
 ├── hooks/              # Custom React hooks
 │   ├── useDeviceDetection.tsx  # Device detection logic
 │   └── use-mobile.tsx          # Legacy mobile detection
@@ -175,52 +219,6 @@ src/
 ├── services/           # API and external service integrations
 ├── lib/                # Utility functions and configurations
 └── integrations/       # Third-party service integrations
-```
-
-### Responsive Development
-
-#### Device Detection Hook
-```typescript
-import { useDeviceDetection } from '@/hooks/useDeviceDetection';
-
-const MyComponent = () => {
-  const { type, isMobile, isTablet, isDesktop, isTouchDevice } = useDeviceDetection();
-  
-  return (
-    <div className={`${type}-layout`}>
-      {/* Device-specific content */}
-    </div>
-  );
-};
-```
-
-#### Responsive Layout Component
-```typescript
-import { ResponsiveLayout } from '@/components/ResponsiveLayout';
-import MobileComponent from './mobile/MobileComponent';
-import TabletComponent from './tablet/TabletComponent';
-import DesktopComponent from './DesktopComponent';
-
-<ResponsiveLayout
-  mobileComponent={MobileComponent}
-  tabletComponent={TabletComponent}
-  desktopComponent={DesktopComponent}
-/>
-```
-
-#### CSS Classes
-```css
-/* Responsive typography */
-.responsive-text-lg    /* Scales: text-lg sm:text-xl md:text-2xl */
-
-/* Device-specific cards */
-.mobile-card          /* Optimized for mobile touch */
-.tablet-card          /* Enhanced for tablet */
-.desktop-card         /* Full desktop experience */
-
-/* Touch-friendly elements */
-.touch-target         /* Minimum 44px touch area */
-.mobile-bounce        /* Touch feedback animation */
 ```
 
 ### Available Scripts
@@ -254,7 +252,7 @@ const BREAKPOINTS = {
 
 ### Supabase Setup
 
-1. Create a new Supabase project
+1. Create a new Supabase project at [supabase.com](https://supabase.com)
 2. Enable Authentication with your preferred providers
 3. Set up the following tables:
    ```sql
@@ -293,18 +291,42 @@ The application supports multiple AI providers:
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
-```bash
-npm run build
-vercel --prod
-```
 
-### Netlify
+This project is optimized for Vercel deployment with pre-configured settings:
+
+1. **Deploy with GitHub Integration**
+   ```bash
+   # Push your code to GitHub
+   git add .
+   git commit -m "Ready for deployment"
+   git push origin main
+   
+   # Connect to Vercel and deploy
+   # Visit vercel.com and import your repository
+   ```
+
+2. **Set Environment Variables in Vercel Dashboard**
+   ```env
+   VITE_SUPABASE_URL=your_supabase_project_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   VITE_OPENAI_API_KEY=your_openai_api_key  # Optional
+   ```
+
+3. **Deploy with Vercel CLI**
+   ```bash
+   npm i -g vercel
+   vercel --prod
+   ```
+
+### Other Deployment Options
+
+#### Netlify
 ```bash
 npm run build
 netlify deploy --prod --dir=dist
 ```
 
-### Docker
+#### Docker
 ```bash
 # Build the container
 docker build -t pdfocrextractor .
@@ -403,9 +425,9 @@ We welcome contributions! Please follow our guidelines:
 ## 📚 Documentation
 
 - **[Responsive System Guide](RESPONSIVE_SYSTEM.md)** - Comprehensive responsive design documentation
-- **[API Documentation](docs/api.md)** - Backend API reference
-- **[Component Library](docs/components.md)** - UI component documentation
-- **[Deployment Guide](docs/deployment.md)** - Production deployment instructions
+- **[Deployment Guide](DEPLOYMENT.md)** - Production deployment instructions
+- **[API Documentation](docs/api.md)** - Backend API reference (coming soon)
+- **[Component Library](docs/components.md)** - UI component documentation (coming soon)
 
 ## 🐛 Troubleshooting
 
@@ -437,6 +459,16 @@ const handleTouch = (e: TouchEvent) => {
 };
 ```
 
+#### Build Issues
+- Ensure Node.js version is 18+ (`node --version`)
+- Clear node_modules and reinstall: `rm -rf node_modules && npm install`
+- Check for TypeScript errors: `npm run lint`
+
+#### Environment Variables
+- Ensure all variables are prefixed with `VITE_`
+- Restart dev server after adding new variables
+- Check browser console for missing variable errors
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -447,15 +479,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Issues**: [GitHub Issues](https://github.com/your-username/PDF-OCR-EXTRACTOR/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/your-username/PDF-OCR-EXTRACTOR/discussions)
 - **Responsive System**: [RESPONSIVE_SYSTEM.md](RESPONSIVE_SYSTEM.md)
+- **Deployment Help**: [DEPLOYMENT.md](DEPLOYMENT.md)
 
 ## 🙏 Acknowledgments
 
 - [Supabase](https://supabase.com/) for backend infrastructure and real-time features
 - [React](https://reactjs.org/) for the powerful frontend framework
-- [Tailwind CSS](https://tailwindcss.com/) for utility-first styling and responsive design
 - [Vite](https://vitejs.dev/) for lightning-fast build tooling
+- [Tailwind CSS](https://tailwindcss.com/) for utility-first styling and responsive design
 - [Framer Motion](https://www.framer.com/motion/) for smooth animations and transitions
 - [Lucide React](https://lucide.dev/) for beautiful and consistent icons
+- [Radix UI](https://www.radix-ui.com/) for accessible UI primitives
+- [shadcn/ui](https://ui.shadcn.com/) for the component library
 
 ## 🌟 What's New
 
@@ -466,6 +501,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - 🖥️ Enhanced desktop experience
 - 🎨 Sophisticated dark theme with gray palette
 - ⚡ Improved performance and animations
+- 🔧 Vercel deployment optimization
 
 ### Coming Soon
 - 🌐 PWA support for mobile app-like experience
@@ -473,7 +509,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - 📊 Advanced analytics and insights
 - 🔄 Real-time collaboration features
 - 🌍 Multi-language interface support
+- 📱 Native mobile app versions
 
 ---
 
 **Made with ❤️ for seamless document processing across all devices**
+
+*Built with React, TypeScript, Vite, and Supabase*
