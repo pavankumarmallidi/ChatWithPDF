@@ -5,6 +5,7 @@ import { ArrowLeft, Send, User, Bot, FileText, MessageCircle } from "lucide-reac
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { formatMessageDateTime } from "@/lib/utils";
 
 interface ChatMessage {
   id: number;
@@ -312,7 +313,7 @@ const ChatThread = () => {
                     </p>
                   </div>
                   <p className="text-xs text-gray-500 mt-2 px-2 font-medium">
-                    {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    {formatMessageDateTime(message.timestamp)}
                   </p>
                 </div>
                 

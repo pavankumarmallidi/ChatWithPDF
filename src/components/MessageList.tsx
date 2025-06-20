@@ -1,6 +1,7 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Bot, User, Sparkles } from "lucide-react";
 import { forwardRef } from "react";
+import { formatMessageDateTime } from "@/lib/utils";
 
 interface Message {
   id: string;
@@ -45,7 +46,7 @@ const MessageList = forwardRef<HTMLDivElement, MessageListProps>(
                   
                   <div className="flex items-center justify-between mt-2 pt-2 border-t border-gray-600/30">
                     <p className="text-xs opacity-70 font-medium">
-                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {formatMessageDateTime(message.timestamp)}
                     </p>
                     
                     {!message.isUser && message.relevanceScore !== undefined && (

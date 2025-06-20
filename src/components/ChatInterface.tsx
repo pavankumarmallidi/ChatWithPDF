@@ -4,6 +4,7 @@ import { ArrowLeft, Send, User, Bot, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { type PdfData } from "@/services/userTableService";
 import { supabase } from "@/integrations/supabase/client";
+import { formatMessageDateTime } from "@/lib/utils";
 
 interface ChatInterfaceProps {
   selectedPdfs: PdfData[];
@@ -227,7 +228,7 @@ const ChatInterface = ({ selectedPdfs, userEmail, onBackToSelection }: ChatInter
                     <p className={`text-xs mt-3 ${
                       message.isUser ? 'text-gray-300' : 'text-gray-400'
                     }`}>
-                      {message.timestamp.toLocaleTimeString()}
+                      {formatMessageDateTime(message.timestamp)}
                     </p>
                   </div>
                 </div>

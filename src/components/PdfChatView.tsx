@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { getPdfById, type PdfData } from "@/services/userTableService";
 import { sendChatMessage } from "@/services/chatService";
 import { chatHistoryService, type ChatMessage } from "@/services/chatHistoryService";
+import { formatMessageDateTime } from "@/lib/utils";
 
 interface PdfChatViewProps {
   userEmail: string;
@@ -316,7 +317,7 @@ const PdfChatView = ({ userEmail, pdfId, onBackToList, showBackButton = true }: 
               </div>
               <div className={`mt-2 px-2 ${message.isUser ? 'text-right' : 'text-left'}`}>
                 <p className="text-xs text-gray-500 font-medium">
-                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  {formatMessageDateTime(message.timestamp)}
                 </p>
               </div>
             </div>
