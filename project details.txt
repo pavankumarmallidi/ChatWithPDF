@@ -1,0 +1,52 @@
+PDFOCREXTRACTOR - Project Features Overview
+===========================================
+
+PDFOCREXTRACTOR is an AI-powered platform designed to make working with PDF documents easy, fast, and interactive. Here's what you can do with it:
+
+Key Features for Users
+---------------------
+
+1. **AI-Powered PDF Analysis**
+   - Instantly extract text from any PDF document using advanced OCR (Optical Character Recognition) technology.
+   - Get smart summaries and key insights from your documents, no matter the language.
+
+2. **Interactive Chat with Your PDFs**
+   - Ask questions about your PDF content in plain language and get instant answers.
+   - Enjoy a chat interface that helps you explore and understand your documents better.
+
+3. **Multi-Device Experience**
+   - Use the platform on your phone, tablet, or computer with interfaces designed for each device.
+   - Enjoy a smooth, responsive experience whether you're at your desk or on the go.
+
+4. **Easy PDF Upload & Management**
+   - Upload PDFs with a simple drag-and-drop or tap.
+   - Browse, search, and organize your documents in a user-friendly library.
+   - Access your document history and revisit previous analyses anytime.
+
+5. **Real-Time Processing**
+   - See live progress as your PDF is being processed and analyzed.
+   - Get results in seconds, even for large documents.
+
+6. **Secure & Private**
+   - Your documents are handled securely and privately.
+   - All data is encrypted and only accessible to you.
+
+7. **Modern, Accessible Design**
+   - Enjoy a clean, modern look with dark mode and smooth animations.
+   - The interface is designed for easy navigation and accessibility for everyone.
+
+8. **No Cost, No Hassle**
+   - 100% free to use, with no hidden fees or subscriptions.
+   - No software installation required—just open in your browser and start using.
+
+9. **Export & Share**
+   - Download extracted text or analysis results for your records or sharing.
+
+10. **Continuous Improvements**
+    - New features like voice input, more languages, and real-time collaboration are coming soon!
+
+---
+
+**PDFOCREXTRACTOR is your all-in-one solution for making PDF documents smarter, searchable, and easier to work with.**
+
+For help or more information, visit the support or documentation sections in the app. 
