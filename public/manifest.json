@@ -1,7 +1,7 @@
 {
-  "name": "PDFOCREXTRACTOR",
-  "short_name": "PDF OCR",
-  "description": "AI-powered PDF text extraction and analysis tool",
+  "name": "ChatWithPDF",
+  "short_name": "ChatWithPDF",
+  "description": "ChatWithPDF is an AI-powered tool for chatting with, extracting, and analyzing PDF documents. Instantly search, summarize, and interact with your PDFs.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1e3a8a",

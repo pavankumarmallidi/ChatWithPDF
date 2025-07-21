@@ -12,6 +12,7 @@ import PdfSelectionPage from "@/components/PdfSelectionPage";
 import ChatInterface from "@/components/ChatInterface";
 import ResponsiveHomePage from "@/components/ResponsiveHomePage";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 type AppView = 'home' | 'auth' | 'selection' | 'upload' | 'chat';
 
@@ -195,7 +196,24 @@ const Index = () => {
   }
 
   // Home page - use ResponsiveHomePage for device-specific layouts
-  return <ResponsiveHomePage onGetStarted={handleGetStarted} />;
+  return (
+    <>
+      <Helmet>
+        <title>ChatWithPDF - AI PDF Chat & Extraction Tool</title>
+        <meta name="description" content="ChatWithPDF is an AI-powered tool for chatting with, extracting, and analyzing PDF documents. Instantly search, summarize, and interact with your PDFs." />
+        <meta property="og:title" content="ChatWithPDF - AI PDF Chat & Extraction Tool" />
+        <meta property="og:description" content="ChatWithPDF is an AI-powered tool for chatting with, extracting, and analyzing PDF documents. Instantly search, summarize, and interact with your PDFs." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/favicon.svg" />
+        <meta property="og:url" content="https://yourdomain.com/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="ChatWithPDF - AI PDF Chat & Extraction Tool" />
+        <meta name="twitter:description" content="ChatWithPDF is an AI-powered tool for chatting with, extracting, and analyzing PDF documents. Instantly search, summarize, and interact with your PDFs." />
+        <meta name="twitter:image" content="/favicon.svg" />
+      </Helmet>
+      <ResponsiveHomePage onGetStarted={handleGetStarted} />;
+    </>
+  );
 };
 
 export default Index;

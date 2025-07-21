@@ -17,6 +17,7 @@ import {
   X
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { Helmet } from "react-helmet-async";
 
 interface HomePageProps {
   onGetStarted: () => void;
@@ -401,227 +402,242 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
   }, []);
 
   return (
-    <div className="relative bg-gradient-to-br from-black via-gray-900 to-gray-950">
-      <Navbar onGetStarted={onGetStarted} />
+    <>
+      <Helmet>
+        <title>ChatWithPDF - Home</title>
+        <meta name="description" content="Welcome to ChatWithPDF, your AI-powered PDF chat and extraction tool. Instantly search, summarize, and interact with your PDF documents." />
+        <meta property="og:title" content="ChatWithPDF - Home" />
+        <meta property="og:description" content="Welcome to ChatWithPDF, your AI-powered PDF chat and extraction tool. Instantly search, summarize, and interact with your PDF documents." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/favicon.svg" />
+        <meta property="og:url" content="https://yourdomain.com/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="ChatWithPDF - Home" />
+        <meta name="twitter:description" content="Welcome to ChatWithPDF, your AI-powered PDF chat and extraction tool. Instantly search, summarize, and interact with your PDF documents." />
+        <meta name="twitter:image" content="/favicon.svg" />
+      </Helmet>
+      <div className="relative bg-gradient-to-br from-black via-gray-900 to-gray-950">
+        <Navbar onGetStarted={onGetStarted} />
 
-      {/* Hero Section */}
-      <div className="relative min-h-screen">
-        <div className="absolute inset-0 z-0 pointer-events-auto">
-          <HeroBackground />
-        </div>
-
-        <div 
-          ref={heroContentRef}
-          style={{
-            position: 'absolute', 
-            top: 0, 
-            left: 0, 
-            width: '100%', 
-            height: '100vh',
-            display: 'flex', 
-            justifyContent: 'flex-start', 
-            alignItems: 'center', 
-            zIndex: 10, 
-            pointerEvents: 'none'
-          }}
-        >
-          <div className="container mx-auto">
-            <HeroContent onGetStarted={onGetStarted} />
+        {/* Hero Section */}
+        <div className="relative min-h-screen">
+          <div className="absolute inset-0 z-0 pointer-events-auto">
+            <HeroBackground />
           </div>
-        </div>
-      </div>
 
-      {/* Content sections */}
-      <div className="bg-black/90 relative z-10 backdrop-blur-sm" style={{ marginTop: '-10vh' }}>
-        <ScreenshotSection screenshotRef={screenshotRef} />
-
-        {/* Features Section */}
-        <section id="features" className="py-32 px-6">
-          <div className="max-w-7xl mx-auto">
-            <motion.div 
-              className="text-center mb-20"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">Powerful Features</h2>
-              <p className="text-gray-400 text-xl max-w-3xl mx-auto leading-relaxed font-light">
-                Everything you need to extract, analyze, and interact with your PDF documents with precision and speed
-              </p>
-            </motion.div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.02, y: -8 }}
-                >
-                  <Card className="bg-gray-900/50 border-gray-800/50 backdrop-blur-sm hover:bg-gray-900/70 transition-all duration-300 h-full p-8 rounded-3xl">
-                    <div className="w-14 h-14 bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl flex items-center justify-center mb-6 border border-gray-600/30 shadow-lg">
-                      <feature.icon className="w-7 h-7 text-white" />
-                    </div>
-                    <h3 className="text-2xl font-semibold text-white mb-4 tracking-tight">{feature.title}</h3>
-                    <p className="text-gray-400 leading-relaxed text-lg font-light">{feature.description}</p>
-                  </Card>
-                </motion.div>
-              ))}
+          <div 
+            ref={heroContentRef}
+            style={{
+              position: 'absolute', 
+              top: 0, 
+              left: 0, 
+              width: '100%', 
+              height: '100vh',
+              display: 'flex', 
+              justifyContent: 'flex-start', 
+              alignItems: 'center', 
+              zIndex: 10, 
+              pointerEvents: 'none'
+            }}
+          >
+            <div className="container mx-auto">
+              <HeroContent onGetStarted={onGetStarted} />
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* How it Works Section */}
-        <section id="how-it-works" className="py-32 px-6 bg-gray-900/30">
-          <div className="max-w-6xl mx-auto">
-            <motion.div 
-              className="text-center mb-20"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">How It Works</h2>
-              <p className="text-gray-400 text-xl font-light leading-relaxed">Simple, fast, and powerful PDF analysis in three steps</p>
-            </motion.div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              {[
-                { step: "01", title: "Upload Your PDF", description: "Simply drag and drop your PDF file or click to upload. We support all standard PDF formats with enterprise-grade security.", icon: FileText },
-                { step: "02", title: "AI Analysis", description: "Our advanced AI processes your document, extracting text, analyzing content, and generating comprehensive insights in seconds.", icon: Brain },
-                { step: "03", title: "Interact & Export", description: "Chat with your document, get detailed summaries, ask specific questions, and export your analysis results.", icon: Sparkles }
-              ].map((item, index) => (
-                <motion.div 
-                  key={index} 
-                  className="text-center"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.2 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="relative mb-8">
-                    <div className="w-24 h-24 bg-gradient-to-br from-gray-700 to-gray-900 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-gray-600/30 shadow-2xl">
-                      <span className="text-white font-bold text-xl">{item.step}</span>
-                    </div>
-                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-gray-600/20 to-gray-800/10 blur-xl mx-auto w-24 h-24" />
-                  </div>
-                  <item.icon className="w-10 h-10 text-gray-400 mx-auto mb-6" />
-                  <h3 className="text-2xl font-semibold text-white mb-4 tracking-tight">{item.title}</h3>
-                  <p className="text-gray-400 text-lg leading-relaxed font-light">{item.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Content sections */}
+        <div className="bg-black/90 relative z-10 backdrop-blur-sm" style={{ marginTop: '-10vh' }}>
+          <ScreenshotSection screenshotRef={screenshotRef} />
 
-        {/* Benefits Section */}
-        <section id="benefits" className="py-32 px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+          {/* Features Section */}
+          <section id="features" className="py-32 px-6">
+            <div className="max-w-7xl mx-auto">
+              <motion.div 
+                className="text-center mb-20"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-5xl md:text-6xl font-bold text-white mb-8 tracking-tight leading-tight">Why Choose PDFOCREXTRACTOR?</h2>
-                <p className="text-gray-400 text-xl mb-12 leading-relaxed font-light">
-                  Transform how you work with documents. Our AI-powered platform makes PDF analysis faster, 
-                  more accurate, and incredibly user-friendly.
+                <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">Powerful Features</h2>
+                <p className="text-gray-400 text-xl max-w-3xl mx-auto leading-relaxed font-light">
+                  Everything you need to extract, analyze, and interact with your PDF documents with precision and speed
                 </p>
-                
-                <div className="space-y-6 mb-12">
-                  {benefits.map((benefit, index) => (
-                    <motion.div 
-                      key={index} 
-                      className="flex items-center gap-4"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.4, delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                    >
-                      <CheckCircle className="w-6 h-6 text-green-400/80 flex-shrink-0" />
-                      <span className="text-gray-300 text-lg font-light">{benefit}</span>
-                    </motion.div>
-                  ))}
-                </div>
-                
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Button 
-                    onClick={onGetStarted}
-                    className="bg-gradient-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900 text-white border border-gray-700/30 px-10 py-4 text-lg font-medium rounded-2xl transition-all duration-200 backdrop-blur-sm shadow-lg hover:shadow-black/25"
-                  >
-                    Get Started Free <ArrowRight className="w-5 h-5 ml-3" />
-                  </Button>
-                </motion.div>
               </motion.div>
               
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {features.map((feature, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    whileHover={{ scale: 1.02, y: -8 }}
+                  >
+                    <Card className="bg-gray-900/50 border-gray-800/50 backdrop-blur-sm hover:bg-gray-900/70 transition-all duration-300 h-full p-8 rounded-3xl">
+                      <div className="w-14 h-14 bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl flex items-center justify-center mb-6 border border-gray-600/30 shadow-lg">
+                        <feature.icon className="w-7 h-7 text-white" />
+                      </div>
+                      <h3 className="text-2xl font-semibold text-white mb-4 tracking-tight">{feature.title}</h3>
+                      <p className="text-gray-400 leading-relaxed text-lg font-light">{feature.description}</p>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* How it Works Section */}
+          <section id="how-it-works" className="py-32 px-6 bg-gray-900/30">
+            <div className="max-w-6xl mx-auto">
+              <motion.div 
+                className="text-center mb-20"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <Card className="bg-gray-900/50 border-gray-800/50 backdrop-blur-sm p-10 rounded-3xl">
-                  <div className="space-y-8">
-                    <div className="flex items-center gap-5">
-                      <div className="w-14 h-14 bg-gray-700/60 rounded-2xl flex items-center justify-center border border-gray-600/40">
-                        <FileText className="w-7 h-7 text-gray-300" />
-                      </div>
-                      <div>
-                        <h3 className="text-white font-semibold text-xl">Sample_Document.pdf</h3>
-                        <p className="text-gray-400 text-base">45 pages • 12,450 words</p>
-                      </div>
-                    </div>
-                    
-                    <div className="bg-gray-800/40 rounded-2xl p-6 border border-gray-700/30">
-                      <h4 className="text-white font-medium mb-3 text-lg">AI Summary</h4>
-                      <p className="text-gray-300 leading-relaxed">
-                        This document contains a comprehensive analysis of market trends, 
-                        financial projections, and strategic recommendations for sustainable growth...
-                      </p>
-                    </div>
-                    
-                    <div className="flex gap-3">
-                      <span className="bg-gray-700/40 text-gray-300 px-4 py-2 rounded-full text-sm border border-gray-600/30 font-medium">Business Report</span>
-                      <span className="bg-gray-700/40 text-gray-300 px-4 py-2 rounded-full text-sm border border-gray-600/30 font-medium">English</span>
-                    </div>
-                  </div>
-                </Card>
+                <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">How It Works</h2>
+                <p className="text-gray-400 text-xl font-light leading-relaxed">Simple, fast, and powerful PDF analysis in three steps</p>
               </motion.div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                {[
+                  { step: "01", title: "Upload Your PDF", description: "Simply drag and drop your PDF file or click to upload. We support all standard PDF formats with enterprise-grade security.", icon: FileText },
+                  { step: "02", title: "AI Analysis", description: "Our advanced AI processes your document, extracting text, analyzing content, and generating comprehensive insights in seconds.", icon: Brain },
+                  { step: "03", title: "Interact & Export", description: "Chat with your document, get detailed summaries, ask specific questions, and export your analysis results.", icon: Sparkles }
+                ].map((item, index) => (
+                  <motion.div 
+                    key={index} 
+                    className="text-center"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.2 }}
+                    viewport={{ once: true }}
+                  >
+                    <div className="relative mb-8">
+                      <div className="w-24 h-24 bg-gradient-to-br from-gray-700 to-gray-900 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-gray-600/30 shadow-2xl">
+                        <span className="text-white font-bold text-xl">{item.step}</span>
+                      </div>
+                      <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-gray-600/20 to-gray-800/10 blur-xl mx-auto w-24 h-24" />
+                    </div>
+                    <item.icon className="w-10 h-10 text-gray-400 mx-auto mb-6" />
+                    <h3 className="text-2xl font-semibold text-white mb-4 tracking-tight">{item.title}</h3>
+                    <p className="text-gray-400 text-lg leading-relaxed font-light">{item.description}</p>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* CTA Section */}
-        <section className="py-32 px-6 text-center bg-gradient-to-br from-gray-900/40 to-black/30">
-          <motion.div 
-            className="max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-8 tracking-tight leading-tight">Ready to Analyze Your PDFs?</h2>
-            <p className="text-gray-400 text-xl mb-12 font-light leading-relaxed max-w-2xl mx-auto">
-              Join thousands of users who trust PDFOCREXTRACTOR for their document processing needs.
-            </p>
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Button 
-                onClick={onGetStarted}
-                size="lg"
-                className="bg-gradient-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900 text-white border border-gray-700/30 px-12 py-5 text-xl font-medium rounded-2xl transition-all duration-200 backdrop-blur-sm shadow-lg hover:shadow-black/25"
-              >
-                Start Analyzing Now <ArrowRight className="w-6 h-6 ml-3" />
-              </Button>
+          {/* Benefits Section */}
+          <section id="benefits" className="py-32 px-6">
+            <div className="max-w-6xl mx-auto">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                >
+                  <h2 className="text-5xl md:text-6xl font-bold text-white mb-8 tracking-tight leading-tight">Why Choose PDFOCREXTRACTOR?</h2>
+                  <p className="text-gray-400 text-xl mb-12 leading-relaxed font-light">
+                    Transform how you work with documents. Our AI-powered platform makes PDF analysis faster, 
+                    more accurate, and incredibly user-friendly.
+                  </p>
+                  
+                  <div className="space-y-6 mb-12">
+                    {benefits.map((benefit, index) => (
+                      <motion.div 
+                        key={index} 
+                        className="flex items-center gap-4"
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.4, delay: index * 0.1 }}
+                        viewport={{ once: true }}
+                      >
+                        <CheckCircle className="w-6 h-6 text-green-400/80 flex-shrink-0" />
+                        <span className="text-gray-300 text-lg font-light">{benefit}</span>
+                      </motion.div>
+                    ))}
+                  </div>
+                  
+                  <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                    <Button 
+                      onClick={onGetStarted}
+                      className="bg-gradient-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900 text-white border border-gray-700/30 px-10 py-4 text-lg font-medium rounded-2xl transition-all duration-200 backdrop-blur-sm shadow-lg hover:shadow-black/25"
+                    >
+                      Get Started Free <ArrowRight className="w-5 h-5 ml-3" />
+                    </Button>
+                  </motion.div>
+                </motion.div>
+                
+                <motion.div
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                >
+                  <Card className="bg-gray-900/50 border-gray-800/50 backdrop-blur-sm p-10 rounded-3xl">
+                    <div className="space-y-8">
+                      <div className="flex items-center gap-5">
+                        <div className="w-14 h-14 bg-gray-700/60 rounded-2xl flex items-center justify-center border border-gray-600/40">
+                          <FileText className="w-7 h-7 text-gray-300" />
+                        </div>
+                        <div>
+                          <h3 className="text-white font-semibold text-xl">Sample_Document.pdf</h3>
+                          <p className="text-gray-400 text-base">45 pages • 12,450 words</p>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-gray-800/40 rounded-2xl p-6 border border-gray-700/30">
+                        <h4 className="text-white font-medium mb-3 text-lg">AI Summary</h4>
+                        <p className="text-gray-300 leading-relaxed">
+                          This document contains a comprehensive analysis of market trends, 
+                          financial projections, and strategic recommendations for sustainable growth...
+                        </p>
+                      </div>
+                      
+                      <div className="flex gap-3">
+                        <span className="bg-gray-700/40 text-gray-300 px-4 py-2 rounded-full text-sm border border-gray-600/30 font-medium">Business Report</span>
+                        <span className="bg-gray-700/40 text-gray-300 px-4 py-2 rounded-full text-sm border border-gray-600/30 font-medium">English</span>
+                      </div>
+                    </div>
+                  </Card>
+                </motion.div>
+              </div>
+            </div>
+          </section>
+
+          {/* CTA Section */}
+          <section className="py-32 px-6 text-center bg-gradient-to-br from-gray-900/40 to-black/30">
+            <motion.div 
+              className="max-w-4xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-5xl md:text-6xl font-bold text-white mb-8 tracking-tight leading-tight">Ready to Analyze Your PDFs?</h2>
+              <p className="text-gray-400 text-xl mb-12 font-light leading-relaxed max-w-2xl mx-auto">
+                Join thousands of users who trust PDFOCREXTRACTOR for their document processing needs.
+              </p>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Button 
+                  onClick={onGetStarted}
+                  size="lg"
+                  className="bg-gradient-to-r from-gray-800 to-black hover:from-gray-700 hover:to-gray-900 text-white border border-gray-700/30 px-12 py-5 text-xl font-medium rounded-2xl transition-all duration-200 backdrop-blur-sm shadow-lg hover:shadow-black/25"
+                >
+                  Start Analyzing Now <ArrowRight className="w-6 h-6 ml-3" />
+                </Button>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        </section>
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
