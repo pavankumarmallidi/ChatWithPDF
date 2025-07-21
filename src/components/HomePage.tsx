@@ -129,7 +129,7 @@ function Navbar({ onGetStarted }: { onGetStarted: () => void }) {
             <div className="w-9 h-9 bg-gradient-to-br from-gray-800 to-black rounded-2xl flex items-center justify-center shadow-lg border border-gray-700/50">
               <FileText className="w-5 h-5 text-white" />
             </div>
-            <span className="text-lg font-semibold text-white tracking-tight">PDFOCREXTRACTOR</span>
+            <span className="text-lg font-semibold text-white tracking-tight">ChatWithPDF</span>
           </motion.div>
 
           <div className="hidden lg:flex items-center space-x-8">
@@ -542,7 +542,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
                   transition={{ duration: 0.6 }}
                   viewport={{ once: true }}
                 >
-                  <h2 className="text-5xl md:text-6xl font-bold text-white mb-8 tracking-tight leading-tight">Why Choose PDFOCREXTRACTOR?</h2>
+                  <h2 className="text-5xl md:text-6xl font-bold text-white mb-8 tracking-tight leading-tight">Why Choose ChatWithPDF?</h2>
                   <p className="text-gray-400 text-xl mb-12 leading-relaxed font-light">
                     Transform how you work with documents. Our AI-powered platform makes PDF analysis faster, 
                     more accurate, and incredibly user-friendly.
@@ -622,7 +622,7 @@ const HomePage = ({ onGetStarted }: HomePageProps) => {
             >
               <h2 className="text-5xl md:text-6xl font-bold text-white mb-8 tracking-tight leading-tight">Ready to Analyze Your PDFs?</h2>
               <p className="text-gray-400 text-xl mb-12 font-light leading-relaxed max-w-2xl mx-auto">
-                Join thousands of users who trust PDFOCREXTRACTOR for their document processing needs.
+                Join thousands of users who trust ChatWithPDF for their document processing needs.
               </p>
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                 <Button 

@@ -159,7 +159,7 @@ const AuthPage = ({ onBackToHome, onSuccess }: AuthPageProps) => {
             <FileText className="w-10 h-10 text-white" />
           </div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent mb-2">
-            Welcome to PDFOCREXTRACTOR
+            Welcome to ChatWithPDF
           </h1>
           <p className="text-gray-300 text-lg font-light">
             {activeTab === "login" ? "Sign in to your account" : "Create your free account"}

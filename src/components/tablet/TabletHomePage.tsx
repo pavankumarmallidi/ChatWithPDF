@@ -84,7 +84,7 @@ const TabletHomePage = () => {
               <FileText className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white tracking-tight">PDFOCREXTRACTOR</h1>
+              <h1 className="text-2xl font-bold text-white tracking-tight">ChatWithPDF</h1>
               <p className="text-gray-400 text-sm font-light">AI-powered PDF analysis platform</p>
             </div>
           </div>

@@ -91,7 +91,7 @@ const MobileHomePage = () => {
             <div className="w-10 h-10 bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl flex items-center justify-center">
               <FileText className="w-5 h-5 text-white" />
             </div>
-            <span className="text-white font-semibold text-lg">PDFOCREXTRACTOR</span>
+            <span className="text-white font-semibold text-lg">ChatWithPDF</span>
           </div>
           <Button
             variant="ghost"
@@ -197,7 +197,7 @@ const MobileHomePage = () => {
           <div className="w-8 h-8 bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl flex items-center justify-center">
             <FileText className="w-4 h-4 text-white" />
           </div>
-          <span className="text-white font-semibold text-base">PDFOCREXTRACTOR</span>
+          <span className="text-white font-semibold text-base">ChatWithPDF</span>
         </div>
         
         <div className="w-8"></div>
