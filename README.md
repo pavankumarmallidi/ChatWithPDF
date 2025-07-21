@@ -1,3 +1,28 @@
+# 🔍 ChatWithPDF
+
+**AI-Powered PDF Text Extraction & Analysis Platform with Responsive Design**
+
+---
+
+## How It Works
+
+ChatWithPDF makes it easy to get answers and insights from your PDF documents, right from your browser. Here’s how it works:
+
+1. **Upload Your PDF:**  
+   Simply drag and drop your PDF file, or select it from your device.
+2. **Instant Processing:**  
+   The platform quickly reads your document, turning it into searchable text and understanding its structure.
+3. **Ask Questions:**  
+   You can chat with your PDF—just type your questions in plain English, like “What is the main topic of this document?” or “Summarize page 3.”
+4. **Get Smart Answers:**  
+   ChatWithPDF uses advanced AI to find the answers in your document and responds instantly, just like chatting with a real assistant.
+5. **Works on Any Device:**  
+   Whether you’re on your phone, tablet, or computer, the experience is smooth and easy to use.
+6. **Stay Organized:**  
+   You can review past documents, search through your files, and keep everything in one place.
+
+---
+
 # 🔍 PDFOCREXTRACTOR
 
 **AI-Powered PDF Text Extraction & Analysis Platform with Responsive Design**
